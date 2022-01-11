@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/video-dev?nullCatalogMeansCurrent=true
+    username: root
+    password: root
+
+  redis:
+    host: localhost
+    port: 6379
+    database: 1
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: web-api
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: top.zwsave.zweapi.db.pojo
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true

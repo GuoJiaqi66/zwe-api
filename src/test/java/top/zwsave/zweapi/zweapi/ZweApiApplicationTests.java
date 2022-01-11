@@ -1,0 +1,13 @@
+package top.zwsave.zweapi.zweapi;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ZweApiApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
