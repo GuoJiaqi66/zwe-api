@@ -19,6 +19,7 @@ import top.zwsave.zweapi.db.dao.UserDao;
 import top.zwsave.zweapi.db.pojo.MongoDBTest;
 import top.zwsave.zweapi.db.pojo.RabbitmqtestOrder;
 import top.zwsave.zweapi.db.pojo.User;
+import top.zwsave.zweapi.task.MessageTaskTest;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -148,5 +149,29 @@ public class TestController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Resource
+    MessageTaskTest messageTaskTest;
+    @GetMapping("/rabbitTasKTest")
+    public void rabbitTasKTask() {
+        MongoDBTest mongoDBTest = new MongoDBTest();
+        mongoDBTest.setSenderId("1212121221");
+        mongoDBTest.setSenderName("1212121221");
+        mongoDBTest.setSendTime(new Date());
+        mongoDBTest.setUuid("1212121221");
+        messageTaskTest.send(mongoDBTest.getSenderId(), mongoDBTest);
+    }
+
+    @GetMapping("/testAysncTaskTest")
+    public void send() {
+        MongoDBTest mongoDBTest = new MongoDBTest();
+        mongoDBTest.setUuid("1111111111");
+        mongoDBTest.setSendTime(new Date());
+        mongoDBTest.setSenderName("1111111");
+        mongoDBTest.setSenderId("111111111");
+        mongoDBTestDao.insert(mongoDBTest);
+        messageTaskTest.send(mongoDBTest);
     }
 }
