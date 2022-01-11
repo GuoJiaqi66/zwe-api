@@ -2,6 +2,8 @@ package top.zwsave.zweapi.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.zwsave.zweapi.db.dao.MongoDBTestDao;
 import top.zwsave.zweapi.db.dao.UserDao;
 import top.zwsave.zweapi.db.pojo.MongoDBTest;
+import top.zwsave.zweapi.db.pojo.RabbitmqtestOrder;
 import top.zwsave.zweapi.db.pojo.User;
 
 import javax.annotation.Resource;
@@ -32,6 +35,9 @@ public class TestController {
 
     @Resource
     MongoDBTestDao mongoDBTestDao;
+
+    @Resource
+    RabbitTemplate rabbitTemplate;
 
     @ApiOperation("测试启动")
     @GetMapping("/test")
@@ -84,5 +90,24 @@ public class TestController {
         mongoDBTest.setUuid("12121212");
         String insert = mongoDBTestDao.insert(mongoDBTest);
         return insert;
+    }
+
+    @GetMapping("/testRabbitMQ")
+    public void sendRabbitMQTestOrder() {
+        RabbitmqtestOrder order = new RabbitmqtestOrder();
+        order.setId("12121212");
+        order.setMessageId("12121212");
+        order.setName("test");
+
+        // 消息唯一id
+        CorrelationData correlationData = new CorrelationData();
+        correlationData.setId(order.getMessageId());
+
+        rabbitTemplate.convertAndSend(
+                "test-exchange", // exchange
+                "test.routingKey", // rotingKey
+                order, // 消息体内容
+                correlationData // correlationData 消息唯一id
+        ); // 发送消息
     }
 }

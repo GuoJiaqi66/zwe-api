@@ -15,6 +15,15 @@ spring:
       port: 27017
       database: web-api
 
+  # 外部文件配置rabbitmq
+  rabbitmq:
+    addresses: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /zwe-api
+    connection-timeout: 15000 # 超时时间
+
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
   type-aliases-package: top.zwsave.zweapi.db.pojo
