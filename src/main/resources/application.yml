@@ -15,7 +15,7 @@ spring:
       port: 27017
       database: web-api
 
-  # 外部文件配置rabbitmq
+  # 外部文件配置rabbitmq(rabbitmq 基本配置)
   rabbitmq:
     addresses: localhost
     port: 5672
@@ -23,6 +23,14 @@ spring:
     password: guest
     virtual-host: /zwe-api
     connection-timeout: 15000 # 超时时间
+    # 消费端配置
+    listener:
+      simple:
+        concurrency: 5 #最大并发
+        acknowledge-mode: manual # 手工签收
+        max-concurrency: 10 # 最大并发数
+        prefetch: 1 # 限流，同一时间只能有一条消息过来
+
 
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml

@@ -1,11 +1,17 @@
 package top.zwsave.zweapi.controller;
 
+import com.rabbitmq.client.Channel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.zwsave.zweapi.db.dao.MongoDBTestDao;
@@ -15,7 +21,9 @@ import top.zwsave.zweapi.db.pojo.RabbitmqtestOrder;
 import top.zwsave.zweapi.db.pojo.User;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -95,8 +103,8 @@ public class TestController {
     @GetMapping("/testRabbitMQ")
     public void sendRabbitMQTestOrder() {
         RabbitmqtestOrder order = new RabbitmqtestOrder();
-        order.setId("12121212");
-        order.setMessageId("12121212");
+        order.setId("1212121212");
+        order.setMessageId("1212121212");
         order.setName("test");
 
         // 消息唯一id
@@ -109,5 +117,36 @@ public class TestController {
                 order, // 消息体内容
                 correlationData // correlationData 消息唯一id
         ); // 发送消息
+    }
+
+
+    /*
+    * RabbitMQ签收消息 消费者
+    * */
+    // 替代了手动创建
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue(value = "test", durable = "true"), // 监听的队列 是否持久化
+                    exchange = @Exchange(name = "test-exchange", durable = "true", type = "topic"),
+                    key = "test.#" // routerKey
+
+            )
+    ) //
+    @RabbitHandler // rabbitmq接收消息
+    @GetMapping("/testRabbitMQOnMessage")
+    public void receiptRabbitMQTest(@Payload RabbitmqtestOrder order,
+                                    @Headers Map<String, Object> headers,
+                                    Channel channel) { // 接收实体，消息Properties(Headers 要用map接收) channel通道
+        // 消费者操作
+        System.out.println("-------------收到消息,开始消费-----------");
+        System.out.println("订单ID：" + order.getMessageId());
+
+        Long deliveryTag =(Long) headers.get(AmqpHeaders.DELIVERY_TAG);
+        // 手工签收ACK
+        try {
+            channel.basicAck(deliveryTag, false); // 不支持批量签收
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
