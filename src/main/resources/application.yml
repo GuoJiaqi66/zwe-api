@@ -44,3 +44,11 @@ zwe-api: # 自定义
   secret: ILOVEZW1314 # 密钥自定义
   expire: 5 # 过期时间
   cache-expire: 10 # 缓存过期时间
+
+## mybatis打印日志配置
+#logging:
+#  level:
+#    root: info
+#    com.example.emos.wx.db.dao: warn # 打印级别 ： 不打印繁琐文件
+#  pattern:
+#    console: "%d{HH:mm:ss}  %-5level  %msg%n"
