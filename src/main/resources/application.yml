@@ -38,3 +38,9 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+
+
+zwe-api: # 自定义
+  secret: ILOVEZW1314 # 密钥自定义
+  expire: 5 # 过期时间
+  cache-expire: 10 # 缓存过期时间
