@@ -6,6 +6,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import top.zwsave.zweapi.common.CommonResp;
+import top.zwsave.zweapi.common.R;
 import top.zwsave.zweapi.config.shiro.ThreadLocalToken;
 
 @Aspect
@@ -21,14 +23,19 @@ public class TokenAspect {
 
     @Around("aspect()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        /*R r=(R)point.proceed();
+
+        /*CommonResp commonResp =(CommonResp) point.proceed();
+        String token = threadLocalToken.getToken();
+        if (token != null) {
+        }
+        return commonResp;*/
+
+        R r=(R)point.proceed();
         String token=threadLocalToken.getToken();
         if(token!=null){
             r.put("token",token);
             threadLocalToken.clear();
         }
-        return r;*/
-        Object proceed = point.proceed();
-        return proceed;
+        return r;
     }
 }
