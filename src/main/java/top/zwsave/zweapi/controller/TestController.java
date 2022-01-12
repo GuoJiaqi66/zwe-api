@@ -101,7 +101,7 @@ public class TestController {
         return insert;
     }
 
-    @GetMapping("/testRabbitMQ")
+    /*@GetMapping("/testRabbitMQ")
     public void sendRabbitMQTestOrder() {
         RabbitmqtestOrder order = new RabbitmqtestOrder();
         order.setId("1212121212");
@@ -118,38 +118,38 @@ public class TestController {
                 order, // 消息体内容
                 correlationData // correlationData 消息唯一id
         ); // 发送消息
-    }
+    }*/
 
 
     /*
     * RabbitMQ签收消息 消费者
     * */
     // 替代了手动创建
-    @RabbitListener(
-            bindings = @QueueBinding(
-                    value = @Queue(value = "test", durable = "true"), // 监听的队列 是否持久化
-                    exchange = @Exchange(name = "test-exchange", durable = "true", type = "topic"),
-                    key = "test.#" // routerKey
-
-            )
-    ) //
-    @RabbitHandler // rabbitmq接收消息
-    @GetMapping("/testRabbitMQOnMessage")
-    public void receiptRabbitMQTest(@Payload RabbitmqtestOrder order,
-                                    @Headers Map<String, Object> headers,
-                                    Channel channel) { // 接收实体，消息Properties(Headers 要用map接收) channel通道
-        // 消费者操作
-        System.out.println("-------------收到消息,开始消费-----------");
-        System.out.println("订单ID：" + order.getMessageId());
-
-        Long deliveryTag =(Long) headers.get(AmqpHeaders.DELIVERY_TAG);
-        // 手工签收ACK
-        try {
-            channel.basicAck(deliveryTag, false); // 不支持批量签收
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @RabbitListener(
+//            bindings = @QueueBinding(
+//                    value = @Queue(value = "test", durable = "true"), // 监听的队列 是否持久化
+//                    exchange = @Exchange(name = "test-exchange", durable = "true", type = "topic"),
+//                    key = "test.routingKey" // routerKey
+//
+//            )
+//    ) //
+//    @RabbitHandler // rabbitmq接收消息
+//    @GetMapping("/testRabbitMQOnMessage")
+//    public void receiptRabbitMQTest(@Payload RabbitmqtestOrder order,
+//                                    @Headers Map<String, Object> headers,
+//                                    Channel channel) { // 接收实体，消息Properties(Headers 要用map接收) channel通道
+//        // 消费者操作
+//        System.out.println("-------------收到消息,开始消费-----------");
+//        System.out.println("订单ID：" + order.getMessageId());
+//
+//        Long deliveryTag =(Long) headers.get(AmqpHeaders.DELIVERY_TAG);
+//        // 手工签收ACK
+//        try {
+//            channel.basicAck(deliveryTag, false); // 不支持批量签收
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     @Resource
@@ -157,14 +157,14 @@ public class TestController {
     @GetMapping("/rabbitTasKTest")
     public void rabbitTasKTask() {
         MongoDBTest mongoDBTest = new MongoDBTest();
-        mongoDBTest.setSenderId("1212121221");
+        mongoDBTest.setSenderId("1212121221111112");
         mongoDBTest.setSenderName("1212121221");
         mongoDBTest.setSendTime(new Date());
-        mongoDBTest.setUuid("1212121221");
+        mongoDBTest.setUuid("1212121221111112");
         messageTaskTest.send(mongoDBTest.getSenderId(), mongoDBTest);
     }
 
-    @GetMapping("/testAysncTaskTest")
+    /*@GetMapping("/testAysncTaskTest")
     public void send() {
         MongoDBTest mongoDBTest = new MongoDBTest();
         mongoDBTest.setUuid("1111111111");
@@ -173,5 +173,5 @@ public class TestController {
         mongoDBTest.setSenderId("111111111");
         mongoDBTestDao.insert(mongoDBTest);
         messageTaskTest.send(mongoDBTest);
-    }
+    }*/
 }

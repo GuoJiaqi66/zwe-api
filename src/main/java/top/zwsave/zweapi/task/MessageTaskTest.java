@@ -35,7 +35,10 @@ public class MessageTaskTest {
             HashMap map = new HashMap();
             map.put("messageId", id);
             AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().headers(map).build();
+
             channel.basicPublish("", topic, properties, mongoDBTest.get_id().getBytes());
+
+            // channel.basicPublish("test-exchange",topic, properties , mongoDBTest.getSenderName().getBytes());
             System.out.println("消息发送成功");
         } catch (Exception e) {
             System.out.println("执行异常");

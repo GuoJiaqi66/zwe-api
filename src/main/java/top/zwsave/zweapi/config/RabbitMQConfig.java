@@ -16,6 +16,7 @@ public class RabbitMQConfig {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         factory.setPort(5672);
+        factory.setVirtualHost("/zwe-api");
         return factory;
     }
 }
