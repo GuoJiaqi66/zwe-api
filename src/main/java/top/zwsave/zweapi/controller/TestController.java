@@ -1,31 +1,17 @@
 package top.zwsave.zweapi.controller;
 
-import com.rabbitmq.client.Channel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.amqp.rabbit.annotation.*;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.Headers;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.zwsave.zweapi.db.dao.MongoDBTestDao;
-import top.zwsave.zweapi.db.dao.UserDao;
 import top.zwsave.zweapi.db.pojo.MongoDBTest;
-import top.zwsave.zweapi.db.pojo.RabbitmqtestOrder;
-import top.zwsave.zweapi.db.pojo.User;
 import top.zwsave.zweapi.task.MessageTaskTest;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,11 +19,11 @@ import java.util.concurrent.TimeUnit;
  * @Date: 2022-01-10 22:18
  */
 @RestController
-@Api("test接口")
+@Api("测式各项连接是否正常")
 public class TestController {
 
-    @Resource
-    UserDao userDao;
+   /* @Resource
+    UserDao userDao;*/
 
     @Resource
     RedisTemplate redisTemplate;
@@ -63,7 +49,7 @@ public class TestController {
         int fansCounts = 2;
         int followCounts = 59;
         int likeCounts = 100;
-        User user = new User();
+        /*User user = new User();
         user.setId("12121212");
         user.setUsername(username);
         user.setPassword(password);
@@ -72,7 +58,8 @@ public class TestController {
         user.setFollowCounts(followCounts);
         user.setReceiveLikeCounts(likeCounts);
         int insert = userDao.insert(user);
-        return insert;
+        return insert;*/
+        return 9;
     }
 
     @ApiOperation("测试Redis")
