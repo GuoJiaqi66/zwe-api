@@ -40,7 +40,7 @@ public class OAuth2Realm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token =(String) authenticationToken.getPrincipal();
-        int userId = jwtUtil.getUserId(token);
+        Long userId = jwtUtil.getUserId(token);
 
 
 

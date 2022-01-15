@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
+import top.zwsave.zweapi.exception.ZweApiException;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
@@ -106,7 +107,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
         } catch (TokenExpiredException e) {
             if (redisTemplate.hasKey(token)) {
                 redisTemplate.delete(token);
-                int userId = jwtUtil.getUserId(token);
+                Long userId = jwtUtil.getUserId(token);
                 token = jwtUtil.createToken(userId);
 
                 redisTemplate.opsForValue().set(token, userId + "", cacheExpire, TimeUnit.DAYS);
@@ -119,8 +120,8 @@ public class OAuth2Filter extends AuthenticatingFilter {
             }
         } catch (Exception e) {
             resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
-            resp.getWriter().print("无效令牌");
-            return false;
+             resp.getWriter().print("无效令牌");
+             return false;
         }
 
         boolean bool = executeLogin(servletRequest, servletResponse);

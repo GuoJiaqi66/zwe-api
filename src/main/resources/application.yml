@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/video-dev?nullCatalogMeansCurrent=true
+    url: jdbc:mysql://localhost:3306/zwe-api?nullCatalogMeansCurrent=true
     username: root
     password: root
 

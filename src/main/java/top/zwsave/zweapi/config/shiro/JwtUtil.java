@@ -28,7 +28,7 @@ public class JwtUtil {
     @Value("${zwe-api.expire}")
     private String expire; // 过期时间
 
-    public String createToken(int userId) {
+    public String createToken(Long userId) {
         DateTime date = DateUtil.offset(new Date(), DateField.DAY_OF_YEAR, 5);
         Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTCreator.Builder builder = JWT.create();
@@ -36,9 +36,9 @@ public class JwtUtil {
         return token;
     }
 
-    public int getUserId(String token) {
+    public Long getUserId(String token) {
         DecodedJWT jwt = JWT.decode(token);
-        int userId = jwt.getClaim("userId").asInt();
+        Long userId = jwt.getClaim("userId").asLong();
         return userId;
     }
 
