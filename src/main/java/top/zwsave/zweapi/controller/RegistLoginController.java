@@ -37,8 +37,7 @@ public class RegistLoginController {
     @Value("${zwe-api.cache-expire}")
     int cacheExpire;
 
-
-    /*
+    /**
     * 将token存储到redis
     * */
     public void saveTokenToRedis(String token, Long id) {
