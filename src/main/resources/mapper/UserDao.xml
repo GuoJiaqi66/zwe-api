@@ -161,4 +161,30 @@
 	<select id="selectTotalUser" resultType="Integer">
 		select count(id) from user ;
 	</select>
+	
+	<update id="updateUserInfoById" parameterType="top.zwsave.zweapi.controller.form.UserRepairInfo">
+		UPDATE user
+		<set>
+			<if test="nickname != null">
+				nickname = #{nickname},
+			</if>
+			<if test="mail != null">
+				mail = #{mail},
+			</if>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="imgPath != null">
+				img_path = #{imgPath}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="selectUserById" parameterType="Long" resultType="String">
+		select login_name
+		from user
+		where id = #{id}
+		limit 1
+	</select>
 </mapper>

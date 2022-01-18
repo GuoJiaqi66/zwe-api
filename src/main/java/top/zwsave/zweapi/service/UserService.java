@@ -2,6 +2,7 @@ package top.zwsave.zweapi.service;
 
 import top.zwsave.zweapi.controller.form.UserLoginForm;
 import top.zwsave.zweapi.controller.form.UserRegisForm;
+import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 
 /**
@@ -13,6 +14,8 @@ public interface UserService {
     public int userRegistered(UserRegisForm form);
 
     User login(UserLoginForm form);
+
+    int userRepairInfo(UserRepairInfo info);
 
     /*Integer selectTotalUser();
 

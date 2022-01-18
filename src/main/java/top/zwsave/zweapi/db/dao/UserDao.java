@@ -1,6 +1,7 @@
 package top.zwsave.zweapi.db.dao;
 
 import io.swagger.models.auth.In;
+import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 
 public interface UserDao {
@@ -19,4 +20,8 @@ public interface UserDao {
     Integer selectTotalUser();
 
     User selectUserByLoginName(String loginName);
+
+    int updateUserInfoById(UserRepairInfo info);
+
+    String selectUserById(Long id);
 }

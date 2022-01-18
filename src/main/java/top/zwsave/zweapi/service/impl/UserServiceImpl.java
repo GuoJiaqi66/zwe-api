@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import top.zwsave.zweapi.controller.form.UserLoginForm;
 import top.zwsave.zweapi.controller.form.UserRegisForm;
+import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.dao.UserDao;
 import top.zwsave.zweapi.db.pojo.User;
 import top.zwsave.zweapi.exception.ZweApiException;
@@ -13,7 +14,10 @@ import top.zwsave.zweapi.utils.CopyUtil;
 import top.zwsave.zweapi.utils.SnowFlake;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: Ja7
@@ -28,6 +32,7 @@ public class UserServiceImpl implements UserService {
     @Resource
     SnowFlake snowFlake;
 
+    @Override
     public int userRegistered(UserRegisForm form) {
         User user1 = userDao.selectUserByLoginName(form.getLoginName());
         if (user1 != null) {
@@ -63,6 +68,21 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+    }
+
+    @Override
+    public int userRepairInfo(UserRepairInfo info) {
+        String b = userDao.selectUserById(info.getId());
+        if (b != null) {
+            if (info.getPassword() != null || info.getNickname() != null || info.getMail() != null) {
+                int i = userDao.updateUserInfoById(info);
+                return i;
+            } else {
+                throw new ZweApiException("没有可以修改的信息");
+            }
+        } else {
+            throw new ZweApiException("用户id信息不正确");
+        }
     }
 
 

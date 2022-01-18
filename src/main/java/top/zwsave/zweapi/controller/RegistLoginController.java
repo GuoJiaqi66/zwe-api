@@ -10,6 +10,7 @@ import top.zwsave.zweapi.common.R;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.UserLoginForm;
 import top.zwsave.zweapi.controller.form.UserRegisForm;
+import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 import top.zwsave.zweapi.service.UserService;
 
@@ -63,6 +64,19 @@ public class RegistLoginController {
         String token = jwtUtil.createToken(id);
         saveTokenToRedis(token, id);
         return R.ok("登陆成功").put("userInfo", login);
+    }
+
+    @PostMapping("/repairinfo")
+    @ApiOperation("修改用户信息")
+    public R userRepairInfo(@Valid @RequestBody UserRepairInfo info) {
+        String s = null;
+        if (info.getPassword() != null) {
+            s = DigestUtils.md5DigestAsHex(info.getPassword().getBytes());
+            info.setPassword(s);
+        }
+        System.out.println(info.getId());
+        int i = userService.userRepairInfo(info);
+        return R.ok("修改成功").put("修改个数", i);
     }
 
 }
