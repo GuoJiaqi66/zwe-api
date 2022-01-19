@@ -4,6 +4,8 @@ import io.swagger.models.auth.In;
 import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 
+import java.util.HashMap;
+
 public interface UserDao {
     int deleteByPrimaryKey(Long id);
 
@@ -24,4 +26,6 @@ public interface UserDao {
     int updateUserInfoById(UserRepairInfo info);
 
     String selectUserById(Long id);
+
+    int updataFaceImg(HashMap map);
 }

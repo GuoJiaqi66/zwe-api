@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.common.R;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.UserLoginForm;
 import top.zwsave.zweapi.controller.form.UserRegisForm;
 import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
+import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.UserService;
 
 import javax.annotation.Resource;
@@ -24,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @Api("用户注册登录接口")
-public class RegistLoginController {
+public class UserController {
 
     @Resource
     UserService userService;
@@ -34,6 +36,9 @@ public class RegistLoginController {
 
     @Resource
     JwtUtil jwtUtil;
+
+    @Resource
+    COSService cosService;
 
     @Value("${zwe-api.cache-expire}")
     int cacheExpire;
@@ -63,7 +68,7 @@ public class RegistLoginController {
         Long id = login.getId();
         String token = jwtUtil.createToken(id);
         saveTokenToRedis(token, id);
-        return R.ok("登陆成功").put("userInfo", login);
+        return R.ok("登陆成功").put("userInfo", login).put("token", token);
     }
 
     @PostMapping("/repairinfo")
@@ -77,6 +82,15 @@ public class RegistLoginController {
         System.out.println(info.getId());
         int i = userService.userRepairInfo(info);
         return R.ok("修改成功").put("修改个数", i);
+    }
+
+
+    @PostMapping("/uploadfaceimg")
+    @ApiOperation("上传用户头像")
+    public R uploadUserFaceImg(@RequestParam("file") MultipartFile file, @RequestHeader("token") String token) {
+        Long userId = jwtUtil.getUserId(token);
+        String s = cosService.uploadFaceImg(userId, file);
+        return R.ok("头像上传成功").put("url", s);
     }
 
 }

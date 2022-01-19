@@ -52,3 +52,10 @@ zwe-api: # 自定义
 #    com.example.emos.wx.db.dao: warn # 打印级别 ： 不打印繁琐文件
 #  pattern:
 #    console: "%d{HH:mm:ss}  %-5level  %msg%n"
+
+tencent:
+  secretId: AKIDUosfBWZNwGJ6crqYzA4h27vSihPr53lC
+  secretKey: B5i8H9j36sNcaHhqjKehTyC9qFNEn68t
+  bucket: zwe-api-1258360747
+  regionName: ap-beijing
+  baseUrl: https://zwe-api-1258360747.cos.ap-beijing.myqcloud.com

@@ -187,4 +187,11 @@
 		where id = #{id}
 		limit 1
 	</select>
+	
+	<update id="updataFaceImg" parameterType="Map">
+		update user
+		set img_path = #{imgPath}
+		where id = #{id}
+	</update>
+	
 </mapper>
