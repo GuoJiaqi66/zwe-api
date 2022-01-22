@@ -9,4 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface COSService {
 
     String uploadFaceImg(Long userId, MultipartFile file);
+
+    String insertArticleImg(MultipartFile file, String token, Long id);
 }

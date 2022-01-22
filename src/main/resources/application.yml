@@ -15,6 +15,11 @@ spring:
       port: 27017
       database: web-api
 
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
   # 外部文件配置rabbitmq(rabbitmq 基本配置)
 #  rabbitmq:
 #    addresses: localhost

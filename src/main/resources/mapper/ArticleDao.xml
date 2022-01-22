@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zwsave.zweapi.db.dao.ArticleDao">
+  <resultMap id="BaseResultMap" type="top.zwsave.zweapi.db.pojo.Article">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="visible" jdbcType="OTHER" property="visible" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <result column="like_counts" jdbcType="INTEGER" property="likeCounts" />
+    <result column="status" jdbcType="OTHER" property="status" />
+    <result column="delete" jdbcType="OTHER" property="delete" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, create_time, visible, img_path, like_counts, `status`, `delete`, `text`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from article
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from article
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="top.zwsave.zweapi.db.pojo.Article">
+    insert into article (id, user_id, create_time, 
+      visible, img_path, like_counts, 
+      `status`, `delete`, `text`)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{visible,jdbcType=OTHER}, #{imgPath,jdbcType=VARCHAR}, #{likeCounts,jdbcType=INTEGER}, 
+      #{status,jdbcType=OTHER}, #{delete,jdbcType=OTHER}, #{text,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="top.zwsave.zweapi.db.pojo.Article">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="visible != null">
+        visible,
+      </if>
+      <if test="imgPath != null">
+        img_path,
+      </if>
+      <if test="likeCounts != null">
+        like_counts,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="delete != null">
+        `delete`,
+      </if>
+      <if test="text != null">
+        `text`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visible != null">
+        #{visible,jdbcType=OTHER},
+      </if>
+      <if test="imgPath != null">
+        #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="likeCounts != null">
+        #{likeCounts,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=OTHER},
+      </if>
+      <if test="delete != null">
+        #{delete,jdbcType=OTHER},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.zwsave.zweapi.db.pojo.Article">
+    update article
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visible != null">
+        visible = #{visible,jdbcType=OTHER},
+      </if>
+      <if test="imgPath != null">
+        img_path = #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="likeCounts != null">
+        like_counts = #{likeCounts,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=OTHER},
+      </if>
+      <if test="delete != null">
+        `delete` = #{delete,jdbcType=OTHER},
+      </if>
+      <if test="text != null">
+        `text` = #{text,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.zwsave.zweapi.db.pojo.Article">
+    update article
+    set user_id = #{userId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      visible = #{visible,jdbcType=OTHER},
+      img_path = #{imgPath,jdbcType=VARCHAR},
+      like_counts = #{likeCounts,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=OTHER},
+      `delete` = #{delete,jdbcType=OTHER},
+      `text` = #{text,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+	
+	
+	<update id="insertImg" parameterType="HashMap">
+		update article
+		set img_path = #{imgPath}
+		where id = #{id}
+	</update>
+</mapper>
