@@ -51,6 +51,7 @@ public class ArticleServiceImpl implements ArticleService {
         art.setDelete("0");
         art.setUserId(userId);
         art.setImgPath("string");
+        art.setStar(0);
         int insert = articleDao.insert(art);
 
         String s2 = cosService.insertArticleImg(file, token, id);

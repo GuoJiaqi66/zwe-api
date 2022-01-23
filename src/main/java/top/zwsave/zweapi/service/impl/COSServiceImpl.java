@@ -4,11 +4,9 @@ import com.qcloud.cos.COSClient;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
-import top.zwsave.zweapi.config.tencentCOS.Client;
 import top.zwsave.zweapi.config.tencentCOS.Properties;
 import top.zwsave.zweapi.db.dao.ArticleDao;
 import top.zwsave.zweapi.db.dao.UserDao;
@@ -21,8 +19,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-
-import static com.qcloud.cos.demo.BucketRefererDemo.cosClient;
 
 /**
  * @Author: Ja7

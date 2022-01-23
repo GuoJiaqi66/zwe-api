@@ -2,8 +2,6 @@ package top.zwsave.zweapi.db.dao;
 
 import top.zwsave.zweapi.db.pojo.Article;
 
-import java.util.HashMap;
-
 public interface ArticleDao {
     int deleteByPrimaryKey(Long id);
 
@@ -16,6 +14,4 @@ public interface ArticleDao {
     int updateByPrimaryKeySelective(Article record);
 
     int updateByPrimaryKey(Article record);
-
-    int insertImg(HashMap map);
 }

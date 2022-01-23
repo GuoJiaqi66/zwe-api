@@ -31,5 +31,7 @@ public class Article implements Serializable {
 
     private String text;
 
+    private Integer star;
+
     private static final long serialVersionUID = 1L;
 }
