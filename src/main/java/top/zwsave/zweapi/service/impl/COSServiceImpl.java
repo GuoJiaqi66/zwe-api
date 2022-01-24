@@ -1,8 +1,10 @@
 package top.zwsave.zweapi.service.impl;
 
 import com.qcloud.cos.COSClient;
+import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,14 +12,19 @@ import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.config.tencentCOS.Properties;
 import top.zwsave.zweapi.db.dao.ArticleDao;
 import top.zwsave.zweapi.db.dao.UserDao;
+import top.zwsave.zweapi.db.dao.VideoDao;
 import top.zwsave.zweapi.db.pojo.Article;
+import top.zwsave.zweapi.db.pojo.Video;
 import top.zwsave.zweapi.service.COSService;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -43,6 +50,9 @@ public class COSServiceImpl implements COSService {
 
     @Resource
     ArticleDao articleDao;
+
+    @Autowired
+    VideoDao videoDao;
 
 
     @Override
@@ -120,5 +130,31 @@ public class COSServiceImpl implements COSService {
         articleDao.updateByPrimaryKeySelective(article);
 
         return ress;
+    }
+
+    @Override
+    public String insertVideo(MultipartFile file, String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        String format = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
+        String key = userId + "/" + "video/" + format + "/" + file.getOriginalFilename();
+        int inputStreamLength = Math.toIntExact(file.getSize());
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(inputStreamLength);
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucket(), key, inputStream, objectMetadata);
+        PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
+        URL objectUrl = cosClient.getObjectUrl(properties.getBucket(), key);
+        String s = objectUrl.toString();
+        Video video = new Video();
+        video.setVideoPath(s);
+        video.setId(id);
+        videoDao.updateByPrimaryKeySelective(video);
+
+        return s;
     }
 }

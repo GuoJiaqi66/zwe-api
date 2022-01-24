@@ -11,4 +11,6 @@ public interface COSService {
     String uploadFaceImg(Long userId, MultipartFile file);
 
     String insertArticleImg(MultipartFile file, String token, Long id);
+
+    String insertVideo(MultipartFile file, String token, Long id);
 }

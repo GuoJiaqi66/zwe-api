@@ -1,6 +1,7 @@
 package top.zwsave.zweapi.zweapi;
 
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.RandomUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.zwsave.zweapi.utils.SnowFlake;
@@ -42,5 +43,18 @@ class ZweApiApplicationTests {
         byte[] bytes=s.getBytes();
         System.out.println(bytes.length);
         System.out.println(length);
+    }
+
+    @Test
+    void random() {
+        String id = RandomUtil.randomNumbers(15).trim();
+        long l = Long.parseLong(id);
+        System.out.println(l);
+        long l1 = RandomUtil.randomLong(15);
+        System.out.println(l1);
+        String i = RandomUtil.randomNumbers(15);
+        System.out.println(i);
+        long l2 = Long.parseLong(i);
+        System.out.println(l2);
     }
 }
