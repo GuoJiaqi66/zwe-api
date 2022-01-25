@@ -157,4 +157,10 @@
 		join `user` u on a.user_id = u.id
 		where u.status = "0" and a.`status` = '0' and a.`delete` = '0'
 	</select>
+	
+	<update id="deleteArticleById" parameterType="Long">
+		update article
+		set `delete` = "1"
+		where id = #{id}
+	</update>
 </mapper>

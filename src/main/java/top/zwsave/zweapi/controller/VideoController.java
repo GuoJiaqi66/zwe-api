@@ -54,4 +54,11 @@ public class VideoController {
         List list = videoService.selectByPage(pageReq.getPageNum(), pageReq.getPageSize());
         return R.ok("请求成功").put("res", list);
     }
+
+    @ApiOperation("删除video")
+    @GetMapping("/deletevideo/{id}")
+    public R delete(@PathVariable Long id) {
+        Integer deletearticle = videoService.deleteVideo(id);
+        return R.ok("删除成功");
+    }
 }

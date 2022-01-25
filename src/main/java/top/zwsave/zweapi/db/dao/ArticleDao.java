@@ -19,4 +19,6 @@ public interface ArticleDao {
     int updateByPrimaryKey(Article record);
 
     ArrayList<HashMap> selectByPage();
+
+    Integer deleteArticleById(Long id);
 }

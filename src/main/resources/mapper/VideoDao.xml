@@ -158,4 +158,10 @@
 		on u.id = v.user_id
 		WHERE u.`status` = "0" and v.`status` = "0" and v.`delete` = "0"
 	</select>
+	
+	<update id="deleteVideoById" parameterType="Long">
+		update video
+		set `delete` = "1"
+		where id = #{id}
+	</update>
 </mapper>

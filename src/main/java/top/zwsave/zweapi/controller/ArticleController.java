@@ -54,4 +54,11 @@ public class ArticleController {
         List hashMaps = articleService.selectByPage(pageReq.getPageNum(), pageReq.getPageSize());
         return R.ok("请求成功").put("res", hashMaps);
     }
+
+    @ApiOperation("删除博客")
+    @GetMapping("/deletearticle/{id}")
+    public R delete(@PathVariable Long id) {
+        Integer deletearticle = articleService.deleteArticle(id);
+        return R.ok("删除成功");
+    }
 }

@@ -62,4 +62,10 @@ public class VideoServiceImpl implements VideoService {
         PageInfo<HashMap> hashMapPageInfo = new PageInfo<>(hashMaps);
         return hashMapPageInfo.getList();
     }
+
+    @Override
+    public Integer deleteVideo(Long id) {
+        Integer integer = videoDao.deleteVideoById(id);
+        return integer;
+    }
 }

@@ -19,4 +19,6 @@ public interface VideoDao {
     int updateByPrimaryKey(Video record);
 
     ArrayList<HashMap> selectByPage();
+
+    Integer deleteVideoById(Long id);
 }

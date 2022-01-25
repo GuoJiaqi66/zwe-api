@@ -17,4 +17,6 @@ public interface ArticleService {
     String insert(MultipartFile file,AddArticleForm article, String token);
 
     List selectByPage(int pageNum, int pageSize);
+
+    Integer deleteArticle(Long id);
 }

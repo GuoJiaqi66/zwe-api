@@ -13,4 +13,6 @@ public interface VideoService {
     String newVideo(String token, MultipartFile file, String text, String visible);
 
     List selectByPage(int pageNum, int pageSize);
+
+    Integer deleteVideo(Long id);
 }
