@@ -61,4 +61,11 @@ public class VideoController {
         Integer deletearticle = videoService.deleteVideo(id);
         return R.ok("删除成功");
     }
+
+    @ApiOperation("video私有/共有")
+    @GetMapping("/selectVideoVisible/{id}")
+    public R selectVisible(@PathVariable Long id) {
+        String s = videoService.selectVisibleById(id);
+        return R.ok("查询成功").put("res", s);
+    }
 }

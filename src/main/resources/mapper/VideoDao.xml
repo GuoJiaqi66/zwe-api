@@ -164,4 +164,10 @@
 		set `delete` = "1"
 		where id = #{id}
 	</update>
+	
+	<select id="selectVisibleById" parameterType="Long" resultType="String">
+		select visible
+		from article
+		where id = #{id}
+	</select>
 </mapper>

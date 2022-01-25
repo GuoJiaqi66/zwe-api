@@ -21,4 +21,6 @@ public interface VideoDao {
     ArrayList<HashMap> selectByPage();
 
     Integer deleteVideoById(Long id);
+
+    String selectVisibleById(Long id);
 }

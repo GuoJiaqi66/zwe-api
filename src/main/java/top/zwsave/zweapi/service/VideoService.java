@@ -15,4 +15,6 @@ public interface VideoService {
     List selectByPage(int pageNum, int pageSize);
 
     Integer deleteVideo(Long id);
+
+    String selectVisibleById(Long id);
 }

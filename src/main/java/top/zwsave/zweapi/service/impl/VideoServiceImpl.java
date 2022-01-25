@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.db.dao.VideoDao;
 import top.zwsave.zweapi.db.pojo.Video;
+import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.VideoService;
 
@@ -65,7 +66,17 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Integer deleteVideo(Long id) {
+        selectVisibleById(id);
         Integer integer = videoDao.deleteVideoById(id);
         return integer;
+    }
+
+    @Override
+    public String selectVisibleById(Long id) {
+        String s = videoDao.selectVisibleById(id);
+        if (s == null) {
+            throw new ZweApiException("video不存在");
+        }
+        return null;
     }
 }
