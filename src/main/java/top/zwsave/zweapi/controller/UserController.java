@@ -18,6 +18,7 @@ import top.zwsave.zweapi.service.UserService;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -100,5 +101,20 @@ public class UserController {
         return R.ok("关注成功");
     }
 
+    /**
+     * 查询所有粉丝
+     * */
+    @GetMapping("/fanscounts/{id}")
+    @ApiOperation("查询所有粉丝")
+    public R fanscounts(@RequestHeader("token") String token) {
+        List list = userService.selectAllFans(token);
+        return R.ok("查询成功").put("res", list);
+    }
+
+
+    /**
+     * 取消关注
+     * 存在问题，当用户关注了之后，有取消关注，将delete设置为 "1", 当用户再次关注时，应当判断是否关注过，然后将delete设置为"0"，将create_time刷新
+     * */
 
 }

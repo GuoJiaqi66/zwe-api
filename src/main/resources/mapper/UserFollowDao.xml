@@ -96,4 +96,16 @@
 		from user_follow
 		where usered_id = #{useredId}
 	</select>
+	
+	<select id="selectAllFans" resultType="HashMap">
+		select u.img_path, f.create_time, u.nickname
+		FROM `user` u
+		RIGHT JOIN user_follow f
+		on u.id = f.user_id
+		WHERE u.id =
+		(select user_id
+		FROM user_follow
+		where usered_id = #{userId} and `delete` = "0"
+		) and `status` = "0" and f.`delete` = "0"
+	</select>
 </mapper>

@@ -17,7 +17,10 @@ import top.zwsave.zweapi.utils.CopyUtil;
 import top.zwsave.zweapi.utils.SnowFlake;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: Ja7
@@ -110,6 +113,13 @@ public class UserServiceImpl implements UserService {
         return insert;
     }
 
+    @Override
+    public List selectAllFans(String token) {
+        Long userId = jwtUtil.getUserId(token);
+        ArrayList<HashMap> hashMaps = userFollowDao.selectAllFans(userId);
+        return hashMaps;
+    }
+
     public Long selectNoteByUseredId(Long id) {
         Long aLong = userFollowDao.selectNoteByUseredId(id);
         if (aLong != null) {
@@ -123,7 +133,7 @@ public class UserServiceImpl implements UserService {
      * */
     String selectUserIsPresence(Long id) {
         String s = userDao.selectUsetStatus(id);
-        if (s == null) {
+        if (s == null || s == "1") {
             throw new ZweApiException("用户不存在");
         }
         return s;
