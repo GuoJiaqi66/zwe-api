@@ -19,4 +19,6 @@ public interface ArticleService {
     List selectByPage(int pageNum, int pageSize);
 
     Integer deleteArticle(Long id);
+
+    String selectVisibleById(Long id);
 }

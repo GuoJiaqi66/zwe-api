@@ -79,7 +79,20 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Integer deleteArticle(Long id) {
+        String s1 = selectVisibleById(id);
+        if (s1 == null) {
+            throw new ZweApiException("博客不存在");
+        }
         Integer integer = articleDao.deleteArticleById(id);
         return integer;
+    }
+
+    @Override
+    public String selectVisibleById(Long id) {
+        String s = articleDao.selectVisibleById(id);
+        if (s == null) {
+            throw new ZweApiException("博客不存在");
+        }
+        return s;
     }
 }

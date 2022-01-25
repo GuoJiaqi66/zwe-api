@@ -61,4 +61,11 @@ public class ArticleController {
         Integer deletearticle = articleService.deleteArticle(id);
         return R.ok("删除成功");
     }
+
+    @ApiOperation("博客私有/共有")
+    @GetMapping("/selectVisible/{id}")
+    public R selectVisible(@PathVariable Long id) {
+        String s = articleService.selectVisibleById(id);
+        return R.ok("查询成功").put("res", s);
+    }
 }

@@ -21,4 +21,6 @@ public interface ArticleDao {
     ArrayList<HashMap> selectByPage();
 
     Integer deleteArticleById(Long id);
+
+    String selectVisibleById(Long id);
 }
