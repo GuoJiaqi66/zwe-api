@@ -150,4 +150,11 @@
       star = #{star,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+	
+	<select id="selectByPage" resultType="HashMap">
+		select u.nickname, u.img_path, a.img_path as "article_path" , u.id, a.text
+		from article a
+		join `user` u on a.user_id = u.id
+		where u.status = "0" and a.`status` = '0' and a.`delete` = '0'
+	</select>
 </mapper>

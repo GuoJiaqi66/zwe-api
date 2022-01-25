@@ -2,14 +2,19 @@ package top.zwsave.zweapi.zweapi;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import top.zwsave.zweapi.db.dao.ArticleDao;
+import top.zwsave.zweapi.db.pojo.Article;
 import top.zwsave.zweapi.utils.SnowFlake;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 class ZweApiApplicationTests {
@@ -56,5 +61,25 @@ class ZweApiApplicationTests {
         System.out.println(i);
         long l2 = Long.parseLong(i);
         System.out.println(l2);
+    }
+
+    @Resource
+    ArticleDao articleDao;
+    @Test
+    void pageHelp() {
+        /*PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(2, 3);
+        List<Article> article = articleDao.selectByPage();
+        PageInfo<Article> pageInfo = new PageInfo(article);
+        List list = pageInfo.getList();
+        System.out.println("----------------");
+        System.out.println(list);
+        System.out.println("----------------");
+        System.out.println(pageInfo.getTotal());
+        System.out.println("----------------");
+        System.out.println(pageInfo.getPageNum());
+        System.out.println("----------------");
+        System.out.println(pageInfo.getPageSize());*/
+
     }
 }

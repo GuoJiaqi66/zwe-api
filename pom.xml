@@ -149,6 +149,14 @@
 			<version>5.6.54</version>
 		</dependency>
 		
+		
+		<!-- pagehelper -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.13</version>
+		</dependency>
+		
 	</dependencies>
 	
 	<build>
@@ -164,6 +172,24 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<configuration>
+					<configurationFile>src/main/resources/generator/generator-config.xml</configurationFile>
+					<overwrite>true</overwrite>
+					<verbose>true</verbose>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>8.0.22</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

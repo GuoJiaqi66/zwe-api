@@ -1,6 +1,8 @@
 package top.zwsave.zweapi.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
@@ -13,7 +15,10 @@ import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.utils.CopyUtil;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: Ja7
@@ -57,5 +62,18 @@ public class ArticleServiceImpl implements ArticleService {
         String s2 = cosService.insertArticleImg(file, token, id);
 
         return s2;
+    }
+
+    @Override
+    public List selectByPage(int pageNum, int pageSize) {
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageNum, pageSize);
+        /*PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(2, 3);*/
+        ArrayList<HashMap> articles = articleDao.selectByPage();
+        PageInfo<Article> pageInfo = new PageInfo(articles);
+        List<Article> list = pageInfo.getList();
+
+        return list;
     }
 }
