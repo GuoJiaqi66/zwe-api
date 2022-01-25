@@ -199,6 +199,11 @@
 		set follow_count = follow_count + 1
 		where id = #{id}
 	</update>
+	<update id="userFollowRemove" parameterType="Long">
+		update user
+		set follow_count = follow_count - 1
+		where id = #{id}
+	</update>
 	
 	<select id="selectUsetStatus" parameterType="Long" resultType="String">
 		select status
@@ -209,6 +214,11 @@
 	<update id="userFansAdd" parameterType="Long">
 		update user
 		set fans_count = fans_count + 1
+		where id = #{id}
+	</update>
+	<update id="userFansRemove" parameterType="Long">
+		update user
+		set fans_count = fans_count - 1
 		where id = #{id}
 	</update>
 </mapper>

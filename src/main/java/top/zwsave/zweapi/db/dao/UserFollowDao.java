@@ -21,4 +21,6 @@ public interface UserFollowDao {
     Long selectNoteByUseredId(Long useredId);
 
     ArrayList<HashMap> selectAllFans(Long userId);
+
+    Integer removeFollow(Long userId);
 }

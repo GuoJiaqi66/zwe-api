@@ -120,6 +120,18 @@ public class UserServiceImpl implements UserService {
         return hashMaps;
     }
 
+    @Override
+    public Integer removeFollow(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        // TODO: 2022-01-25 我的关注 -1  
+        userDao.userFollowRemove(userId);
+        // TODO: 2022-01-25 被关注 -1
+        userDao.userFansRemove(id);
+        // TODO: 2022-01-25 user_follow -> delete = "1"
+        Integer integer = userFollowDao.removeFollow(userId);
+        return integer;
+    }
+
     public Long selectNoteByUseredId(Long id) {
         Long aLong = userFollowDao.selectNoteByUseredId(id);
         if (aLong != null) {

@@ -35,4 +35,8 @@ public interface UserDao {
     String selectUsetStatus(Long id);
 
     Integer userFansAdd(Long id);
+
+    Integer userFansRemove(Long id);
+
+    Integer userFollowRemove(Long id);
 }

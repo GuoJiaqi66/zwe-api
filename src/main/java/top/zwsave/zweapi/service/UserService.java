@@ -23,6 +23,8 @@ public interface UserService {
 
     List selectAllFans(String token);
 
+    Integer removeFollow(String token, Long id);
+
     /*Integer selectTotalUser();
 
     User selectUserByLoginName(String loginName);*/

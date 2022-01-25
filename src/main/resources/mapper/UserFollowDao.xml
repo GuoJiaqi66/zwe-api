@@ -108,4 +108,10 @@
 		where usered_id = #{userId} and `delete` = "0"
 		) and `status` = "0" and f.`delete` = "0"
 	</select>
+	
+	<update id="removeFollow" parameterType="Long">
+		update user_follow
+		set `delete` = "1"
+		where user_id = #{userId}
+	</update>
 </mapper>

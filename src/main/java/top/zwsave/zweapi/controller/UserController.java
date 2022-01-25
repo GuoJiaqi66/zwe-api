@@ -104,9 +104,9 @@ public class UserController {
     /**
      * 查询所有粉丝
      * */
-    @GetMapping("/fanscounts/{id}")
+    @GetMapping("/fanscounts")
     @ApiOperation("查询所有粉丝")
-    public R fanscounts(@RequestHeader("token") String token) {
+    public R fansCounts(@RequestHeader("token") String token) {
         List list = userService.selectAllFans(token);
         return R.ok("查询成功").put("res", list);
     }
@@ -116,5 +116,11 @@ public class UserController {
      * 取消关注
      * 存在问题，当用户关注了之后，有取消关注，将delete设置为 "1", 当用户再次关注时，应当判断是否关注过，然后将delete设置为"0"，将create_time刷新
      * */
+    @GetMapping("/removefollow/{id}")
+    @ApiOperation("取消关注")
+    public R removeFollow(@RequestHeader("token") String token, @PathVariable Long id) {
+        userService.removeFollow(token, id);
+        return R.ok("取消关注成功");
+    }
 
 }
