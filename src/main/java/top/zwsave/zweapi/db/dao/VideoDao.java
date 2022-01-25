@@ -2,6 +2,9 @@ package top.zwsave.zweapi.db.dao;
 
 import top.zwsave.zweapi.db.pojo.Video;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public interface VideoDao {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +17,6 @@ public interface VideoDao {
     int updateByPrimaryKeySelective(Video record);
 
     int updateByPrimaryKey(Video record);
+
+    ArrayList<HashMap> selectByPage();
 }

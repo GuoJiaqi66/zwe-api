@@ -15,6 +15,7 @@ import top.zwsave.zweapi.service.ArticleService;
 import top.zwsave.zweapi.service.COSService;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,9 +49,9 @@ public class ArticleController {
     }
 
     @ApiOperation("分页请求博客")
-    @PostMapping("/selectbypage")
-    public R select(@RequestBody PageReq pageReq) {
+    @PostMapping("/selectarticlebypage")
+    public R select(@Valid @RequestBody PageReq pageReq) {
         List hashMaps = articleService.selectByPage(pageReq.getPageNum(), pageReq.getPageSize());
-        return R.ok("请求成功").put("article", hashMaps);
+        return R.ok("请求成功").put("res", hashMaps);
     }
 }

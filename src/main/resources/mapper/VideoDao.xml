@@ -150,4 +150,12 @@
       user_id = #{userId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+	
+	<select id="selectByPage" resultType="HashMap">
+		select u.id as userId, u.img_path as userImgPath, u.nickname as userNickName, v.id as videoId, v.video_path as videoPath, v.visible as videoVisible, v.text as videoText, v.like_counts as videoLikeCounts, v.star as videoStart, v.create_time as videoCreateTime
+		FROM `user` u
+		RIGHT JOIN video v
+		on u.id = v.user_id
+		WHERE u.`status` = "0" and v.`status` = "0" and v.`delete` = "0"
+	</select>
 </mapper>

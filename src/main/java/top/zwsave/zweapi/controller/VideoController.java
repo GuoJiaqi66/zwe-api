@@ -10,14 +10,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.common.R;
+import top.zwsave.zweapi.controller.form.PageReq;
 import top.zwsave.zweapi.service.VideoService;
 
+import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +24,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: Ja7
@@ -46,5 +46,12 @@ public class VideoController {
     public R newVideo(@RequestHeader("token") String token, @RequestParam("file") MultipartFile file, @RequestParam("text") String text, @RequestParam("visible") String visible){
         String s = videoService.newVideo(token, file, text, visible);
         return R.ok("发布成功").put("url", s);
+    }
+
+    @PostMapping("/selectvideobypage")
+    @ApiOperation("分页查询video")
+    public R selectByPage(@Valid @RequestBody PageReq pageReq) {
+        List list = videoService.selectByPage(pageReq.getPageNum(), pageReq.getPageSize());
+        return R.ok("请求成功").put("res", list);
     }
 }

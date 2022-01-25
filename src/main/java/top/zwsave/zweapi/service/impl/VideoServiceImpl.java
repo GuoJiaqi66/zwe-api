@@ -1,6 +1,8 @@
 package top.zwsave.zweapi.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +13,10 @@ import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.VideoService;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: Ja7
@@ -47,5 +52,14 @@ public class VideoServiceImpl implements VideoService {
         int insert = videoDao.insert(video);
         String s = cosService.insertVideo(file, token, l);
         return s;
+    }
+
+    @Override
+    public List selectByPage(int pageNum, int pageSize) {
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageNum, pageSize);
+        ArrayList<HashMap> hashMaps = videoDao.selectByPage();
+        PageInfo<HashMap> hashMapPageInfo = new PageInfo<>(hashMaps);
+        return hashMapPageInfo.getList();
     }
 }
