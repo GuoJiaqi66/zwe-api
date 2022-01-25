@@ -5,6 +5,7 @@ import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 
 import java.util.HashMap;
+import java.util.logging.Handler;
 
 public interface UserDao {
     int deleteByPrimaryKey(Long id);
@@ -28,4 +29,10 @@ public interface UserDao {
     String selectUserById(Long id);
 
     int updataFaceImg(HashMap map);
+
+    Integer userFollowAdd(Long id);
+
+    String selectUsetStatus(Long id);
+
+    Integer userFansAdd(Long id);
 }

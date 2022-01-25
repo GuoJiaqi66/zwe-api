@@ -93,4 +93,12 @@ public class UserController {
         return R.ok("头像上传成功").put("url", s);
     }
 
+    @GetMapping("/follow/{id}")
+    @ApiOperation("关注用户")
+    public R userFollow(@RequestHeader("token") String token, Long id) {
+        userService.follow(token, id);
+        return R.ok("关注成功");
+    }
+
+
 }

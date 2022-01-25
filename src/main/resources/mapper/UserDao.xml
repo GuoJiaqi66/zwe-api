@@ -194,4 +194,21 @@
 		where id = #{id}
 	</update>
 	
+	<update id="userFollowAdd" parameterType="Long">
+		update user
+		set follow_count = follow_count + 1
+		where id = #{id}
+	</update>
+	
+	<select id="selectUsetStatus" parameterType="Long" resultType="String">
+		select status
+		from user
+		where id = #{id}
+	</select>
+	
+	<update id="userFansAdd" parameterType="Long">
+		update user
+		set fans_count = fans_count + 1
+		where id = #{id}
+	</update>
 </mapper>

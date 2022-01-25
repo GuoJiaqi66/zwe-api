@@ -3,21 +3,21 @@ package top.zwsave.zweapi.service.impl;
 import cn.hutool.core.util.RandomUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.UserLoginForm;
 import top.zwsave.zweapi.controller.form.UserRegisForm;
 import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.dao.UserDao;
+import top.zwsave.zweapi.db.dao.UserFollowDao;
 import top.zwsave.zweapi.db.pojo.User;
+import top.zwsave.zweapi.db.pojo.UserFollow;
 import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.UserService;
 import top.zwsave.zweapi.utils.CopyUtil;
 import top.zwsave.zweapi.utils.SnowFlake;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Author: Ja7
@@ -31,6 +31,12 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     SnowFlake snowFlake;
+
+    @Resource
+    JwtUtil jwtUtil;
+
+    @Resource
+    UserFollowDao userFollowDao;
 
     @Override
     public int userRegistered(UserRegisForm form) {
@@ -85,5 +91,41 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Integer follow(String token, Long id) {
+        selectNoteByUseredId(id);
+        selectUserIsPresence(id);
+        Long userId = jwtUtil.getUserId(token);
+        userDao.userFollowAdd(userId);
+        userDao.userFansAdd(id);
+        UserFollow userFollow = new UserFollow();
+        userFollow.setCreateTime(new Date());
+        userFollow.setDelete("0");
+        String s = RandomUtil.randomNumbers(15);
+        long l = Long.parseLong(s);
+        userFollow.setId(l);
+        userFollow.setUseredId(id);
+        userFollow.setUserId(userId);
+        int insert = userFollowDao.insert(userFollow);
+        return insert;
+    }
 
+    public Long selectNoteByUseredId(Long id) {
+        Long aLong = userFollowDao.selectNoteByUseredId(id);
+        if (aLong != null) {
+            throw new ZweApiException("已关注此用户");
+        }
+        return aLong;
+    }
+
+    /**
+     * 判断用户是否存在
+     * */
+    String selectUserIsPresence(Long id) {
+        String s = userDao.selectUsetStatus(id);
+        if (s == null) {
+            throw new ZweApiException("用户不存在");
+        }
+        return s;
+    }
 }
