@@ -83,9 +83,9 @@ public class ArticleController {
      * 取消喜欢
      * */
     @ApiOperation("取消喜欢article")
-    @GetMapping("/removearticle/{id}")
-    public R removeArticle(@RequestHeader("token") String token, @PathVariable Long id) {
-        articleService.removeArticle(token, id);
+    @GetMapping("/removelikearticle/{id}")
+    public R removeLikeArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        articleService.removeLikeArticle(token, id);
         return R.ok("取消喜欢");
     }
 
@@ -97,5 +97,15 @@ public class ArticleController {
     public R starArticle(@RequestHeader("token") String token, @PathVariable Long id) {
         articleService.starArticle(token, id);
         return R.ok("star成功");
+    }
+
+    /**
+     * 取消star
+     * */
+    @ApiOperation("取消star-article")
+    @GetMapping("/removestararticle/{id}")
+    public R removeStarArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        articleService.removeStarArticle(token, id);
+        return R.ok("取消star");
     }
 }

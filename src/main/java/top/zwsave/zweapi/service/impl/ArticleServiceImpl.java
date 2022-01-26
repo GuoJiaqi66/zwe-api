@@ -132,7 +132,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Integer removeArticle(String token, Long id) {
+    public Integer removeLikeArticle(String token, Long id) {
         Long userId = jwtUtil.getUserId(token);
         ArticleLikeUser articleLikeUser = selectFromArticleLike(userId, id);
         if (articleLikeUser.getDelete().equals("1")) {
@@ -173,6 +173,23 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         Integer integer = articleDao.starCountAdd(id);
+        return integer;
+    }
+
+    @Override
+    public Integer removeStarArticle(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        ArticleLikeUser articleLikeUser = selectFromArticleStar(userId, id);
+        if (articleLikeUser.getDelete().equals("1")) {
+            throw new ZweApiException("已取消夏欢");
+        }
+        Long id1 = articleLikeUser.getId();
+        ArticleStarUser articleLikeUser1 = new ArticleStarUser();
+        articleLikeUser1.setCreateTime(new Date());
+        articleLikeUser1.setId(id1);
+        articleLikeUser1.setDelete("1");
+        articleStarUserDao.updateByPrimaryKeySelective(articleLikeUser1);
+        Integer integer = articleDao.starCountRemove(id);
         return integer;
     }
 
