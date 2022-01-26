@@ -23,4 +23,6 @@ public interface ArticleService {
     String selectVisibleById(Long id);
 
     Integer likeArticle(String token, Long id);
+
+    Integer removeArticle(String token, Long id);
 }

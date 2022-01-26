@@ -109,11 +109,12 @@ public class ArticleServiceImpl implements ArticleService {
             articleLikeUser1.setUserId(userId);
             String s = RandomUtil.randomNumbers(15).trim();
             long l = Long.parseLong(s);
-            System.out.println(">-------->------->" + l);
             articleLikeUser1.setId(l);
             articleLikeUser1.setDelete("0");
             articleLikeUserDao.insert(articleLikeUser1);
-        } else if (articleLikeUser.getDelete().equals("1")) {
+        } else if (articleLikeUser.getDelete().equals("0")) {
+            throw new ZweApiException("已喜欢");
+        }else if (articleLikeUser.getDelete().equals("1")) {
             HashMap<String, Object> stringObjectHashMap = new HashMap<>();
             stringObjectHashMap.put("createTime", new Date());
             stringObjectHashMap.put("userId", userId);
@@ -125,6 +126,23 @@ public class ArticleServiceImpl implements ArticleService {
         return integer;
     }
 
+    @Override
+    public Integer removeArticle(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        ArticleLikeUser articleLikeUser = selectFromArticleLike(userId, id);
+        if (articleLikeUser.getDelete().equals("1")) {
+            throw new ZweApiException("已取消夏欢");
+        }
+        Long id1 = articleLikeUser.getId();
+        ArticleLikeUser articleLikeUser1 = new ArticleLikeUser();
+        articleLikeUser1.setCreateTime(new Date());
+        articleLikeUser1.setId(id1);
+        articleLikeUser1.setDelete("1");
+        articleLikeUserDao.updateByPrimaryKeySelective(articleLikeUser1);
+        Integer integer = articleDao.likeCountRemove(id);
+        return integer;
+    }
+
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {
         HashMap<String, Long> stringLongHashMap = new HashMap<>();
         stringLongHashMap.put("userId", userId);
@@ -133,9 +151,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (articleLikeUser == null) {
             return null;
         }
-        if (articleLikeUser.getDelete().equals("0")) {
-            throw new ZweApiException("已喜欢");
-        }
+
         return articleLikeUser;
     }
 }

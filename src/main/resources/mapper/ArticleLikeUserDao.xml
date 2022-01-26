@@ -101,7 +101,7 @@
 	<update id="updateByUserIdAndArticleId" parameterType="HashMap">
 		update article_like_user
 		set create_time = #{createTime}, `delete` = "0"
-		where user_id = #{userId}, article_id = #{articleId}
+		where user_id = #{userId} and article_id = #{articleId}
 	</update>
 
 </mapper>

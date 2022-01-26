@@ -79,6 +79,15 @@ public class ArticleController {
         return R.ok("喜欢成功");
     }
 
+    /**
+     * 取消喜欢
+     * */
+    @ApiOperation("取消喜欢article")
+    @GetMapping("/removearticle/{id}")
+    public R removeArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        articleService.removeArticle(token, id);
+        return R.ok("取消喜欢");
+    }
 
     /**
      * star博客
