@@ -8,7 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.AddArticleForm;
 import top.zwsave.zweapi.db.dao.ArticleDao;
+import top.zwsave.zweapi.db.dao.ArticleLikeUserDao;
 import top.zwsave.zweapi.db.pojo.Article;
+import top.zwsave.zweapi.db.pojo.ArticleLikeUser;
 import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.ArticleService;
 import top.zwsave.zweapi.service.COSService;
@@ -35,6 +37,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Resource
     COSService cosService;
+
+    @Resource
+    ArticleLikeUserDao articleLikeUserDao;
 
 
     @Override
@@ -91,5 +96,46 @@ public class ArticleServiceImpl implements ArticleService {
             throw new ZweApiException("博客不存在");
         }
         return s;
+    }
+
+    @Override
+    public Integer likeArticle(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        ArticleLikeUser articleLikeUser = selectFromArticleLike(userId, id);
+        if (articleLikeUser == null) {
+            ArticleLikeUser articleLikeUser1 = new ArticleLikeUser();
+            articleLikeUser1.setArticleId(id);
+            articleLikeUser1.setCreateTime(new Date());
+            articleLikeUser1.setUserId(userId);
+            String s = RandomUtil.randomNumbers(15).trim();
+            long l = Long.parseLong(s);
+            System.out.println(">-------->------->" + l);
+            articleLikeUser1.setId(l);
+            articleLikeUser1.setDelete("0");
+            articleLikeUserDao.insert(articleLikeUser1);
+        } else if (articleLikeUser.getDelete().equals("1")) {
+            HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+            stringObjectHashMap.put("createTime", new Date());
+            stringObjectHashMap.put("userId", userId);
+            stringObjectHashMap.put("articleId", id);
+            articleLikeUserDao.updateByUserIdAndArticleId(stringObjectHashMap);
+        }
+
+        Integer integer = articleDao.likeCountAdd(id);
+        return integer;
+    }
+
+    ArticleLikeUser selectFromArticleLike(Long userId, Long id) {
+        HashMap<String, Long> stringLongHashMap = new HashMap<>();
+        stringLongHashMap.put("userId", userId);
+        stringLongHashMap.put("id", id);
+        ArticleLikeUser articleLikeUser = articleLikeUserDao.selectFromArticleLike(stringLongHashMap);
+        if (articleLikeUser == null) {
+            return null;
+        }
+        if (articleLikeUser.getDelete().equals("0")) {
+            throw new ZweApiException("已喜欢");
+        }
+        return articleLikeUser;
     }
 }

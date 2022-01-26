@@ -23,4 +23,6 @@ public interface ArticleDao {
     Integer deleteArticleById(Long id);
 
     String selectVisibleById(Long id);
+
+    Integer likeCountAdd(Long id);
 }

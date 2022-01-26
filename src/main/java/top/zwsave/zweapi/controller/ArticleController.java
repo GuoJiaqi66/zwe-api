@@ -68,4 +68,19 @@ public class ArticleController {
         String s = articleService.selectVisibleById(id);
         return R.ok("查询成功").put("res", s);
     }
+
+    /**
+     * 喜欢博客
+     * */
+    @ApiOperation("喜欢博客")
+    @GetMapping("/likearticle/{id}")
+    public R likeArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        articleService.likeArticle(token, id);
+        return R.ok("喜欢成功");
+    }
+
+
+    /**
+     * star博客
+     * */
 }

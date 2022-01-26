@@ -169,4 +169,10 @@
 		from article
 		where id = #{id}
 	</select>
+	
+	<update id="likeCountAdd" parameterType="Long">
+		update article
+		set like_counts = like_counts + 1
+		where id = #{id};
+	</update>
 </mapper>
