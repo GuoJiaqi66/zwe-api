@@ -92,4 +92,10 @@ public class ArticleController {
     /**
      * star博客
      * */
+    @ApiOperation("star博客")
+    @GetMapping("/stararticle/{id}")
+    public R starArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        articleService.starArticle(token, id);
+        return R.ok("star成功");
+    }
 }

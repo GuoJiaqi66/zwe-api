@@ -9,8 +9,10 @@ import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.AddArticleForm;
 import top.zwsave.zweapi.db.dao.ArticleDao;
 import top.zwsave.zweapi.db.dao.ArticleLikeUserDao;
+import top.zwsave.zweapi.db.dao.ArticleStarUserDao;
 import top.zwsave.zweapi.db.pojo.Article;
 import top.zwsave.zweapi.db.pojo.ArticleLikeUser;
+import top.zwsave.zweapi.db.pojo.ArticleStarUser;
 import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.ArticleService;
 import top.zwsave.zweapi.service.COSService;
@@ -40,6 +42,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Resource
     ArticleLikeUserDao articleLikeUserDao;
+
+    @Resource
+    ArticleStarUserDao articleStarUserDao;
 
 
     @Override
@@ -143,11 +148,51 @@ public class ArticleServiceImpl implements ArticleService {
         return integer;
     }
 
+    @Override
+    public Integer starArticle(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        ArticleLikeUser articleLikeUser = selectFromArticleStar(userId, id);
+        if (articleLikeUser == null) {
+            ArticleStarUser articleLikeUser1 = new ArticleStarUser();
+            articleLikeUser1.setArticleId(id);
+            articleLikeUser1.setCreateTime(new Date());
+            articleLikeUser1.setUserId(userId);
+            String s = RandomUtil.randomNumbers(15).trim();
+            long l = Long.parseLong(s);
+            articleLikeUser1.setId(l);
+            articleLikeUser1.setDelete("0");
+            articleStarUserDao.insert(articleLikeUser1);
+        } else if (articleLikeUser.getDelete().equals("0")) {
+            throw new ZweApiException("已喜欢");
+        }else if (articleLikeUser.getDelete().equals("1")) {
+            HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+            stringObjectHashMap.put("createTime", new Date());
+            stringObjectHashMap.put("userId", userId);
+            stringObjectHashMap.put("articleId", id);
+            articleStarUserDao.updateByUserIdAndArticleId(stringObjectHashMap);
+        }
+
+        Integer integer = articleDao.starCountAdd(id);
+        return integer;
+    }
+
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {
         HashMap<String, Long> stringLongHashMap = new HashMap<>();
         stringLongHashMap.put("userId", userId);
         stringLongHashMap.put("id", id);
         ArticleLikeUser articleLikeUser = articleLikeUserDao.selectFromArticleLike(stringLongHashMap);
+        if (articleLikeUser == null) {
+            return null;
+        }
+
+        return articleLikeUser;
+    }
+
+    ArticleLikeUser selectFromArticleStar(Long userId, Long id) {
+        HashMap<String, Long> stringLongHashMap = new HashMap<>();
+        stringLongHashMap.put("userId", userId);
+        stringLongHashMap.put("id", id);
+        ArticleLikeUser articleLikeUser = articleStarUserDao.selectFromArticleStar(stringLongHashMap);
         if (articleLikeUser == null) {
             return null;
         }

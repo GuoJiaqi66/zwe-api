@@ -25,4 +25,6 @@ public interface ArticleService {
     Integer likeArticle(String token, Long id);
 
     Integer removeArticle(String token, Long id);
+
+    Integer starArticle(String token, Long id);
 }
