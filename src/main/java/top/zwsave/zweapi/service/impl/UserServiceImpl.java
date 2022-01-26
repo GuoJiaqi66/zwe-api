@@ -94,23 +94,42 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * 头乱了：
+     * 关注api存在问题,
+     * user_follow 更新条件不能位user_id/usered_id
+     * */
     @Override
     public Integer follow(String token, Long id) {
-        selectNoteByUseredId(id);
+
         selectUserIsPresence(id);
         Long userId = jwtUtil.getUserId(token);
-        userDao.userFollowAdd(userId);
-        userDao.userFansAdd(id);
-        UserFollow userFollow = new UserFollow();
-        userFollow.setCreateTime(new Date());
-        userFollow.setDelete("0");
-        String s = RandomUtil.randomNumbers(15);
-        long l = Long.parseLong(s);
-        userFollow.setId(l);
-        userFollow.setUseredId(id);
-        userFollow.setUserId(userId);
-        int insert = userFollowDao.insert(userFollow);
-        return insert;
+        UserFollow userFollow1 = selectNoteByUseredId(userId, id);
+        if (userFollow1 == null) {
+            userDao.userFollowAdd(userId);
+            userDao.userFansAdd(id);
+            UserFollow userFollow = new UserFollow();
+            userFollow.setCreateTime(new Date());
+            userFollow.setDelete("0");
+            String s = RandomUtil.randomNumbers(15);
+            long l = Long.parseLong(s);
+            userFollow.setId(l);
+            userFollow.setUseredId(id);
+            userFollow.setUserId(userId);
+            int insert = userFollowDao.insert(userFollow);
+            return insert;
+        }
+        if (userFollow1.getDelete().equals("1") ) {
+            userDao.userFollowAdd(userId);
+            userDao.userFansAdd(id);
+            HashMap map = new HashMap();
+            map.put("id", userFollow1.getId());
+            map.put("createTime", new Date());
+            System.out.println(userFollow1.getId());
+            Integer integer = userFollowDao.updataFollow(map);
+            return integer;
+        }
+        return 0;
     }
 
     @Override
@@ -123,21 +142,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer removeFollow(String token, Long id) {
         Long userId = jwtUtil.getUserId(token);
-        // TODO: 2022-01-25 我的关注 -1  
         userDao.userFollowRemove(userId);
-        // TODO: 2022-01-25 被关注 -1
         userDao.userFansRemove(id);
-        // TODO: 2022-01-25 user_follow -> delete = "1"
-        Integer integer = userFollowDao.removeFollow(userId);
+        Integer integer = userFollowDao.removeFollow(userId, id);
         return integer;
     }
 
-    public Long selectNoteByUseredId(Long id) {
-        Long aLong = userFollowDao.selectNoteByUseredId(id);
-        if (aLong != null) {
+    public UserFollow selectNoteByUseredId(Long userId, Long id) {
+        HashMap map = new HashMap();
+        map.put("userId", userId);
+        map.put("useredId", id);
+        UserFollow userFollow = userFollowDao.selectNoteByUseredId(map);
+        if (userFollow == null) {
+            return null;
+        }
+        String delete =(String) userFollow.getDelete();
+        if (delete.equals("0")) {
             throw new ZweApiException("已关注此用户");
         }
-        return aLong;
+        return userFollow;
     }
 
     /**

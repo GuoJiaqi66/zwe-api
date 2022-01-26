@@ -91,10 +91,10 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 	
-	<select id="selectNoteByUseredId" parameterType="Long" resultType="Long">
-		select user_id
+	<select id="selectNoteByUseredId" parameterType="HashMap" resultType="top.zwsave.zweapi.db.pojo.UserFollow">
+		select *
 		from user_follow
-		where usered_id = #{useredId}
+		where usered_id = #{useredId} and user_id = #{userId}
 	</select>
 	
 	<select id="selectAllFans" resultType="HashMap">
@@ -112,6 +112,12 @@
 	<update id="removeFollow" parameterType="Long">
 		update user_follow
 		set `delete` = "1"
-		where user_id = #{userId}
+		where user_id = #{userId} and usered_id = #{id}
+	</update>
+	
+	<update id="updataFollow" parameterType="HashMap">
+		update user_follow
+		set `delete` = "0", create_time = #{createTime}
+		where id = #{id}
 	</update>
 </mapper>

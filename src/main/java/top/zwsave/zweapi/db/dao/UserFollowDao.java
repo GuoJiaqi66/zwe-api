@@ -18,9 +18,11 @@ public interface UserFollowDao {
 
     int updateByPrimaryKey(UserFollow record);
 
-    Long selectNoteByUseredId(Long useredId);
+    UserFollow selectNoteByUseredId(HashMap map);
 
     ArrayList<HashMap> selectAllFans(Long userId);
 
-    Integer removeFollow(Long userId);
+    Integer removeFollow(Long userId, Long id);
+
+    Integer updataFollow(HashMap map);
 }
