@@ -125,4 +125,22 @@ public class VideoServiceImpl implements VideoService {
 
         return articleLikeUser;
     }
+
+
+    @Override
+    public Integer removeLikeArticle(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        VideoLikeUser articleLikeUser = selectFromVideoLike(userId, id);
+        if (articleLikeUser.getDelete().equals("1")) {
+            throw new ZweApiException("已取消夏欢");
+        }
+        Long id1 = articleLikeUser.getId();
+        VideoLikeUser articleLikeUser1 = new VideoLikeUser();
+        articleLikeUser1.setCreateTime(new Date());
+        articleLikeUser1.setId(id1);
+        articleLikeUser1.setDelete("1");
+        videoLikeUserDao.updateByPrimaryKeySelective(articleLikeUser1);
+        Integer integer = videoDao.likeCountRemove(id);
+        return integer;
+    }
 }

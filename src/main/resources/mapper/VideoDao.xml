@@ -176,4 +176,10 @@
 		set like_counts = like_counts + 1
 		where id = #{id};
 	</update>
+	
+	<update id="likeCountRemove" parameterType="Long">
+		update video
+		set like_counts = like_counts - 1
+		where id = #{id};
+	</update>
 </mapper>

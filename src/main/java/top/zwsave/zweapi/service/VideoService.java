@@ -19,4 +19,6 @@ public interface VideoService {
     String selectVisibleById(Long id);
 
     Integer likeVideo(String token, Long id);
+
+    Integer removeLikeArticle(String token, Long id);
 }

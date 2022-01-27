@@ -78,4 +78,14 @@ public class VideoController {
         videoService.likeVideo(token, id);
         return R.ok("喜欢成功");
     }
+
+    /**
+     * 取消喜欢
+     * */
+    @ApiOperation("取消喜欢article")
+    @GetMapping("/removelikevideo/{id}")
+    public R removeLikeArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        videoService.removeLikeArticle(token, id);
+        return R.ok("取消喜欢");
+    }
 }
