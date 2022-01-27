@@ -2,6 +2,8 @@ package top.zwsave.zweapi.db.dao;
 
 import top.zwsave.zweapi.db.pojo.VideoStarUser;
 
+import java.util.HashMap;
+
 public interface VideoStarUserDao {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +16,8 @@ public interface VideoStarUserDao {
     int updateByPrimaryKeySelective(VideoStarUser record);
 
     int updateByPrimaryKey(VideoStarUser record);
+
+    Integer updateByUserIdAndVideoId(HashMap<String, Object> stringObjectHashMap);
+
+    VideoStarUser selectFromVideoStar(HashMap<String, Long> stringLongHashMap);
 }

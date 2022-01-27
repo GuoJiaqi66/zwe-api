@@ -151,7 +151,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Integer starArticle(String token, Long id) {
         Long userId = jwtUtil.getUserId(token);
-        ArticleLikeUser articleLikeUser = selectFromArticleStar(userId, id);
+        ArticleStarUser articleLikeUser = selectFromArticleStar(userId, id);
         if (articleLikeUser == null) {
             ArticleStarUser articleLikeUser1 = new ArticleStarUser();
             articleLikeUser1.setArticleId(id);
@@ -179,7 +179,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Integer removeStarArticle(String token, Long id) {
         Long userId = jwtUtil.getUserId(token);
-        ArticleLikeUser articleLikeUser = selectFromArticleStar(userId, id);
+        ArticleStarUser articleLikeUser = selectFromArticleStar(userId, id);
         if (articleLikeUser.getDelete().equals("1")) {
             throw new ZweApiException("已取消夏欢");
         }
@@ -205,11 +205,11 @@ public class ArticleServiceImpl implements ArticleService {
         return articleLikeUser;
     }
 
-    ArticleLikeUser selectFromArticleStar(Long userId, Long id) {
+    ArticleStarUser selectFromArticleStar(Long userId, Long id) {
         HashMap<String, Long> stringLongHashMap = new HashMap<>();
         stringLongHashMap.put("userId", userId);
         stringLongHashMap.put("id", id);
-        ArticleLikeUser articleLikeUser = articleStarUserDao.selectFromArticleStar(stringLongHashMap);
+        ArticleStarUser articleLikeUser = articleStarUserDao.selectFromArticleStar(stringLongHashMap);
         if (articleLikeUser == null) {
             return null;
         }

@@ -18,7 +18,7 @@ public interface ArticleStarUserDao {
 
     int updateByPrimaryKey(ArticleStarUser record);
 
-    ArticleLikeUser selectFromArticleStar(HashMap<String, Long> stringLongHashMap);
+    ArticleStarUser selectFromArticleStar(HashMap<String, Long> stringLongHashMap);
 
     Integer updateByUserIdAndArticleId(HashMap<String, Object> stringObjectHashMap);
 }

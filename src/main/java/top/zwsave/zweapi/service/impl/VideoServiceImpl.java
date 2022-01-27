@@ -9,9 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.db.dao.VideoDao;
 import top.zwsave.zweapi.db.dao.VideoLikeUserDao;
-import top.zwsave.zweapi.db.pojo.ArticleLikeUser;
-import top.zwsave.zweapi.db.pojo.Video;
-import top.zwsave.zweapi.db.pojo.VideoLikeUser;
+import top.zwsave.zweapi.db.dao.VideoStarUserDao;
+import top.zwsave.zweapi.db.pojo.*;
 import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.VideoService;
@@ -39,6 +38,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Resource
     VideoLikeUserDao videoLikeUserDao;
+
+    @Resource
+    VideoStarUserDao videoStarUserDao;
 
     @Override
     public String newVideo(String token, MultipartFile file, String text, String visible) {
@@ -102,7 +104,7 @@ public class VideoServiceImpl implements VideoService {
             videoLikeUserDao.insert(articleLikeUser1);
         } else if (articleLikeUser.getDelete().equals("0")) {
             throw new ZweApiException("已喜欢");
-        }else if (articleLikeUser.getDelete().equals("1")) {
+        } else if (articleLikeUser.getDelete().equals("1")) {
             HashMap<String, Object> stringObjectHashMap = new HashMap<>();
             stringObjectHashMap.put("createTime", new Date());
             stringObjectHashMap.put("userId", userId);
@@ -128,7 +130,7 @@ public class VideoServiceImpl implements VideoService {
 
 
     @Override
-    public Integer removeLikeArticle(String token, Long id) {
+    public Integer removeLikeVideo(String token, Long id) {
         Long userId = jwtUtil.getUserId(token);
         VideoLikeUser articleLikeUser = selectFromVideoLike(userId, id);
         if (articleLikeUser.getDelete().equals("1")) {
@@ -141,6 +143,64 @@ public class VideoServiceImpl implements VideoService {
         articleLikeUser1.setDelete("1");
         videoLikeUserDao.updateByPrimaryKeySelective(articleLikeUser1);
         Integer integer = videoDao.likeCountRemove(id);
+        return integer;
+    }
+
+
+    @Override
+    public Integer starVideo(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        VideoStarUser articleLikeUser = selectFromArticleStar(userId, id);
+        if (articleLikeUser == null) {
+            VideoStarUser articleLikeUser1 = new VideoStarUser();
+            articleLikeUser1.setVideoId(id);
+            articleLikeUser1.setCreateTime(new Date());
+            articleLikeUser1.setUserId(userId);
+            String s = RandomUtil.randomNumbers(15).trim();
+            long l = Long.parseLong(s);
+            articleLikeUser1.setId(l);
+            articleLikeUser1.setDelete("0");
+            videoStarUserDao.insert(articleLikeUser1);
+        } else if (articleLikeUser.getDelete().equals("0")) {
+            throw new ZweApiException("已喜欢");
+        } else if (articleLikeUser.getDelete().equals("1")) {
+            HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+            stringObjectHashMap.put("createTime", new Date());
+            stringObjectHashMap.put("userId", userId);
+            stringObjectHashMap.put("articleId", id);
+            videoStarUserDao.updateByUserIdAndVideoId(stringObjectHashMap);
+        }
+
+        Integer integer = videoDao.starCountAdd(id);
+        return integer;
+    }
+
+    VideoStarUser selectFromArticleStar(Long userId, Long id) {
+        HashMap<String, Long> stringLongHashMap = new HashMap<>();
+        stringLongHashMap.put("userId", userId);
+        stringLongHashMap.put("id", id);
+        VideoStarUser videoStarUser = videoStarUserDao.selectFromVideoStar(stringLongHashMap);
+        if (videoStarUser == null) {
+            return null;
+        }
+        return videoStarUser;
+    }
+
+
+    @Override
+    public Integer removeStarVideo(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        VideoStarUser articleLikeUser = selectFromArticleStar(userId, id);
+        if (articleLikeUser.getDelete().equals("1")) {
+            throw new ZweApiException("已取消夏欢");
+        }
+        Long id1 = articleLikeUser.getId();
+        VideoStarUser articleLikeUser1 = new VideoStarUser();
+        articleLikeUser1.setCreateTime(new Date());
+        articleLikeUser1.setId(id1);
+        articleLikeUser1.setDelete("1");
+        videoStarUserDao.updateByPrimaryKeySelective(articleLikeUser1);
+        Integer integer = videoDao.starCountRemove(id);
         return integer;
     }
 }

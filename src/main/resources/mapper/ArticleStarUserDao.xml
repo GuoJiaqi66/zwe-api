@@ -93,7 +93,7 @@
 	
 	
 	
-	<select id="selectFromArticleStar" resultType="top.zwsave.zweapi.db.pojo.ArticleLikeUser">
+	<select id="selectFromArticleStar" resultType="top.zwsave.zweapi.db.pojo.ArticleStarUser">
 		select *
 		from article_star_user
 		where user_id = #{userId} and article_id = #{id}

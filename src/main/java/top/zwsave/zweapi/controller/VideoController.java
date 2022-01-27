@@ -82,10 +82,31 @@ public class VideoController {
     /**
      * 取消喜欢
      * */
-    @ApiOperation("取消喜欢article")
+    @ApiOperation("取消喜欢video")
     @GetMapping("/removelikevideo/{id}")
     public R removeLikeArticle(@RequestHeader("token") String token, @PathVariable Long id) {
-        videoService.removeLikeArticle(token, id);
+        videoService.removeLikeVideo(token, id);
         return R.ok("取消喜欢");
+    }
+
+
+    /**
+     * star-video
+     * */
+    @ApiOperation("star-video")
+    @GetMapping("/starvideo/{id}")
+    public R starArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        videoService.starVideo(token, id);
+        return R.ok("star成功");
+    }
+
+    /**
+     * 取消star
+     * */
+    @ApiOperation("取消star-video")
+    @GetMapping("/removestarvideo/{id}")
+    public R removeStarArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        videoService.removeStarVideo(token, id);
+        return R.ok("取消star");
     }
 }

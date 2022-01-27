@@ -90,4 +90,19 @@
       `delete` = #{delete,jdbcType=OTHER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+	
+	
+	
+	<update id="updateByUserIdAndVideoId" parameterType="HashMap">
+		update article_star_user
+		set create_time = #{createTime}, `delete` = "0"
+		where user_id = #{userId} and article_id = #{articleId}
+	</update>
+	
+	
+	<select id="selectFromVideoStar" resultType="top.zwsave.zweapi.db.pojo.VideoStarUser">
+		select *
+		from video_star_user
+		where user_id = #{userId} and video_id = #{id}
+	</select>
 </mapper>

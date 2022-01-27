@@ -20,5 +20,9 @@ public interface VideoService {
 
     Integer likeVideo(String token, Long id);
 
-    Integer removeLikeArticle(String token, Long id);
+    Integer removeLikeVideo(String token, Long id);
+
+    Integer starVideo(String token, Long id);
+
+    Integer removeStarVideo(String token, Long id);
 }

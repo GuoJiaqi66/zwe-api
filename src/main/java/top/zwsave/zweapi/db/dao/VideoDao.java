@@ -27,4 +27,8 @@ public interface VideoDao {
     Integer likeCountAdd(Long id);
 
     Integer likeCountRemove(Long id);
+
+    Integer starCountAdd(Long id);
+
+    Integer starCountRemove(Long id);
 }
