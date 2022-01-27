@@ -23,4 +23,6 @@ public interface VideoDao {
     Integer deleteVideoById(Long id);
 
     String selectVisibleById(Long id);
+
+    Integer likeCountAdd(Long id);
 }

@@ -68,4 +68,14 @@ public class VideoController {
         String s = videoService.selectVisibleById(id);
         return R.ok("查询成功").put("res", s);
     }
+
+    /**
+     * 喜欢video
+     * */
+    @ApiOperation("喜欢video")
+    @GetMapping("/likevideo/{id}")
+    public R likeArticle(@RequestHeader("token") String token, @PathVariable Long id) {
+        videoService.likeVideo(token, id);
+        return R.ok("喜欢成功");
+    }
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zwsave.zweapi.db.dao.VideoStarUserDao">
+  <resultMap id="BaseResultMap" type="top.zwsave.zweapi.db.pojo.VideoStarUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="video_id" jdbcType="BIGINT" property="videoId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete" jdbcType="OTHER" property="delete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, video_id, user_id, create_time, `delete`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video_star_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from video_star_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="top.zwsave.zweapi.db.pojo.VideoStarUser">
+    insert into video_star_user (id, video_id, user_id, 
+      create_time, `delete`)
+    values (#{id,jdbcType=BIGINT}, #{videoId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{delete,jdbcType=OTHER})
+  </insert>
+  <insert id="insertSelective" parameterType="top.zwsave.zweapi.db.pojo.VideoStarUser">
+    insert into video_star_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="videoId != null">
+        video_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="delete != null">
+        `delete`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="videoId != null">
+        #{videoId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delete != null">
+        #{delete,jdbcType=OTHER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.zwsave.zweapi.db.pojo.VideoStarUser">
+    update video_star_user
+    <set>
+      <if test="videoId != null">
+        video_id = #{videoId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delete != null">
+        `delete` = #{delete,jdbcType=OTHER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.zwsave.zweapi.db.pojo.VideoStarUser">
+    update video_star_user
+    set video_id = #{videoId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      `delete` = #{delete,jdbcType=OTHER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

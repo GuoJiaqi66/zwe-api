@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.db.dao.VideoDao;
+import top.zwsave.zweapi.db.dao.VideoLikeUserDao;
+import top.zwsave.zweapi.db.pojo.ArticleLikeUser;
 import top.zwsave.zweapi.db.pojo.Video;
+import top.zwsave.zweapi.db.pojo.VideoLikeUser;
 import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.VideoService;
@@ -33,6 +36,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Resource
     VideoDao videoDao;
+
+    @Resource
+    VideoLikeUserDao videoLikeUserDao;
 
     @Override
     public String newVideo(String token, MultipartFile file, String text, String visible) {
@@ -78,5 +84,45 @@ public class VideoServiceImpl implements VideoService {
             throw new ZweApiException("video不存在");
         }
         return null;
+    }
+
+    @Override
+    public Integer likeVideo(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        VideoLikeUser articleLikeUser = selectFromVideoLike(userId, id);
+        if (articleLikeUser == null) {
+            VideoLikeUser articleLikeUser1 = new VideoLikeUser();
+            articleLikeUser1.setVideoId(id);
+            articleLikeUser1.setCreateTime(new Date());
+            articleLikeUser1.setUserId(userId);
+            String s = RandomUtil.randomNumbers(15).trim();
+            long l = Long.parseLong(s);
+            articleLikeUser1.setId(l);
+            articleLikeUser1.setDelete("0");
+            videoLikeUserDao.insert(articleLikeUser1);
+        } else if (articleLikeUser.getDelete().equals("0")) {
+            throw new ZweApiException("已喜欢");
+        }else if (articleLikeUser.getDelete().equals("1")) {
+            HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+            stringObjectHashMap.put("createTime", new Date());
+            stringObjectHashMap.put("userId", userId);
+            stringObjectHashMap.put("videoId", id);
+            videoLikeUserDao.updateByUserIdAndVideoId(stringObjectHashMap);
+        }
+
+        Integer integer = videoDao.likeCountAdd(id);
+        return integer;
+    }
+
+    VideoLikeUser selectFromVideoLike(Long userId, Long id) {
+        HashMap<String, Long> stringLongHashMap = new HashMap<>();
+        stringLongHashMap.put("userId", userId);
+        stringLongHashMap.put("id", id);
+        VideoLikeUser articleLikeUser = videoLikeUserDao.selectFromVideoLike(stringLongHashMap);
+        if (articleLikeUser == null) {
+            return null;
+        }
+
+        return articleLikeUser;
     }
 }
