@@ -3,6 +3,8 @@ package top.zwsave.zweapi.service;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.controller.form.AddArticleForm;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,4 +30,6 @@ public interface ArticleService {
     Integer removeStarArticle(String token, Long id);
 
     Integer articleLook(String token, Long id);
+
+    ArrayList<HashMap> selectAllLooker(String token, Long id);
 }

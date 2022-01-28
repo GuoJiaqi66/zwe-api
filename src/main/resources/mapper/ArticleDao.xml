@@ -193,4 +193,23 @@
 		set star = star - 1
 		where id = #{id};
 	</update>
+	
+	<update id="lookCountAdd" parameterType="Long">
+		update article
+		set look_counts = look_counts + 1
+		where id = #{id};
+	</update>
+	
+	<select id="selectAllLooker" parameterType="Long" resultType="HashMap">
+		select distinct u.nickname, u.img_path, a.create_time as time
+		from `user` u
+		RIGHT JOIN article_look_user a
+		on a.user_id = u.id
+		where u.`status` = "0" and u.id = (
+		select distinct l.user_id
+		from article_look_user l
+		where l.article_id = #{articleId}
+		ORDER BY l.create_time asc)
+		limit 1
+	</select>
 </mapper>

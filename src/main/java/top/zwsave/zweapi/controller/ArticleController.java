@@ -13,6 +13,8 @@ import top.zwsave.zweapi.service.COSService;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -111,5 +113,15 @@ public class ArticleController {
     public R articleLook(@RequestHeader("token") String token, @PathVariable Long id) {
         articleService.articleLook(token, id);
         return R.ok("记录成功添加");
+    }
+
+    /**
+     * 查询浏览者记录
+     * */
+    @ApiOperation("article查询所有浏览者")
+    @GetMapping("/articlelookers/{id}")
+    public R articleLookers(@PathVariable Long id, @RequestHeader("token") String token) {
+        ArrayList<HashMap> hashMaps = articleService.selectAllLooker(token, id);
+        return R.ok().put("res", hashMaps);
     }
 }

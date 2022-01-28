@@ -4,6 +4,7 @@ import top.zwsave.zweapi.db.pojo.Article;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface ArticleDao {
     int deleteByPrimaryKey(Long id);
@@ -31,4 +32,8 @@ public interface ArticleDao {
     Integer starCountAdd(Long id);
 
     Integer starCountRemove(Long id);
+
+    Integer lookCountAdd(Long id);
+
+    ArrayList<HashMap> selectAllLooker(Long articleId);
 }

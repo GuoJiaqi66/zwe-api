@@ -9,9 +9,11 @@ import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.AddArticleForm;
 import top.zwsave.zweapi.db.dao.ArticleDao;
 import top.zwsave.zweapi.db.dao.ArticleLikeUserDao;
+import top.zwsave.zweapi.db.dao.ArticleLookUserDao;
 import top.zwsave.zweapi.db.dao.ArticleStarUserDao;
 import top.zwsave.zweapi.db.pojo.Article;
 import top.zwsave.zweapi.db.pojo.ArticleLikeUser;
+import top.zwsave.zweapi.db.pojo.ArticleLookUser;
 import top.zwsave.zweapi.db.pojo.ArticleStarUser;
 import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.ArticleService;
@@ -19,10 +21,7 @@ import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.utils.CopyUtil;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: Ja7
@@ -45,6 +44,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Resource
     ArticleStarUserDao articleStarUserDao;
+
+    @Resource
+    ArticleLookUserDao articleLookUserDao;
 
 
     @Override
@@ -197,7 +199,21 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Integer articleLook(String token, Long id) {
 
-        return null;
+        Long userId = jwtUtil.getUserId(token);
+        ArticleLookUser articleLookUser = new ArticleLookUser();
+        articleLookUser.setArticleId(id);
+        articleLookUser.setCreateTime(new Date());
+        articleLookUser.setId(Long.parseLong(RandomUtil.randomNumbers(15).trim()));
+        articleLookUser.setUserId(userId);
+        int insert = articleLookUserDao.insert(articleLookUser);
+        articleDao.lookCountAdd(id);
+        return insert;
+    }
+
+    @Override
+    public ArrayList<HashMap> selectAllLooker(String token, Long id) {
+        ArrayList<HashMap> hashMaps = articleDao.selectAllLooker(id);
+        return hashMaps;
     }
 
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {
