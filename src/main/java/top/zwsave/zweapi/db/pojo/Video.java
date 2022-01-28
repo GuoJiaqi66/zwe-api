@@ -36,5 +36,7 @@ public class Video implements Serializable {
 
     private Long userId;
 
+    private Integer lookCounts;
+
     private static final long serialVersionUID = 1L;
 }

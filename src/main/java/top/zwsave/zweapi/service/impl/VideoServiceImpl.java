@@ -58,6 +58,7 @@ public class VideoServiceImpl implements VideoService {
         video.setStatus("0");
         video.setVisible(visible);
         video.setText(text);
+        video.setLookCounts(0);
         int insert = videoDao.insert(video);
         String s = cosService.insertVideo(file, token, l);
         return s;

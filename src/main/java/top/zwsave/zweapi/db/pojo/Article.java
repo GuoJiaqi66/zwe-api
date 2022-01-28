@@ -33,5 +33,7 @@ public class Article implements Serializable {
 
     private Integer star;
 
+    private Integer lookCounts;
+
     private static final long serialVersionUID = 1L;
 }

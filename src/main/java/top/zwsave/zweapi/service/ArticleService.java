@@ -2,10 +2,7 @@ package top.zwsave.zweapi.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.controller.form.AddArticleForm;
-import top.zwsave.zweapi.db.pojo.Article;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,4 +26,6 @@ public interface ArticleService {
     Integer starArticle(String token, Long id);
 
     Integer removeStarArticle(String token, Long id);
+
+    Integer articleLook(String token, Long id);
 }

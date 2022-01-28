@@ -67,6 +67,7 @@ public class ArticleServiceImpl implements ArticleService {
         art.setUserId(userId);
         art.setImgPath("string");
         art.setStar(0);
+        art.setLookCounts(0);
         int insert = articleDao.insert(art);
 
         String s2 = cosService.insertArticleImg(file, token, id);
@@ -191,6 +192,12 @@ public class ArticleServiceImpl implements ArticleService {
         articleStarUserDao.updateByPrimaryKeySelective(articleLikeUser1);
         Integer integer = articleDao.starCountRemove(id);
         return integer;
+    }
+
+    @Override
+    public Integer articleLook(String token, Long id) {
+
+        return null;
     }
 
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {

@@ -1,25 +1,19 @@
 package top.zwsave.zweapi.controller;
 
-import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.common.R;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.AddArticleForm;
 import top.zwsave.zweapi.controller.form.PageReq;
-import top.zwsave.zweapi.db.pojo.Article;
 import top.zwsave.zweapi.service.ArticleService;
 import top.zwsave.zweapi.service.COSService;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.function.DoubleToIntFunction;
 
 /**
  * @Author: Ja7
@@ -107,5 +101,15 @@ public class ArticleController {
     public R removeStarArticle(@RequestHeader("token") String token, @PathVariable Long id) {
         articleService.removeStarArticle(token, id);
         return R.ok("取消star");
+    }
+
+    /**
+     * 浏览记录
+     * */
+    @ApiOperation("article浏览记录记载(前端判断是否登录,不登陆,将无法记录)")
+    @GetMapping("/artclelook/{id}")
+    public R articleLook(@RequestHeader("token") String token, @PathVariable Long id) {
+        articleService.articleLook(token, id);
+        return R.ok("记录成功添加");
     }
 }
