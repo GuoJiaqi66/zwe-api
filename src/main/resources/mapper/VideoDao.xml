@@ -194,4 +194,24 @@
 		set star = star - 1
 		where id = #{id};
 	</update>
+	
+	
+	<update id="videoLookCountAdd" parameterType="Long">
+		update video
+		set look_counts = look_counts + 1
+		where id = #{id};
+	</update>
+	
+	<select id="selectVideoAllLooker" parameterType="Long" resultType="HashMap">
+		select distinct u.nickname, u.img_path, a.create_time as time
+		from `user` u
+		RIGHT JOIN video_look_user a
+		on a.user_id = u.id
+		where u.`status` = "0" and u.id = (
+		select distinct l.user_id
+		from video_look_user l
+		where l.video_id = #{videoId}
+		ORDER BY l.create_time DESC)
+		limit 1
+	</select>
 </mapper>

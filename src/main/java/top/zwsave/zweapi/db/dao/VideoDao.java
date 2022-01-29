@@ -31,4 +31,8 @@ public interface VideoDao {
     Integer starCountAdd(Long id);
 
     Integer starCountRemove(Long id);
+
+    Integer videoLookCountAdd(Long id);
+
+    ArrayList<HashMap> selectVideoAllLooker(Long videoId);
 }

@@ -2,6 +2,8 @@ package top.zwsave.zweapi.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,4 +27,8 @@ public interface VideoService {
     Integer starVideo(String token, Long id);
 
     Integer removeStarVideo(String token, Long id);
+
+    Integer videoLook(String token, Long id);
+
+    ArrayList<HashMap> selectAllVideoLooker(String token, Long id);
 }

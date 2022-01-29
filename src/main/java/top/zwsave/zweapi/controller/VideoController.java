@@ -23,7 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -108,5 +110,26 @@ public class VideoController {
     public R removeStarArticle(@RequestHeader("token") String token, @PathVariable Long id) {
         videoService.removeStarVideo(token, id);
         return R.ok("取消star");
+    }
+
+
+    /**
+     * 浏览记录
+     * */
+    @ApiOperation("video浏览记录记载(前端判断是否登录,不登陆,将无法记录)")
+    @GetMapping("/videolook/{id}")
+    public R videoLook(@RequestHeader("token") String token, @PathVariable Long id) {
+        videoService.videoLook(token, id);
+        return R.ok("记录成功添加");
+    }
+
+    /**
+     * 查询浏览者记录
+     * */
+    @ApiOperation("video查询所有浏览者")
+    @GetMapping("/videolookers/{id}")
+    public R videoLookers(@PathVariable Long id, @RequestHeader("token") String token) {
+        ArrayList<HashMap> hashMaps = videoService.selectAllVideoLooker(token, id);
+        return R.ok().put("res", hashMaps);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.db.dao.VideoDao;
 import top.zwsave.zweapi.db.dao.VideoLikeUserDao;
+import top.zwsave.zweapi.db.dao.VideoLookUserDao;
 import top.zwsave.zweapi.db.dao.VideoStarUserDao;
 import top.zwsave.zweapi.db.pojo.*;
 import top.zwsave.zweapi.exception.ZweApiException;
@@ -41,6 +42,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Resource
     VideoStarUserDao videoStarUserDao;
+
+    @Resource
+    VideoLookUserDao videoLookUserDao;
 
     @Override
     public String newVideo(String token, MultipartFile file, String text, String visible) {
@@ -203,5 +207,24 @@ public class VideoServiceImpl implements VideoService {
         videoStarUserDao.updateByPrimaryKeySelective(articleLikeUser1);
         Integer integer = videoDao.starCountRemove(id);
         return integer;
+    }
+
+    @Override
+    public Integer videoLook(String token, Long id) {
+        Long userId = jwtUtil.getUserId(token);
+        VideoLookUser articleLookUser = new VideoLookUser();
+        articleLookUser.setArticleId(id);
+        articleLookUser.setCreateTime(new Date());
+        articleLookUser.setId(Long.parseLong(RandomUtil.randomNumbers(15).trim()));
+        articleLookUser.setUserId(userId);
+        int insert = videoLookUserDao.insert(articleLookUser);
+        videoDao.videoLookCountAdd(id);
+        return insert;
+    }
+
+    @Override
+    public ArrayList<HashMap> selectAllVideoLooker(String token, Long id) {
+        ArrayList<HashMap> hashMaps = videoDao.selectVideoAllLooker(id);
+        return hashMaps;
     }
 }
