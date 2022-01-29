@@ -201,15 +201,15 @@
 	</update>
 	
 	<select id="selectAllLooker" parameterType="Long" resultType="HashMap">
-		select distinct u.nickname, u.img_path, a.create_time as time
+		select distinct u.nickname, u.img_path, a.create_time
 		from `user` u
 		RIGHT JOIN article_look_user a
 		on a.user_id = u.id
-		where u.`status` = "0" and u.id = (
+		where u.`status` = "0" and u.id = any(
 		select distinct l.user_id
 		from article_look_user l
-		where l.article_id = #{articleId}
-		ORDER BY l.create_time asc)
-		limit 1
+		where l.article_id = #{videoId}
+		ORDER BY l.create_time desc
+		) and a.user_id = u.id
 	</select>
 </mapper>
