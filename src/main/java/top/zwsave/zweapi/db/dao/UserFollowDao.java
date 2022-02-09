@@ -25,4 +25,6 @@ public interface UserFollowDao {
     Integer removeFollow(Long userId, Long id);
 
     Integer updataFollow(HashMap map);
+
+    UserFollow selectIsFollow(HashMap map);
 }

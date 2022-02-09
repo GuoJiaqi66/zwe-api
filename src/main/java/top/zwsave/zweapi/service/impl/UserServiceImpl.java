@@ -142,6 +142,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer removeFollow(String token, Long id) {
         Long userId = jwtUtil.getUserId(token);
+        HashMap hashMap = new HashMap();
+        hashMap.put("userId", userId);
+        hashMap.put("useredId", id);
+        UserFollow userFollow = userFollowDao.selectIsFollow(hashMap);
+        if (userFollow.getDelete().equals("1")) {
+            throw new ZweApiException("已取消关注");
+        }
         userDao.userFollowRemove(userId);
         userDao.userFansRemove(id);
         Integer integer = userFollowDao.removeFollow(userId, id);

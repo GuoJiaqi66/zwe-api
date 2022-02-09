@@ -120,4 +120,10 @@
 		set `delete` = "0", create_time = #{createTime}
 		where id = #{id}
 	</update>
+	
+	<select id="selectIsFollow" parameterType="HashMap" resultType="top.zwsave.zweapi.db.pojo.UserFollow">
+		select *
+		from user_follow
+		where user_id = #{userId} and usered_id = #{useredId}
+	</select>
 </mapper>
