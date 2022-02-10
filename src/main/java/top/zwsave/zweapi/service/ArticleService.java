@@ -2,6 +2,7 @@ package top.zwsave.zweapi.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.controller.form.AddArticleForm;
+import top.zwsave.zweapi.controller.form.PageReq;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,4 +33,6 @@ public interface ArticleService {
     Integer articleLook(String token, Long id);
 
     ArrayList<HashMap> selectAllLooker(String token, Long id);
+
+    List selectMyArticle(String token, PageReq pageReq);
 }

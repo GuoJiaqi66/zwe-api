@@ -36,4 +36,6 @@ public interface ArticleDao {
     Integer lookCountAdd(Long id);
 
     ArrayList<HashMap> selectAllLooker(Long articleId);
+
+    ArrayList<Article> selectMyArticle(Long userId);
 }

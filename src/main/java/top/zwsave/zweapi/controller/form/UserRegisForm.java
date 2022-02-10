@@ -20,6 +20,7 @@ public class UserRegisForm {
     @ApiParam("昵称")
     private String nickname;
 
+    @NotNull(message = "邮箱不能为空")
     @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "请输入正确的邮箱")
     private String mail;
 

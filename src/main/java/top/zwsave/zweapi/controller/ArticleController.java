@@ -51,6 +51,13 @@ public class ArticleController {
         return R.ok("请求成功").put("res", hashMaps);
     }
 
+    @ApiOperation("分页请求我的博客")
+    @PostMapping("/selectmyarticlebypage")
+    public R selectMyArticle(@Valid @RequestBody PageReq pageReq, @RequestHeader("token") String token) {
+        List list = articleService.selectMyArticle(token, pageReq);
+        return R.ok("请求成功").put("res", list);
+    }
+
     @ApiOperation("删除博客")
     @GetMapping("/deletearticle/{id}")
     public R delete(@PathVariable Long id) {

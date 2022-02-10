@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.AddArticleForm;
+import top.zwsave.zweapi.controller.form.PageReq;
 import top.zwsave.zweapi.db.dao.ArticleDao;
 import top.zwsave.zweapi.db.dao.ArticleLikeUserDao;
 import top.zwsave.zweapi.db.dao.ArticleLookUserDao;
@@ -214,6 +215,17 @@ public class ArticleServiceImpl implements ArticleService {
     public ArrayList<HashMap> selectAllLooker(String token, Long id) {
         ArrayList<HashMap> hashMaps = articleDao.selectAllLooker(id);
         return hashMaps;
+    }
+
+    @Override
+    public List selectMyArticle(String token, PageReq pageReq) {
+        Long userId = jwtUtil.getUserId(token);
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        ArrayList<Article> articles = articleDao.selectMyArticle(userId);
+        PageInfo<Article> articlePageInfo = new PageInfo(articles);
+        List<Article> list = articlePageInfo.getList();
+        return list;
     }
 
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {

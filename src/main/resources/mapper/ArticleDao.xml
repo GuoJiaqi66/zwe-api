@@ -212,4 +212,10 @@
 		ORDER BY l.create_time desc
 		) and a.user_id = u.id
 	</select>
+	
+	<select id="selectMyArticle" parameterType="Long" resultType="top.zwsave.zweapi.db.pojo.Article">
+		select *
+		from article
+		where user_id = #{userId}
+	</select>
 </mapper>
