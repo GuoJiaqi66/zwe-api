@@ -89,7 +89,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
-        resp.setHeader("Access-Control-Allow-credentials", "true");
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
         resp.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
 
         threadLocalToken.clear();
@@ -138,7 +138,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
-        resp.setHeader("Access-Control-Allow-credentials", "true");
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
         resp.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
 
         resp.setStatus(HttpStatus.SC_UNAUTHORIZED);

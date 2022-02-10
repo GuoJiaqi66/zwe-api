@@ -29,7 +29,7 @@ public class JwtUtil {
     private String expire; // 过期时间
 
     public String createToken(Long userId) {
-        DateTime date = DateUtil.offset(new Date(), DateField.DAY_OF_YEAR, 5);
+        Date date = DateUtil.offset(new Date(), DateField.DAY_OF_YEAR, 5);
         Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTCreator.Builder builder = JWT.create();
         String token = builder.withClaim("userId", userId).withExpiresAt(date).sign(algorithm);
