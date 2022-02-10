@@ -57,6 +57,13 @@ public class VideoController {
         return R.ok("请求成功").put("res", list);
     }
 
+    @ApiOperation("分页请求我的video")
+    @PostMapping("/selectmyvideobypage")
+    public R selectMyArticle(@Valid @RequestBody PageReq pageReq, @RequestHeader("token") String token) {
+        List list = videoService.selectMyVideo(token, pageReq);
+        return R.ok("请求成功").put("res", list);
+    }
+
     @ApiOperation("删除video")
     @GetMapping("/deletevideo/{id}")
     public R delete(@PathVariable Long id) {

@@ -1,5 +1,6 @@
 package top.zwsave.zweapi.db.dao;
 
+import top.zwsave.zweapi.db.pojo.Article;
 import top.zwsave.zweapi.db.pojo.Video;
 
 import java.util.ArrayList;
@@ -35,4 +36,6 @@ public interface VideoDao {
     Integer videoLookCountAdd(Long id);
 
     ArrayList<HashMap> selectVideoAllLooker(Long videoId);
+
+    ArrayList<Video> selectMyVideo(Long userId);
 }

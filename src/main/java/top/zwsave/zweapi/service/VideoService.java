@@ -1,6 +1,7 @@
 package top.zwsave.zweapi.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import top.zwsave.zweapi.controller.form.PageReq;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,4 +32,6 @@ public interface VideoService {
     Integer videoLook(String token, Long id);
 
     ArrayList<HashMap> selectAllVideoLooker(String token, Long id);
+
+    List selectMyVideo(String token, PageReq pageReq);
 }

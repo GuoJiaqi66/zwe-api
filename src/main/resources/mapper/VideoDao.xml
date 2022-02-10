@@ -214,4 +214,10 @@
 		ORDER BY l.create_time desc
 		) and a.user_id = u.id
 	</select>
+	
+	<select id="selectMyVideo" parameterType="Long" resultType="top.zwsave.zweapi.db.pojo.Video">
+		select *
+		from video
+		where user_id = #{userId}
+	</select>
 </mapper>

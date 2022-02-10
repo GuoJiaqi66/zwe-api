@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
+import top.zwsave.zweapi.controller.form.PageReq;
 import top.zwsave.zweapi.db.dao.VideoDao;
 import top.zwsave.zweapi.db.dao.VideoLikeUserDao;
 import top.zwsave.zweapi.db.dao.VideoLookUserDao;
@@ -226,5 +227,16 @@ public class VideoServiceImpl implements VideoService {
     public ArrayList<HashMap> selectAllVideoLooker(String token, Long id) {
         ArrayList<HashMap> hashMaps = videoDao.selectVideoAllLooker(id);
         return hashMaps;
+    }
+
+    @Override
+    public List selectMyVideo(String token, PageReq pageReq) {
+        Long userId = jwtUtil.getUserId(token);
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        ArrayList<Video> articles = videoDao.selectMyVideo(userId);
+        PageInfo<Video> articlePageInfo = new PageInfo(articles);
+        List<Video> list = articlePageInfo.getList();
+        return list;
     }
 }
