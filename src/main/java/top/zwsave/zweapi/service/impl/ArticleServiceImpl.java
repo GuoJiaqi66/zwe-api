@@ -228,6 +228,28 @@ public class ArticleServiceImpl implements ArticleService {
         return list;
     }
 
+    @Override
+    public List selectAllLike(String token, PageReq pageReq) {
+        Long userId = jwtUtil.getUserId(token);
+        ArrayList<HashMap> articles = articleDao.selectAllLike(userId);
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        PageInfo<HashMap> articlePageInfo = new PageInfo<>(articles);
+        List<HashMap> list = articlePageInfo.getList();
+        return list;
+    }
+
+    @Override
+    public List selectAllStar(String token, PageReq pageReq) {
+        Long userId = jwtUtil.getUserId(token);
+        ArrayList<HashMap> articles = articleDao.selectAllStar(userId);
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        PageInfo<HashMap> articlePageInfo = new PageInfo<>(articles);
+        List<HashMap> list = articlePageInfo.getList();
+        return list;
+    }
+
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {
         HashMap<String, Long> stringLongHashMap = new HashMap<>();
         stringLongHashMap.put("userId", userId);

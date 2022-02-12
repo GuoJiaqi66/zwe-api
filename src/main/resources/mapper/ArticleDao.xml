@@ -218,4 +218,20 @@
 		from article
 		where user_id = #{userId}
 	</select>
+	
+	<select id="selectAllLike" parameterType="Long" resultType="HashMap">
+		SELECT a.id, a.user_id as 'articleUserId', a.img_path, a.text, a.like_counts, a.star, s.create_time as 'starTime'
+			FROM article a
+			JOIN article_like_user s
+			on a.id = s.article_id
+			WHERE s.`delete` = '0' and a.`delete` = '0' and s.user_id = #{userId}
+	</select>
+	
+	<select id="selectAllStar" parameterType="Long" resultType="HashMap">
+		SELECT a.id, a.user_id as 'articleUserId', a.img_path, a.text, a.like_counts, a.star, s.create_time as 'starTime'
+			FROM article a
+			JOIN article_star_user s
+			on a.id = s.article_id
+			WHERE s.`delete` = '0' and a.`delete` = '0' and s.user_id = #{userId}
+	</select>
 </mapper>

@@ -129,6 +129,26 @@ public class ArticleController {
     @GetMapping("/articlelookers/{id}")
     public R articleLookers(@PathVariable Long id, @RequestHeader("token") String token) {
         ArrayList<HashMap> hashMaps = articleService.selectAllLooker(token, id);
-        return R.ok().put("res", hashMaps);
+        return R.ok("查询成功").put("res", hashMaps);
+    }
+
+    /**
+     * 查询所有喜欢article
+     * */
+    @ApiOperation("查询以喜欢的article列表")
+    @PostMapping("/articlelike")
+    public R articleLike(@RequestHeader("token") String token, PageReq pageReq) {
+        List list = articleService.selectAllLike(token, pageReq);
+        return R.ok("查询成功").put("res", list);
+    }
+
+    /**
+     * 查询所有-star-article
+     * */
+    @ApiOperation("查询以喜欢的article-star列表")
+    @PostMapping("/articlestar")
+    public R articleStar(@RequestHeader("token") String token, PageReq pageReq) {
+        List list = articleService.selectAllStar(token, pageReq);
+        return R.ok("查询成功").put("res", list);
     }
 }

@@ -38,4 +38,8 @@ public interface ArticleDao {
     ArrayList<HashMap> selectAllLooker(Long articleId);
 
     ArrayList<Article> selectMyArticle(Long userId);
+
+    ArrayList<HashMap> selectAllLike(Long userId);
+
+    ArrayList<HashMap> selectAllStar(Long userId);
 }

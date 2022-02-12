@@ -35,4 +35,8 @@ public interface ArticleService {
     ArrayList<HashMap> selectAllLooker(String token, Long id);
 
     List selectMyArticle(String token, PageReq pageReq);
+
+    List selectAllLike(String token, PageReq pageReq);
+
+    List selectAllStar(String token, PageReq pageReq);
 }
