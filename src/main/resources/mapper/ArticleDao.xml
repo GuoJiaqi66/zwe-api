@@ -220,18 +220,22 @@
 	</select>
 	
 	<select id="selectAllLike" parameterType="Long" resultType="HashMap">
-		SELECT a.id, a.user_id as 'articleUserId', a.img_path, a.text, a.like_counts, a.star, s.create_time as 'starTime'
-			FROM article a
-			JOIN article_like_user s
-			on a.id = s.article_id
-			WHERE s.`delete` = '0' and a.`delete` = '0' and s.user_id = #{userId}
+		SELECT a.id, u.nickname, u.img_path as 'userImgPath', alu.create_time, a.img_path as 'articleImgPath', a.text
+FROM article_like_user alu
+LEFT JOIN article a
+ON alu.article_id = a.id
+JOIN `user` u
+ON alu.user_id = u.id
+WHERE alu.`delete` = '0' and a.`delete` = '0' and u.`status` = '0' and alu.user_id = #{userId}
 	</select>
 	
 	<select id="selectAllStar" parameterType="Long" resultType="HashMap">
-		SELECT a.id, a.user_id as 'articleUserId', a.img_path, a.text, a.like_counts, a.star, s.create_time as 'starTime'
-			FROM article a
-			JOIN article_star_user s
-			on a.id = s.article_id
-			WHERE s.`delete` = '0' and a.`delete` = '0' and s.user_id = #{userId}
+		SELECT a.id, u.nickname, u.img_path as 'userImgPath', alu.create_time, a.img_path as 'articleImgPath', a.text
+FROM article_star_user alu
+LEFT JOIN article a
+ON alu.article_id = a.id
+JOIN `user` u
+ON alu.user_id = u.id
+WHERE alu.`delete` = '0' and a.`delete` = '0' and u.`status` = '0' and alu.user_id = #{userId}
 	</select>
 </mapper>
