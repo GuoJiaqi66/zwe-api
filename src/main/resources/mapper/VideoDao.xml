@@ -234,6 +234,25 @@
 		where user_id = #{userId}
 	</select>
 	
+	<select id="selectAllLike" resultType="HashMap" parameterType="Long">
+		SELECT a.id, u.nickname, u.img_path as 'userImgPath', vlu.create_time as "createTime", a.video_path as 'videoPath', a.text
+FROM video_like_user vlu
+LEFT JOIN video a
+ON vlu.video_id = a.id
+JOIN `user` u
+ON vlu.user_id = u.id
+WHERE vlu.`delete` = '0' and a.`delete` = '0' and u.`status` = '0' and vlu.user_id = #{userId}
+	</select>
+	
+	<select id="selectAllStar" resultType="HashMap" parameterType="Long">
+		SELECT a.id, u.nickname, u.img_path as 'userImgPath', vlu.create_time as "createTime", a.video_path as 'videoPath', a.text
+FROM video_star_user vlu
+LEFT JOIN video a
+ON vlu.video_id = a.id
+JOIN `user` u
+ON vlu.user_id = u.id
+WHERE vlu.`delete` = '0' and a.`delete` = '0' and u.`status` = '0' and vlu.user_id = #{userId}
+	</select>
 	
 
 </mapper>

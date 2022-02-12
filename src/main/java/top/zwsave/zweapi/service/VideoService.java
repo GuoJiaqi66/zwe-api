@@ -34,4 +34,8 @@ public interface VideoService {
     ArrayList<HashMap> selectAllVideoLooker(String token, Long id);
 
     List selectMyVideo(String token, PageReq pageReq);
+
+    List selectAllLike(String token, PageReq pageReq);
+
+    List selectAllStar(String token, PageReq pageReq);
 }

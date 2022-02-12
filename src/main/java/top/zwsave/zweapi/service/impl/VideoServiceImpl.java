@@ -239,4 +239,26 @@ public class VideoServiceImpl implements VideoService {
         List<Video> list = articlePageInfo.getList();
         return list;
     }
+
+    @Override
+    public List selectAllLike(String token, PageReq pageReq) {
+        Long userId = jwtUtil.getUserId(token);
+        ArrayList<HashMap> articles = videoDao.selectAllLike(userId);
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        PageInfo<HashMap> articlePageInfo = new PageInfo<>(articles);
+        List<HashMap> list = articlePageInfo.getList();
+        return list;
+    }
+
+    @Override
+    public List selectAllStar(String token, PageReq pageReq) {
+        Long userId = jwtUtil.getUserId(token);
+        ArrayList<HashMap> articles = videoDao.selectAllStar(userId);
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        PageInfo<HashMap> articlePageInfo = new PageInfo<>(articles);
+        List<HashMap> list = articlePageInfo.getList();
+        return list;
+    }
 }

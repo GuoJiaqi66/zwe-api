@@ -139,4 +139,24 @@ public class VideoController {
         ArrayList<HashMap> hashMaps = videoService.selectAllVideoLooker(token, id);
         return R.ok().put("res", hashMaps);
     }
+
+    /**
+     * 查询所有喜欢article
+     * */
+    @ApiOperation("查询以喜欢的video列表")
+    @PostMapping("/videolike")
+    public R videoLike(@RequestHeader("token") String token, PageReq pageReq) {
+        List list = videoService.selectAllLike(token, pageReq);
+        return R.ok("查询成功").put("res", list);
+    }
+
+    /**
+     * 查询所有-star-article
+     * */
+    @ApiOperation("查询以喜欢的video-star列表")
+    @PostMapping("/videostar")
+    public R videoStar(@RequestHeader("token") String token, PageReq pageReq) {
+        List list = videoService.selectAllStar(token, pageReq);
+        return R.ok("查询成功").put("res", list);
+    }
 }

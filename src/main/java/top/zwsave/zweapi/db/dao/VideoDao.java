@@ -37,4 +37,8 @@ public interface VideoDao {
     ArrayList<HashMap> selectVideoAllLooker(Long videoId);
 
     ArrayList<Video> selectMyVideo(Long userId);
+
+    ArrayList<HashMap> selectAllLike(Long userId);
+
+    ArrayList<HashMap> selectAllStar(Long userId);
 }
