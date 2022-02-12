@@ -135,7 +135,7 @@ public class ArticleController {
     /**
      * 查询所有喜欢article
      * */
-    @ApiOperation("查询以喜欢的article列表")
+    @ApiOperation("查询我喜欢的article列表")
     @PostMapping("/articlelike")
     public R articleLike(@RequestHeader("token") String token, PageReq pageReq) {
         List list = articleService.selectAllLike(token, pageReq);
@@ -145,7 +145,7 @@ public class ArticleController {
     /**
      * 查询所有-star-article
      * */
-    @ApiOperation("查询以喜欢的article-star列表")
+    @ApiOperation("查询我喜欢的article-star列表")
     @PostMapping("/articlestar")
     public R articleStar(@RequestHeader("token") String token, PageReq pageReq) {
         List list = articleService.selectAllStar(token, pageReq);
