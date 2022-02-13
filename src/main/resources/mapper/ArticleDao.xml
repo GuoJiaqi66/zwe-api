@@ -238,4 +238,27 @@ JOIN `user` u
 ON alu.user_id = u.id
 WHERE alu.`delete` = '0' and a.`delete` = '0' and u.`status` = '0' and alu.user_id = #{userId}
 	</select>
+	
+	<select id="selectInfoByArticle" parameterType="Long" resultType="java.util.HashMap">
+		SELECT u.id as 'userId'
+FROM article a
+LEFT JOIN `user` u
+on a.user_id = u.id
+WHERE a.`delete` = "0" and u.`status` = "0" and a.id = #{id}
+	</select>
+	
+	<select id="selectArticleLiker" parameterType="Long" resultType="HashMap">
+		SELECT u.id as 'userId', u.img_path as 'userImgPath', u.nickname as 'nickName'
+FROM `user` u
+LEFT JOIN article_like_user a
+on a.user_id = u.id
+WHERE a.`delete` = "0" and u.`status` = "0" and a.article_id = #{id}
+	</select>
+	<select id="selectArticleStarer" parameterType="Long" resultType="HashMap">
+		SELECT u.id as 'userId', u.img_path as 'userImgPath', u.nickname as 'nickName'
+FROM `user` u
+LEFT JOIN article_star_user a
+on a.user_id = u.id
+WHERE a.`delete` = "0" and u.`status` = "0" and a.article_id = #{id}
+	</select>
 </mapper>

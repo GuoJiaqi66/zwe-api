@@ -42,4 +42,10 @@ public interface ArticleDao {
     ArrayList<HashMap> selectAllLike(Long userId);
 
     ArrayList<HashMap> selectAllStar(Long userId);
+
+    HashMap selectInfoByArticle(Long id);
+
+    ArrayList<HashMap> selectArticleLiker(Long id);
+
+    ArrayList<HashMap> selectArticleStarer(Long id);
 }

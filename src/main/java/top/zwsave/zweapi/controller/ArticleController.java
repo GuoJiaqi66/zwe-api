@@ -151,4 +151,30 @@ public class ArticleController {
         List list = articleService.selectAllStar(token, pageReq);
         return R.ok("查询成功").put("res", list);
     }
+
+    /**
+     * 根据articleId,查询相关信息           (带思考)
+     * */
+    @ApiOperation("根据articleId查询相关信息")
+    @GetMapping("/selectinfobyarticleid/{id}")
+    public R selectInfoByArticleId(@PathVariable Long id) {
+        HashMap hashMap = articleService.selectInfoByArticle(id);
+        return R.ok("查询成功").put("res", hashMap);
+    }
+
+    /**
+     * 所有点赞者,star者
+     * */
+    @ApiOperation("根据articleId所有点赞者")
+    @PostMapping("/selectarticleliker")
+    public R selectArticleLiker(Long id, PageReq pageReq) {
+        List list = articleService.selectArticleLiker(id, pageReq);
+        return R.ok("查询成功").put("res", list);
+    }
+    @ApiOperation("根据articleId所有点赞者")
+    @PostMapping("/selectarticlestarer")
+    public R selectArticleStarer(Long id, PageReq pageReq) {
+        List list = articleService.selectArticleStarer(id, pageReq);
+        return R.ok("查询成功").put("res", list);
+    }
 }

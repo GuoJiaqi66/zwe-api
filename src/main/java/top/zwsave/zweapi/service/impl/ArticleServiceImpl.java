@@ -250,6 +250,34 @@ public class ArticleServiceImpl implements ArticleService {
         return list;
     }
 
+    @Override
+    public HashMap selectInfoByArticle(Long id) {
+        HashMap hashMap = articleDao.selectInfoByArticle(id);
+        if (hashMap == null) {
+            throw new ZweApiException("article不存在");
+        }
+        return hashMap;
+    }
+
+    @Override
+    public List selectArticleLiker(Long id, PageReq pageReq) {
+        ArrayList<HashMap> hashMaps = articleDao.selectArticleLiker(id);
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        PageInfo pageInfo = new PageInfo(hashMaps);
+        List list = pageInfo.getList();
+        return list;
+    }
+    @Override
+        public List selectArticleStarer(Long id, PageReq pageReq) {
+            ArrayList<HashMap> hashMaps = articleDao.selectArticleStarer(id);
+            PageHelper pageHelper = new PageHelper();
+            pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+            PageInfo pageInfo = new PageInfo(hashMaps);
+            List list = pageInfo.getList();
+            return list;
+        }
+
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {
         HashMap<String, Long> stringLongHashMap = new HashMap<>();
         stringLongHashMap.put("userId", userId);
