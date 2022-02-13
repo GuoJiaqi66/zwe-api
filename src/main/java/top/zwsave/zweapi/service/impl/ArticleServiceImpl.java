@@ -92,7 +92,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Integer deleteArticle(Long id) {
+    public Integer deleteArticle(String token, Long id) {
+        jwtUtil.verifierToken(token);
         selectVisibleById(id);
         Integer integer = articleDao.deleteArticleById(id);
         return integer;

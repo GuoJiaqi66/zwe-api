@@ -66,8 +66,8 @@ public class VideoController {
 
     @ApiOperation("删除video")
     @GetMapping("/deletevideo/{id}")
-    public R delete(@PathVariable Long id) {
-        Integer deletearticle = videoService.deleteVideo(id);
+    public R delete(@RequestHeader("token") String token,@PathVariable Long id) {
+        Integer deletearticle = videoService.deleteVideo(token, id);
         return R.ok("删除成功");
     }
 

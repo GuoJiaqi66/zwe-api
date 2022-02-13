@@ -79,7 +79,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Integer deleteVideo(Long id) {
+    public Integer deleteVideo(String token, Long id) {
+        jwtUtil.verifierToken(token);
         selectVisibleById(id);
         Integer integer = videoDao.deleteVideoById(id);
         return integer;

@@ -60,8 +60,8 @@ public class ArticleController {
 
     @ApiOperation("删除博客")
     @GetMapping("/deletearticle/{id}")
-    public R delete(@PathVariable Long id) {
-        Integer deletearticle = articleService.deleteArticle(id);
+    public R delete(@RequestHeader("token") String token, @PathVariable Long id) {
+        Integer deletearticle = articleService.deleteArticle(token, id);
         return R.ok("删除成功");
     }
 
