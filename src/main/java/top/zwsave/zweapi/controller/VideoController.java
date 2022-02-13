@@ -159,4 +159,20 @@ public class VideoController {
         List list = videoService.selectAllStar(token, pageReq);
         return R.ok("查询成功").put("res", list);
     }
+
+    /**
+     * 所有点赞者,star者
+     * */
+    @ApiOperation("根据videoId所有点赞者")
+    @PostMapping("/selectvideoliker")
+    public R selectVideoLiker(Long id, PageReq pageReq) {
+        List list = videoService.selectVideoLiker(id, pageReq);
+        return R.ok("查询成功").put("res", list);
+    }
+    @ApiOperation("根据videoId所有点赞者")
+    @PostMapping("/selectvideostarer")
+    public R selectVideoStarer(Long id, PageReq pageReq) {
+        List list = videoService.selectVideoStarer(id, pageReq);
+        return R.ok("查询成功").put("res", list);
+    }
 }

@@ -254,5 +254,20 @@ ON vlu.user_id = u.id
 WHERE vlu.`delete` = '0' and a.`delete` = '0' and u.`status` = '0' and vlu.user_id = #{userId}
 	</select>
 	
+	<select id="selectVideoLiker" parameterType="Long" resultType="HashMap">
+		SELECT u.id as 'userId', u.img_path as 'userImgPath', u.nickname as 'nickName'
+FROM `user` u
+LEFT JOIN video_like_user a
+on a.user_id = u.id
+WHERE a.`delete` = "0" and u.`status` = "0" and a.video_id = #{id}
+	</select>
+	<select id="selectVideoStarer" parameterType="Long" resultType="HashMap">
+		SELECT u.id as 'userId', u.img_path as 'userImgPath', u.nickname as 'nickName'
+FROM `user` u
+LEFT JOIN video_star_user a
+on a.user_id = u.id
+WHERE a.`delete` = "0" and u.`status` = "0" and a.video_id = #{id}
+	</select>
+	
 
 </mapper>
