@@ -261,8 +261,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List selectArticleLiker(String token, Long id, PageReq pageReq) {
-        jwtUtil.verifierToken(token);
+    public List selectArticleLiker(/*String token,*/ Long id, PageReq pageReq) {
+        /*jwtUtil.verifierToken(token);*/
         ArrayList<HashMap> hashMaps = articleDao.selectArticleLiker(id);
         PageHelper pageHelper = new PageHelper();
         pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
@@ -271,8 +271,8 @@ public class ArticleServiceImpl implements ArticleService {
         return list;
     }
     @Override
-    public List selectArticleStarer(String token, Long id, PageReq pageReq) {
-        jwtUtil.verifierToken(token);
+    public List selectArticleStarer(/*String token,*/ Long id, PageReq pageReq) {
+        /*jwtUtil.verifierToken(token);*/
         ArrayList<HashMap> hashMaps = articleDao.selectArticleStarer(id);
         PageHelper pageHelper = new PageHelper();
         pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());

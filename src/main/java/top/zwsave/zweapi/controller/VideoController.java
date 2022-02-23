@@ -165,14 +165,22 @@ public class VideoController {
      * */
     @ApiOperation("根据videoId所有点赞者")
     @PostMapping("/selectvideoliker")
-    public R selectVideoLiker(@RequestHeader("token")String token, Long id, PageReq pageReq) {
-        List list = videoService.selectVideoLiker(token, id, pageReq);
+    public R selectVideoLiker(@RequestBody HashMap map) {
+        Long id = (Long) map.get("id");
+        PageReq pageReq = new PageReq();
+        pageReq.setPageNum((int) map.get("pageNum"));
+        pageReq.setPageSize((int) map.get("pageSize"));
+        List list = videoService.selectVideoLiker(id, pageReq);
         return R.ok("查询成功").put("res", list);
     }
-    @ApiOperation("根据videoId所有点赞者")
+    @ApiOperation("根据videoId所有收藏者")
     @PostMapping("/selectvideostarer")
-    public R selectVideoStarer(@RequestHeader("token")String token, Long id, PageReq pageReq) {
-        List list = videoService.selectVideoStarer(token, id, pageReq);
+    public R selectVideoStarer(@RequestBody HashMap map) {
+        Long id = (Long) map.get("id");
+        PageReq pageReq = new PageReq();
+        pageReq.setPageNum((int) map.get("pageNum"));
+        pageReq.setPageSize((int) map.get("pageSize"));
+        List list = videoService.selectVideoStarer(id, pageReq);
         return R.ok("查询成功").put("res", list);
     }
 }

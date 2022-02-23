@@ -39,7 +39,7 @@ public interface VideoService {
 
     List selectAllStar(String token, PageReq pageReq);
 
-    List selectVideoLiker(String token, Long id, PageReq pageReq);
+    List selectVideoLiker(Long id, PageReq pageReq);
 
-    List selectVideoStarer(String token, Long id, PageReq pageReq);
+    List selectVideoStarer(Long id, PageReq pageReq);
 }

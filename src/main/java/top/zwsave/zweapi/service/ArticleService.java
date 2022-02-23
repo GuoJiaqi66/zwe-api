@@ -42,7 +42,7 @@ public interface ArticleService {
 
     HashMap selectInfoByArticle(Long id);
 
-    List selectArticleLiker(String token, Long id, PageReq pageReq);
+    List selectArticleLiker(/*String token,*/ Long id, PageReq pageReq);
 
-    List selectArticleStarer(String token, Long id, PageReq pageReq);
+    List selectArticleStarer(/*String token,*/ Long id, PageReq pageReq);
 }

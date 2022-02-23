@@ -167,14 +167,24 @@ public class ArticleController {
      * */
     @ApiOperation("根据articleId所有点赞者")
     @PostMapping("/selectarticleliker")
-    public R selectArticleLiker(@RequestHeader("token")String token, Long id, PageReq pageReq) {
-        List list = articleService.selectArticleLiker(token, id, pageReq);
+    public R selectArticleLiker(/*@RequestHeader("token")String token,*/ /*Long id, PageReq pageReq*/ @RequestBody HashMap map) {
+        Long id = (Long) map.get("id");
+        PageReq pageReq = new PageReq();
+        int pageNum = (int) map.get("pageNum");
+        int pageSize = (int) map.get("pageNum");
+        pageReq.setPageNum(pageNum);
+        pageReq.setPageSize(pageSize);
+        List list = articleService.selectArticleLiker(/*token,*/ id, pageReq);
         return R.ok("查询成功").put("res", list);
     }
-    @ApiOperation("根据articleId所有点赞者")
+    @ApiOperation("根据articleId所有star者")
     @PostMapping("/selectarticlestarer")
-    public R selectArticleStarer(@RequestHeader("token")String token, Long id, PageReq pageReq) {
-        List list = articleService.selectArticleStarer(token, id, pageReq);
+    public R selectArticleStarer(/*@RequestHeader("token")String token,*/ @RequestBody HashMap map) {
+        Long id = (Long) map.get("id");
+        PageReq pageReq = new PageReq();
+        pageReq.setPageNum((int) map.get("pageNum"));
+        pageReq.setPageSize((int) map.get("pageSize"));
+        List list = articleService.selectArticleStarer(/*token,*/ id, pageReq);
         return R.ok("查询成功").put("res", list);
     }
 }

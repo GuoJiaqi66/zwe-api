@@ -264,8 +264,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List selectVideoLiker(String token, Long id, PageReq pageReq) {
-        jwtUtil.verifierToken(token);
+    public List selectVideoLiker( Long id, PageReq pageReq) {
+        /*jwtUtil.verifierToken(token);*/
         ArrayList<HashMap> hashMaps = videoDao.selectVideoLiker(id);
         PageHelper pageHelper = new PageHelper();
         pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
@@ -274,8 +274,8 @@ public class VideoServiceImpl implements VideoService {
         return list;
     }
     @Override
-    public List selectVideoStarer(String token, Long id, PageReq pageReq) {
-        jwtUtil.verifierToken(token);
+    public List selectVideoStarer(Long id, PageReq pageReq) {
+        /*jwtUtil.verifierToken(token);*/
         ArrayList<HashMap> hashMaps = videoDao.selectVideoStarer(id);
         PageHelper pageHelper = new PageHelper();
         pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
