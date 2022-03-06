@@ -5,6 +5,8 @@ import cn.hutool.core.util.RandomUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.zwsave.zweapi.db.dao.ArticleDao;
+import top.zwsave.zweapi.db.dao.MongoArticleCommentDao;
+import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 import top.zwsave.zweapi.utils.SnowFlake;
 
 import javax.annotation.Resource;
@@ -77,5 +79,20 @@ class ZweApiApplicationTests {
         System.out.println("----------------");
         System.out.println(pageInfo.getPageSize());*/
 
+    }
+
+    @Resource
+    MongoArticleCommentDao mongoArticleCommentDao;
+
+    @Test
+    void mongo() {
+        MongoArticleComment mongoArticleComment = new MongoArticleComment();
+        mongoArticleComment.setArticleId("1");
+        mongoArticleComment.setContent("test");
+        mongoArticleComment.setFrom("2");
+        mongoArticleComment.setTo("3");
+        mongoArticleComment.setUuid("111");
+        String s = mongoArticleCommentDao.insertArticleComment(mongoArticleComment);
+        System.out.println(s);
     }
 }
