@@ -51,7 +51,7 @@ public class MongoArticleCommentDao {
 
     // 分页查询
     public List select(String shenMeXuYaoFenYeMouRenDeHuiFuBoKePinLunDeFenYe, int pageNum, int pageSize) {
-        Query query = new Query(Criteria.where("to").is(shenMeXuYaoFenYeMouRenDeHuiFuBoKePinLunDeFenYe));
+        Query query = new Query(Criteria.where("to").is(shenMeXuYaoFenYeMouRenDeHuiFuBoKePinLunDeFenYe).and("del").is(0));
         List<MongoArticleComment> mongoArticleComments = mongoTemplate.find(query.skip(pageNum).limit(pageSize), MongoArticleComment.class);
         return mongoArticleComments;
     }

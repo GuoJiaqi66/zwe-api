@@ -41,4 +41,10 @@ public class MongoServiceImpl implements MongoService {
         String s = mongoArticleCommentDao.insertArticleComment(mongoArticleComment);
         return s;
     }
+
+    @Override
+    public String delArticleComment(String uuid) {
+        String s = mongoArticleCommentDao.delArticleComment(uuid);
+        return s;
+    }
 }

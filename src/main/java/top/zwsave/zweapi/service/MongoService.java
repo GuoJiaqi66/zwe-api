@@ -12,4 +12,6 @@ import java.util.HashMap;
  */
 public interface MongoService {
     String insertArticleComment(String token, MongoArticleCommentForm form);
+
+    String delArticleComment(String uuid);
 }
