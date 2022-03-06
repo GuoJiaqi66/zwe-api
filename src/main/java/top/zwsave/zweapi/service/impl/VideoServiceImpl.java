@@ -283,4 +283,15 @@ public class VideoServiceImpl implements VideoService {
         List list = pageInfo.getList();
         return list;
     }
+
+    @Override
+    public HashMap selectAllLikeStarId(String token) {
+        Long userId = jwtUtil.getUserId(token);
+        ArrayList arrayList = videoDao.selectAllLikeId(userId);
+        ArrayList arrayList1 = videoDao.selectAllStarId(userId);
+        HashMap hashMap = new HashMap();
+        hashMap.put("videoLike", arrayList);
+        hashMap.put("videoStar", arrayList1);
+        return hashMap;
+    }
 }

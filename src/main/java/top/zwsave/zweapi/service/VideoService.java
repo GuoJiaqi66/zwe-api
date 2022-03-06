@@ -42,4 +42,6 @@ public interface VideoService {
     List selectVideoLiker(Long id, PageReq pageReq);
 
     List selectVideoStarer(Long id, PageReq pageReq);
+
+    HashMap selectAllLikeStarId(String token);
 }

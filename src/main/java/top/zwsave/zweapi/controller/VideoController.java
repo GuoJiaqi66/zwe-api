@@ -183,4 +183,12 @@ public class VideoController {
         List list = videoService.selectVideoStarer(id, pageReq);
         return R.ok("查询成功").put("res", list);
     }
+
+    // 查询所有like/star -- video 的id
+    @ApiOperation("查询出所有like/star的video用于首页自己like/star了那些")
+    @PostMapping("/selectAllVideoLikeStarId")
+    public R selectAllLikeStarId(@RequestHeader("token") String token){
+        HashMap hashMap = videoService.selectAllLikeStarId(token);
+        return R.ok().put("res", hashMap );
+    }
 }

@@ -45,4 +45,8 @@ public interface VideoDao {
     ArrayList<HashMap> selectVideoLiker(Long id);
 
     ArrayList<HashMap> selectVideoStarer(Long id);
+
+    ArrayList selectAllLikeId(Long userId);
+
+    ArrayList selectAllStarId(Long userId);
 }
