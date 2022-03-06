@@ -187,4 +187,12 @@ public class ArticleController {
         List list = articleService.selectArticleStarer(/*token,*/ id, pageReq);
         return R.ok("查询成功").put("res", list);
     }
+
+    // 查询所有like/star -- article 的id
+    @ApiOperation("查询出所有like/star的article用于首页自己like/star了那些")
+    @PostMapping("/selectAllArticleLikeStarId")
+    public R selectAllLikeStarId(@RequestHeader("token") String token){
+        HashMap hashMap = articleService.selectAllLikeStarId(token);
+        return R.ok().put("res", hashMap );
+    }
 }

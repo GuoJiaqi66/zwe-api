@@ -261,4 +261,32 @@ LEFT JOIN article_star_user a
 on a.user_id = u.id
 WHERE a.`delete` = "0" and u.`status` = "0" and a.article_id = #{id}
 	</select>
+	
+	<insert id="insertArticle" parameterType="top.zwsave.zweapi.db.pojo.Article">
+		insert /*into*/ article (id, user_id, create_time,
+      visible, img_path, like_counts,
+      `status`, `delete`, `text`, star, look_counts
+      )
+    values (#{id}, #{userId}, #{createTime},
+      #{visible}, #{imgPath}, #{likeCounts},
+      #{status}, #{delete}, #{text}, #{star},
+      #{lookCounts}
+      )
+	</insert>
+	
+	<select id="selectAllLikeId" parameterType="Long" resultType="Long">
+		select a.id
+from article a
+JOIN article_like_user l
+on a.id = l.article_id
+where l.user_id = #{userId} and l.`delete` = '0' and a.`delete` = '0' and a.`status` = '0'
+	</select>
+	
+	<select id="selectAllStarId" parameterType="Long" resultType="Long">
+		select a.id
+from article a
+JOIN article_star_user l
+on a.id = l.article_id
+where l.user_id = #{userId} and l.`delete` = '0' and a.`delete` = '0' and a.`status` = '0'
+	</select>
 </mapper>

@@ -45,4 +45,6 @@ public interface ArticleService {
     List selectArticleLiker(/*String token,*/ Long id, PageReq pageReq);
 
     List selectArticleStarer(/*String token,*/ Long id, PageReq pageReq);
+
+    HashMap selectAllLikeStarId(String token);
 }

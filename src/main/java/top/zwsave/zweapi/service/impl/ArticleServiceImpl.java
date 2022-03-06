@@ -71,7 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
         art.setImgPath("string");
         art.setStar(0);
         art.setLookCounts(0);
-        int insert = articleDao.insert(art);
+        int insert = articleDao.insertArticle(art);
 
         String s2 = cosService.insertArticleImg(file, token, id);
 
@@ -279,6 +279,17 @@ public class ArticleServiceImpl implements ArticleService {
         PageInfo pageInfo = new PageInfo(hashMaps);
         List list = pageInfo.getList();
         return list;
+    }
+
+    @Override
+    public HashMap selectAllLikeStarId(String token) {
+        Long userId = jwtUtil.getUserId(token);
+        ArrayList arrayList = articleDao.selectAllLikeId(userId);
+        ArrayList arrayList1 = articleDao.selectAllStarId(userId);
+        HashMap hashMap = new HashMap();
+        hashMap.put("articleLike", arrayList);
+        hashMap.put("articleStar", arrayList1);
+        return hashMap;
     }
 
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {

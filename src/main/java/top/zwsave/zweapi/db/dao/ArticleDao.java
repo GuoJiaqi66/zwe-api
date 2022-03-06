@@ -48,4 +48,10 @@ public interface ArticleDao {
     ArrayList<HashMap> selectArticleLiker(Long id);
 
     ArrayList<HashMap> selectArticleStarer(Long id);
+
+    int insertArticle(Article article);
+
+    ArrayList selectAllLikeId(Long userId);
+
+    ArrayList selectAllStarId(Long userId);
 }
