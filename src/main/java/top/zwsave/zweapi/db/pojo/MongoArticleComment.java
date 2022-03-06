@@ -38,4 +38,6 @@ public class MongoArticleComment implements Serializable {
     private String to;
 
     private String content;
+
+    private int del;
 }

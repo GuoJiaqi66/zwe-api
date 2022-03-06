@@ -92,7 +92,20 @@ class ZweApiApplicationTests {
         mongoArticleComment.setFrom("2");
         mongoArticleComment.setTo("3");
         mongoArticleComment.setUuid("111");
+        mongoArticleComment.setDel(0);
         String s = mongoArticleCommentDao.insertArticleComment(mongoArticleComment);
+        System.out.println(s);
+    }
+
+    @Test
+    void mongoDel() {
+        String s = mongoArticleCommentDao.deleteArticleComment("111");
+        System.out.println(s);
+    }
+
+    @Test
+    void mongoDelete() {
+        String s = mongoArticleCommentDao.delArticleComment("111");
         System.out.println(s);
     }
 }
