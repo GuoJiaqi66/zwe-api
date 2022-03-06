@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Author: Ja7
@@ -20,6 +21,7 @@ public class MongoArticleComment implements Serializable {
     /**
      * 有一个大的前提
      * 然后--评论/回复
+     * father 也许会更好
      * */
 
     @Id
@@ -38,6 +40,8 @@ public class MongoArticleComment implements Serializable {
     private String to;
 
     private String content;
+
+    private Date createTime;
 
     private int del;
 }

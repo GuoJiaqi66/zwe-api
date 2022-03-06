@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 class ZweApiApplicationTests {
@@ -86,15 +87,17 @@ class ZweApiApplicationTests {
 
     @Test
     void mongo() {
-        MongoArticleComment mongoArticleComment = new MongoArticleComment();
-        mongoArticleComment.setArticleId("1");
-        mongoArticleComment.setContent("test");
-        mongoArticleComment.setFrom("2");
-        mongoArticleComment.setTo("3");
-        mongoArticleComment.setUuid("111");
-        mongoArticleComment.setDel(0);
-        String s = mongoArticleCommentDao.insertArticleComment(mongoArticleComment);
-        System.out.println(s);
+        for (int i = 0; i < 30; i++) {
+            MongoArticleComment mongoArticleComment = new MongoArticleComment();
+            mongoArticleComment.setArticleId("1");
+            mongoArticleComment.setContent("test");
+            mongoArticleComment.setFrom("2");
+            mongoArticleComment.setTo("3");
+            mongoArticleComment.setUuid(i+"");
+            mongoArticleComment.setDel(0);
+            mongoArticleCommentDao.insertArticleComment(mongoArticleComment);
+        }
+        /*System.out.println(s);*/
     }
 
     @Test
@@ -107,5 +110,16 @@ class ZweApiApplicationTests {
     void mongoDelete() {
         String s = mongoArticleCommentDao.delArticleComment("111");
         System.out.println(s);
+    }
+
+    @Test
+    void mongoSelect() {
+        List select = mongoArticleCommentDao.select("3", 30, 10);
+        System.out.println("======= select.size()" + select.size() + "+++++");
+        for (int i = 0; i < select.size(); i++) {
+            Object o = select.get(i);
+            System.out.println("====" + i + "===");
+            System.out.println(o);
+        }
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: Ja7
@@ -26,6 +28,7 @@ public class MongoArticleCommentDao {
         return insert.get_id();
     }
 
+    // 彻底删除
     public String deleteArticleComment(String commentId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("uuid").is(commentId));
@@ -35,6 +38,7 @@ public class MongoArticleCommentDao {
         return deletedCount + "";
     }
 
+    // del设置为 1
     public String delArticleComment(String commentId) {
         Query query = new Query(Criteria.where("uuid").is(commentId));
         Update update = new Update();
@@ -44,4 +48,12 @@ public class MongoArticleCommentDao {
         // 判空
         return modifiedCount + "";
     }
+
+    // 分页查询
+    public List select(String shenMeXuYaoFenYeMouRenDeHuiFuBoKePinLunDeFenYe, int pageNum, int pageSize) {
+        Query query = new Query(Criteria.where("to").is(shenMeXuYaoFenYeMouRenDeHuiFuBoKePinLunDeFenYe));
+        List<MongoArticleComment> mongoArticleComments = mongoTemplate.find(query.skip(pageNum).limit(pageSize), MongoArticleComment.class);
+        return mongoArticleComments;
+    }
+
 }
