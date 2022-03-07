@@ -14,11 +14,11 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @ApiModel
-public class MongoArticleCommentPageForm {
+public class MongoCommentPageForm {
 
     @NotNull(message = "who 不能为空")
     @ApiParam("分页查询 谁")
-    private String who;
+    private String to;
 
     @Min(value = 0, message = "最小不能超过0")
     @ApiParam("第几页")

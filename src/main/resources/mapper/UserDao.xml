@@ -183,8 +183,8 @@
 	
 	<select id="selectUserById" parameterType="Long" resultType="String">
 		select login_name
-		from user
-		where id = #{id}
+		from user u
+		where id = #{id} and u.status = '0'
 		limit 1
 	</select>
 	
@@ -221,4 +221,10 @@
 		set fans_count = fans_count - 1
 		where id = #{id}
 	</update>
+	
+	<select id="selectUserByIdUseMongo" resultType="HashMap" parameterType="Long">
+		SELECT u.img_path, u.nickname
+FROM `user` u
+WHERE u.id = #{userId} AND u.`status` = '0'
+	</select>
 </mapper>

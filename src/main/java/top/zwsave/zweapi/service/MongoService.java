@@ -1,21 +1,31 @@
 package top.zwsave.zweapi.service;
 
-import org.springframework.stereotype.Service;
-import top.zwsave.zweapi.controller.form.MongoArticleCommentForm;
-import top.zwsave.zweapi.controller.form.MongoArticleCommentPageForm;
+import top.zwsave.zweapi.controller.form.MongoInsertCommentForm;
+import top.zwsave.zweapi.controller.form.MongoCommentPageForm;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
+import top.zwsave.zweapi.db.pojo.MongoVideoComment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * @Author: Ja7
  * @Date: 2022-03-06 21:50
  */
 public interface MongoService {
-    String insertArticleComment(String token, MongoArticleCommentForm form);
+
+    String insertArticleComment(String token, MongoInsertCommentForm form);
 
     String delArticleComment(String uuid);
 
-    ArrayList<MongoArticleComment> selectArticleByPage(MongoArticleCommentPageForm form);
+    ArrayList<MongoArticleComment> selectArticleByPage(MongoCommentPageForm form);
+
+
+    /**
+     * video
+     * */
+    String insertVideoComment(String token, MongoInsertCommentForm form);
+
+    String delVideoComment(String uuid);
+
+    ArrayList<MongoVideoComment> selectVideoByPage(MongoCommentPageForm form);
 }

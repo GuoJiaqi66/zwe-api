@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel
-public class MongoArticleCommentForm {
+public class MongoInsertCommentForm {
     @ApiParam("to")
     private String to;
 
@@ -18,5 +18,5 @@ public class MongoArticleCommentForm {
     private String content;
 
     @ApiParam("articleID")
-    private String articleId;
+    private String rootId;
 }
