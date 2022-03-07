@@ -114,7 +114,7 @@ class ZweApiApplicationTests {
 
     @Test
     void mongoSelect() {
-        List select = mongoArticleCommentDao.select("3", 30, 10);
+        List select = mongoArticleCommentDao.selectArticleByPage("3", 30, 10);
         System.out.println("======= select.size()" + select.size() + "+++++");
         for (int i = 0; i < select.size(); i++) {
             Object o = select.get(i);

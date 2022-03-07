@@ -2,8 +2,10 @@ package top.zwsave.zweapi.service;
 
 import org.springframework.stereotype.Service;
 import top.zwsave.zweapi.controller.form.MongoArticleCommentForm;
+import top.zwsave.zweapi.controller.form.MongoArticleCommentPageForm;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -14,4 +16,6 @@ public interface MongoService {
     String insertArticleComment(String token, MongoArticleCommentForm form);
 
     String delArticleComment(String uuid);
+
+    ArrayList<MongoArticleComment> selectArticleByPage(MongoArticleCommentPageForm form);
 }

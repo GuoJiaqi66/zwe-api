@@ -5,10 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import top.zwsave.zweapi.common.R;
 import top.zwsave.zweapi.controller.form.MongoArticleCommentForm;
+import top.zwsave.zweapi.controller.form.MongoArticleCommentPageForm;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 import top.zwsave.zweapi.service.MongoService;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -34,5 +36,12 @@ public class MongoController {
     public R delArticleComment(@RequestHeader("token") String token, @PathVariable String uuid) {
         String s = mongoService.delArticleComment(uuid);
         return R.ok().put("res", s);
+    }
+
+    @ApiOperation("分页查询 articleComment")
+    @PostMapping("/selectArticleByPage")
+    public R selectArticleByPage(@RequestBody MongoArticleCommentPageForm form) {
+        ArrayList<MongoArticleComment> mongoArticleComments = mongoService.selectArticleByPage(form);
+        return R.ok().put("res", mongoArticleComments);
     }
 }

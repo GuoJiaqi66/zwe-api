@@ -3,14 +3,17 @@ package top.zwsave.zweapi.service.impl;
 import org.springframework.stereotype.Service;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
 import top.zwsave.zweapi.controller.form.MongoArticleCommentForm;
+import top.zwsave.zweapi.controller.form.MongoArticleCommentPageForm;
 import top.zwsave.zweapi.db.dao.MongoArticleCommentDao;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 import top.zwsave.zweapi.service.MongoService;
 import top.zwsave.zweapi.utils.Tool;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: Ja7
@@ -46,5 +49,13 @@ public class MongoServiceImpl implements MongoService {
     public String delArticleComment(String uuid) {
         String s = mongoArticleCommentDao.delArticleComment(uuid);
         return s;
+    }
+
+    @Override
+    public ArrayList selectArticleByPage(MongoArticleCommentPageForm form) {
+        int star = form.getPageNum() * form.getPageSize();
+        int end = form.getPageSize();
+        List list = mongoArticleCommentDao.selectArticleByPage(form.getWho(), star, end);
+        return (ArrayList) list;
     }
 }
