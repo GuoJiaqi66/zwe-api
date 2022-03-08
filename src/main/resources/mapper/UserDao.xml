@@ -223,7 +223,7 @@
 	</update>
 	
 	<select id="selectUserByIdUseMongo" resultType="HashMap" parameterType="Long">
-		SELECT u.img_path, u.nickname
+		SELECT u.img_path as imgPath, u.nickname
 FROM `user` u
 WHERE u.id = #{userId} AND u.`status` = '0'
 	</select>

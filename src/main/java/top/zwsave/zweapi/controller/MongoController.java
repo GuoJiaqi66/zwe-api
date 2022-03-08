@@ -45,6 +45,11 @@ public class MongoController {
         return R.ok().put("res", mongoArticleComments);
     }
 
+    /*@ApiOperation("根据 id 查询评论")
+    @GetMapping("/selectArticleById/{id}")
+    public R selectArticleById(@PathVariable String id) {
+        mongoService.selectArticleById(id);
+    }*/
 
     /**
      * video comment

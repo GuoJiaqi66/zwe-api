@@ -80,6 +80,12 @@ public class MongoServiceImpl implements MongoService {
         return arrayList;
     }
 
+    /*@Override
+    public ArrayList selectArticleById(String id) {
+        mongoArticleCommentDao.selectArticleById(id);
+        return null;
+    }*/
+
 
     /**video
      * */
@@ -108,6 +114,18 @@ public class MongoServiceImpl implements MongoService {
         int star = form.getPageNum() * form.getPageSize();
         int end = form.getPageSize();
         List list = mongoVideoCommentDao.selectVideoByPage(form.getTo(), star, end);
-        return (ArrayList) list;
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            MongoVideoComment o =(MongoVideoComment) list.get(i);
+            HashMap hashMap = userDao.selectUserByIdUseMongo(Long.parseLong(o.getFrom()));
+            hashMap.put("uuid", o.getUuid());
+            hashMap.put("articleId", o.getVideoId());
+            hashMap.put("from", o.getFrom());
+            hashMap.put("to", o.getTo());
+            hashMap.put("content", o.getContent());
+            hashMap.put("createTime", o.getCreateTime());
+            arrayList.add(hashMap);
+        }
+        return arrayList;
     }
 }
