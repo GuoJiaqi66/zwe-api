@@ -1,0 +1,27 @@
+#第一行注释
+
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://rm-uf61x8j5l91x6190zpo.mysql.rds.aliyuncs.com/zwe?nullCatalogMeansCurrent=true
+    username: zwe
+    password: Zwe12345
+
+  redis:
+    host: r-uf69l1xfrvq6d5pe2mpd.redis.rds.aliyuncs.com
+    port: 6379
+    database: 1
+    password: Redis123
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: web-api
+#      username: zwe
+#      password: Zwe12345
+
+
+server:
+  port: 8280

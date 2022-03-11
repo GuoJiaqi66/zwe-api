@@ -28,6 +28,4 @@ public interface MongoService {
     String delVideoComment(String uuid);
 
     ArrayList<MongoVideoComment> selectVideoByPage(MongoCommentPageForm form);
-
-    /*ArrayList selectArticleById(String id);*/
 }
