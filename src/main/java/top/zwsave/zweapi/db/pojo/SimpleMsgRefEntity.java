@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Data
 @Document("systemMsgRefEntity")
-public class SystemMsgRefEntity implements Serializable {
+public class SimpleMsgRefEntity implements Serializable {
 
     @Id
     private String _id;

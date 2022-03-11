@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Data
 @Document("systemMsgEntity")
-public class SystemMsgEntity implements Serializable {
+public class SimpleMsgEntity implements Serializable {
 
     @Id
     private String _id;

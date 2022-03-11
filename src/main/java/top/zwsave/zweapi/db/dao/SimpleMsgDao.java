@@ -2,8 +2,7 @@ package top.zwsave.zweapi.db.dao;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import top.zwsave.zweapi.db.pojo.SystemMsgEntity;
+import top.zwsave.zweapi.db.pojo.SimpleMsgEntity;
 
 import javax.annotation.Resource;
 
@@ -12,13 +11,13 @@ import javax.annotation.Resource;
  * @Date: 2022-03-11 12:42
  */
 @Repository
-public class SystemMsgDao {
+public class SimpleMsgDao {
 
     @Resource
     private MongoTemplate mongoTemplate;
 
-    public String insertSystemMsgEntity(SystemMsgEntity entity) {
-        SystemMsgEntity save = mongoTemplate.save(entity);
+    public String insertSimpleMsgEntity(SimpleMsgEntity entity) {
+        SimpleMsgEntity save = mongoTemplate.save(entity);
         return save.get_id();
     }
 }

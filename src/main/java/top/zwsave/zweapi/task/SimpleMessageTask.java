@@ -4,17 +4,15 @@ import com.rabbitmq.client.*;
 import lombok.extern.java.Log;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import top.zwsave.zweapi.db.dao.SystemMsgDao;
-import top.zwsave.zweapi.db.dao.SystemMsgRefDao;
-import top.zwsave.zweapi.db.pojo.SystemMsgEntity;
-import top.zwsave.zweapi.db.pojo.SystemMsgRefEntity;
+import top.zwsave.zweapi.db.dao.SimpleMsgDao;
+import top.zwsave.zweapi.db.dao.SimpleMsgRefDao;
+import top.zwsave.zweapi.db.pojo.SimpleMsgEntity;
+import top.zwsave.zweapi.db.pojo.SimpleMsgRefEntity;
 import top.zwsave.zweapi.exception.ZweApiException;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 /**
  * @Author: Ja7
@@ -22,7 +20,7 @@ import java.util.concurrent.TimeoutException;
  */
 @Log
 @Component
-public class RabbitMessageTask {
+public class SimpleMessageTask {
 
     /**
      * 消息种类:
@@ -42,13 +40,13 @@ public class RabbitMessageTask {
     ConnectionFactory faction;
 
     @Resource
-    SystemMsgDao systemMsgDao;
+    SimpleMsgDao simpleMsgDao;
 
     @Resource
-    SystemMsgRefDao systemMsgRefDao;
+    SimpleMsgRefDao simpleMsgRefDao;
 
 
-    public void send(String topic, SystemMsgEntity msg) {
+    public void send(String topic, SimpleMsgEntity msg) {
         System.out.println(topic);
         try (Connection connection = faction.newConnection();
              Channel channel = connection.createChannel();
@@ -65,7 +63,7 @@ public class RabbitMessageTask {
     }
 
     @Async
-    public void asyncSend(String topic, SystemMsgEntity msg) {
+    public void asyncSend(String topic, SimpleMsgEntity msg) {
         send(topic, msg);
     }
 
@@ -83,15 +81,15 @@ public class RabbitMessageTask {
                     String s = new String(body);
 
                     // 创建ref entity 并添加到数据库
-                    SystemMsgRefEntity systemMsgRefEntity = new SystemMsgRefEntity();
-                    systemMsgRefEntity.setMessageId(messageId);
-                    systemMsgRefEntity.setReadFlag(false);
-                    systemMsgRefEntity.setLastFlag(true);
-                    systemMsgRefEntity.setReceiverId(Integer.parseInt(topic));
+                    SimpleMsgRefEntity simpleMsgRefEntity = new SimpleMsgRefEntity();
+                    simpleMsgRefEntity.setMessageId(messageId);
+                    simpleMsgRefEntity.setReadFlag(false);
+                    simpleMsgRefEntity.setLastFlag(true);
+                    simpleMsgRefEntity.setReceiverId(Integer.parseInt(topic));
 
-                    log.info(systemMsgRefEntity.toString());
+                    log.info(simpleMsgRefEntity.toString());
 
-                    systemMsgRefDao.insertSystemMsgRefEntity(systemMsgRefEntity);
+                    simpleMsgRefDao.insertSimpleMsgRefEntity(simpleMsgRefEntity);
 
                     long deliveryTag = getResponse.getEnvelope().getDeliveryTag();
                     channel.basicAck(deliveryTag, false);

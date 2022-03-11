@@ -6,16 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.zwsave.zweapi.db.dao.ArticleDao;
 import top.zwsave.zweapi.db.dao.MongoArticleCommentDao;
-import top.zwsave.zweapi.db.dao.SystemMsgDao;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
-import top.zwsave.zweapi.db.pojo.SystemMsgEntity;
-import top.zwsave.zweapi.task.RabbitMessageTask;
+import top.zwsave.zweapi.db.pojo.SimpleMsgEntity;
+import top.zwsave.zweapi.task.SimpleMessageTask;
 import top.zwsave.zweapi.utils.SnowFlake;
 import top.zwsave.zweapi.utils.Tool;
 
 import javax.annotation.Resource;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -130,20 +127,20 @@ class ZweApiApplicationTests {
     }
 
     @Resource
-    RabbitMessageTask task;
+    SimpleMessageTask task;
     @Test
     void testRab() {
-        SystemMsgEntity systemMsgEntity = new SystemMsgEntity();
-        systemMsgEntity.setMsg("测试数据");
-        systemMsgEntity.setSenderId(328);
-        systemMsgEntity.setSenderName("g j q");
-        systemMsgEntity.setSendTime(new Date());
-        systemMsgEntity.setUuid(new Tool().uuidString());
-        task.send("0003", systemMsgEntity);
+        SimpleMsgEntity simpleMsgEntity = new SimpleMsgEntity();
+        simpleMsgEntity.setMsg("测试数据");
+        simpleMsgEntity.setSenderId(328);
+        simpleMsgEntity.setSenderName("g j q");
+        simpleMsgEntity.setSendTime(new Date());
+        simpleMsgEntity.setUuid(new Tool().uuidString());
+        task.send("0005", simpleMsgEntity);
     }
     @Test
     void tesRabR() {
 //        task.asyncReceive("0000");
-        task.receive("0003");
+        task.receive("0005");
     }
 }
