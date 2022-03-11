@@ -27,7 +27,7 @@ public class MongoArticleComment implements Serializable {
     @Id
     private String _id;
 
-    @Indexed
+    @Indexed(unique = true)
     private String uuid;
 
     @Indexed

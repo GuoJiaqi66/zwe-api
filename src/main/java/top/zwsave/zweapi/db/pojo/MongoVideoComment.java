@@ -30,7 +30,7 @@ public class MongoVideoComment implements Serializable {
     @Indexed
     private String uuid;
 
-    @Indexed
+    @Indexed(unique = true)
     private String videoId;
 
     @Indexed
