@@ -2,12 +2,17 @@ package top.zwsave.zweapi.zweapi;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
+import com.rabbitmq.client.Channel;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.ValueOperations;
+import top.zwsave.zweapi.controller.MessageController;
 import top.zwsave.zweapi.db.dao.ArticleDao;
 import top.zwsave.zweapi.db.dao.MongoArticleCommentDao;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 import top.zwsave.zweapi.db.pojo.SimpleMsgEntity;
+import top.zwsave.zweapi.db.pojo.SystemMsgEntity;
+import top.zwsave.zweapi.task.FanoutMessageTask;
 import top.zwsave.zweapi.task.SimpleMessageTask;
 import top.zwsave.zweapi.utils.SnowFlake;
 import top.zwsave.zweapi.utils.Tool;
@@ -16,7 +21,9 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Handler;
 
 @SpringBootTest
 class ZweApiApplicationTests {
@@ -143,4 +150,46 @@ class ZweApiApplicationTests {
 //        task.asyncReceive("0000");
         task.receive("0005");
     }
+
+
+    @Resource
+    FanoutMessageTask fanoutMessageTask;
+    @Test
+    void testFanout() {
+        SystemMsgEntity systemMsgEntity = new SystemMsgEntity();
+        systemMsgEntity.setUuid("111111111111111");
+        systemMsgEntity.setMsg("test => fanout=====");
+        systemMsgEntity.setSender("system");
+        systemMsgEntity.setWith("附加");
+        fanoutMessageTask.send(systemMsgEntity);
+    } @Test
+    void testFanou() {
+        SystemMsgEntity systemMsgEntity = new SystemMsgEntity();
+        systemMsgEntity.setUuid("111111111111111");
+        systemMsgEntity.setMsg("fanout=====");
+        systemMsgEntity.setSender("system");
+        systemMsgEntity.setWith("附加");
+        fanoutMessageTask.send(systemMsgEntity);
+    }
+    @Test
+    void q1() {
+        fanoutMessageTask.receive("121212121212121212");
+    }@Test
+    void q2() {
+        fanoutMessageTask.receive("12");
+    }@Test
+    void q3() {
+        fanoutMessageTask.receive("1515");
+    }
+
+
+
+    @Test
+    void w1() {
+        HashMap hashMap = new HashMap();
+        hashMap.put("msg", "hello world");
+        hashMap.put("header", "G J Q");
+        fanoutMessageTask.newFanout(hashMap);
+    }
+
 }

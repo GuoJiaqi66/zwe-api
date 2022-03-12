@@ -21,20 +21,22 @@ spring:
       max-request-size: -1
 
   # 外部文件配置rabbitmq(rabbitmq 基本配置)
-#  rabbitmq:
-#    addresses: localhost
-#    port: 5672
-#    username: guest
-#    password: guest
-#    virtual-host: /zwe-api
-#    connection-timeout: 15000 # 超时时间
-#    # 消费端配置
-#    listener:
-#      simple:
-#        concurrency: 5 #最大并发
-#        acknowledge-mode: manual # 手工签收
-#        max-concurrency: 10 # 最大并发数
-#        prefetch: 1 # 限流，同一时间只能有一条消息过来
+  rabbitmq:
+    addresses: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /zwe-api
+    connection-timeout: 15000 # 超时时间
+    # 消费端配置
+    listener:
+      simple:
+        concurrency: 5 #最大并发
+        acknowledge-mode: manual # 手工签收
+        max-concurrency: 10 # 最大并发数
+        prefetch: 1 # 限流，同一时间只能有一条消息过来
+
+
 
 
 mybatis:

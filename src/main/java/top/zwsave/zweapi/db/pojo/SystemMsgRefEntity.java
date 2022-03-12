@@ -5,15 +5,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
-
 /**
  * @Author: Ja7
- * @Date: 2022-03-11 12:06
+ * @Date: 2022-03-11 15:57
  */
 @Data
-@Document("simpleMsgRefEntity")
-public class SimpleMsgRefEntity implements Serializable {
+@Document("systemMsgRefEntity")
+public class SystemMsgRefEntity {
 
     @Id
     private String _id;
@@ -29,4 +27,8 @@ public class SimpleMsgRefEntity implements Serializable {
 
     @Indexed
     private Boolean lastFlag;
+
+    private String msg;
+
+    private String with;
 }
