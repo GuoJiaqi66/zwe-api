@@ -94,7 +94,7 @@ public class FanoutMessageTask {
                     simpleMsgRefEntity.setReadFlag(false);
                     simpleMsgRefEntity.setReceiverId(userId);
 
-                    simpleMsgRefDao.insertSimpleMsgRefEntity(simpleMsgRefEntity);
+
 
                     //获取消息信息
                     String message = new String(body,"utf-8");
@@ -105,6 +105,7 @@ public class FanoutMessageTask {
                                     ",message:" + message);
 
                     channel.basicAck(envelope.getDeliveryTag(),false);
+                    simpleMsgRefDao.insertSimpleMsgRefEntity(simpleMsgRefEntity);
                 }
             };
             AMQP.Queue.DeclareOk declareOk = channel.queueDeclarePassive(queueName);
