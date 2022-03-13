@@ -12,6 +12,7 @@ import java.util.HashMap;
  * @Author: Ja7
  * @Date: 2022-03-13 10:53
  */
+/*
 @Component
 public class TestFanout {
     @Resource
@@ -31,3 +32,4 @@ public class TestFanout {
         System.out.println(msg2);
     }
 }
+*/

@@ -13,7 +13,7 @@ import top.zwsave.zweapi.service.SystemMsgService;
 import top.zwsave.zweapi.task.FanoutMessageTask;
 import top.zwsave.zweapi.task.RoutMessageTask;
 import top.zwsave.zweapi.task.SimpleMessageTask;
-import top.zwsave.zweapi.task.TestFanout;
+//import top.zwsave.zweapi.task.TestFanout;
 import top.zwsave.zweapi.utils.SnowFlake;
 import top.zwsave.zweapi.utils.Tool;
 
@@ -151,7 +151,7 @@ class ZweApiApplicationTests {
     }
 
 
-    @Resource
+    /*@Resource
     FanoutMessageTask fanoutMessageTask;
     @Test
     void testFanout() {
@@ -182,17 +182,17 @@ class ZweApiApplicationTests {
     }
 
 
-
-    @Resource
-    TestFanout testFanout;
-    @Test
-    void w1() {
-        HashMap hashMap = new HashMap();
-        hashMap.put("msg", "hello world");
-        hashMap.put("header", "G J Q");
-//        fanoutMessageTask.newFanout(hashMap);
-        testFanout.newFanout(hashMap);
-    }
+*/
+//    @Resource
+//    TestFanout testFanout;
+//    @Test
+//    void w1() {
+//        HashMap hashMap = new HashMap();
+//        hashMap.put("msg", "hello world");
+//        hashMap.put("header", "G J Q");
+////        fanoutMessageTask.newFanout(hashMap);
+//        testFanout.newFanout(hashMap);
+//    }
 
 
     /**
@@ -232,5 +232,10 @@ class ZweApiApplicationTests {
     }
 
 
-
+    @Test
+    void a1() {
+//        while () {
+//            System.out.println("ssss");
+//        }
+    }
 }

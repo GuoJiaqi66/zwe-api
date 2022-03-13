@@ -15,6 +15,7 @@ import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.UserService;
+import top.zwsave.zweapi.task.FanoutMessageTask;
 import top.zwsave.zweapi.task.SimpleMessageTask;
 
 import javax.annotation.Resource;
@@ -48,6 +49,9 @@ public class UserController {
     @Resource
     SimpleMessageTask simpleMessageTask;
 
+    @Resource
+    FanoutMessageTask fanoutMessageTask;
+
     /**
     * 将token存储到redis
     * */
@@ -71,9 +75,10 @@ public class UserController {
         form.setPassword(password);
         User login = userService.login(form);
         Long id = login.getId();
+//        fanoutMessageTask.receive("SYSTEM", id.toString(), id);
         String token = jwtUtil.createToken(id);
         saveTokenToRedis(token, id);
-        simpleMessageTask.asyncReceive("system", false, id);
+//        simpleMessageTask.asyncReceive("system", false, id);
         return R.ok("登陆成功").put("userInfo", login).put("token", token);
     }
 

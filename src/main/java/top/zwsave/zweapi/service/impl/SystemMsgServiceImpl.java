@@ -9,6 +9,7 @@ import top.zwsave.zweapi.db.pojo.SystemMsg;
 import top.zwsave.zweapi.db.pojo.SystemMsgRefEntity;
 import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.SystemMsgService;
+import top.zwsave.zweapi.task.FanoutMessageTask;
 import top.zwsave.zweapi.task.SimpleMessageTask;
 import top.zwsave.zweapi.utils.Tool;
 
@@ -37,6 +38,9 @@ public class SystemMsgServiceImpl implements SystemMsgService {
     @Resource
     SimpleMessageTask simpleMessageTask;
 
+    @Resource
+    FanoutMessageTask fanoutMessageTask;
+
     @Override
     public String newSystemVideoMsg(String token, MultipartFile file, String text) {
         String s = cosService.insertSystemVideoMsg(file);
@@ -57,7 +61,8 @@ public class SystemMsgServiceImpl implements SystemMsgService {
         simpleMsgEntity.setMsg(text);
         simpleMsgEntity.setSendTime(new Date());
         simpleMsgEntity.setUrl(s);
-        simpleMessageTask.send("system", simpleMsgEntity);
+//        simpleMessageTask.send("system", simpleMsgEntity);
+        fanoutMessageTask.send("SYSTEM", simpleMsgEntity);
         return "";
     }
 }
