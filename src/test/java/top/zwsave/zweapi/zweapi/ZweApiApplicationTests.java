@@ -10,6 +10,7 @@ import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 import top.zwsave.zweapi.db.pojo.SimpleMsgEntity;
 import top.zwsave.zweapi.db.pojo.SystemMsgEntity;
 import top.zwsave.zweapi.task.FanoutMessageTask;
+import top.zwsave.zweapi.task.RoutMessageTask;
 import top.zwsave.zweapi.task.SimpleMessageTask;
 import top.zwsave.zweapi.task.TestFanout;
 import top.zwsave.zweapi.utils.SnowFlake;
@@ -198,5 +199,18 @@ class ZweApiApplicationTests {
      * rabbitMQ -> 接到消息
      *
      * */
+
+
+
+    @Resource
+    RoutMessageTask routMessageTask;
+    @Test
+    void w3() {
+        routMessageTask.routSend();
+    }
+    @Test
+    void e1() {
+        routMessageTask.routReceive();
+    }
 
 }
