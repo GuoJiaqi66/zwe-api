@@ -13,4 +13,6 @@ public interface COSService {
     String insertArticleImg(MultipartFile file, String token, Long id);
 
     String insertVideo(MultipartFile file, String token, Long id);
+
+    String insertSystemVideoMsg(MultipartFile file);
 }

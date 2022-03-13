@@ -15,6 +15,7 @@ import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.UserService;
+import top.zwsave.zweapi.task.SimpleMessageTask;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -44,6 +45,9 @@ public class UserController {
     @Value("${zwe-api.cache-expire}")
     int cacheExpire;
 
+    @Resource
+    SimpleMessageTask simpleMessageTask;
+
     /**
     * 将token存储到redis
     * */
@@ -69,6 +73,7 @@ public class UserController {
         Long id = login.getId();
         String token = jwtUtil.createToken(id);
         saveTokenToRedis(token, id);
+        simpleMessageTask.asyncReceive("system", false, id);
         return R.ok("登陆成功").put("userInfo", login).put("token", token);
     }
 

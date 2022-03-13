@@ -156,4 +156,23 @@ public class COSServiceImpl implements COSService {
 
         return s;
     }
+
+    @Override
+    public String insertSystemVideoMsg(MultipartFile file) {
+        String format = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
+        String key = "system" + "/" + "msg" + "video/" + format + "/" + file.getOriginalFilename();
+        int inputStreamLength = Math.toIntExact(file.getSize());
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(inputStreamLength);
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucket(), key, inputStream, objectMetadata);
+        PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
+        URL objectUrl = cosClient.getObjectUrl(properties.getBucket(), key);
+        return objectUrl.toString();
+    }
 }

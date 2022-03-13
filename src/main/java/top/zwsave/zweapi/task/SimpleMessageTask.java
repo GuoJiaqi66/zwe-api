@@ -53,9 +53,13 @@ public class SimpleMessageTask {
              ) {
             channel.queueDeclare(topic, true, false, false, null);
             HashMap hashMap = new HashMap();
-            hashMap.put("messageId", msg.getUuid());
+            hashMap.put("id", msg.getUuid());
+            hashMap.put("senderName", msg.getSenderName());
+            hashMap.put("senderId", msg.getSenderId());
+            hashMap.put("sendTime", msg.getSendTime());
+            hashMap.put("url", msg.getUrl());
             AMQP.BasicProperties build = new AMQP.BasicProperties().builder().headers(hashMap).build();
-            channel.basicPublish("", topic, build, msg.getMsg().getBytes());
+            channel.basicPublish("", topic, build, msg.getMsg().getBytes("UTF-8"));
         } catch (Exception e) {
             e.printStackTrace();
             throw new ZweApiException("消息队列发布失败");
@@ -67,7 +71,7 @@ public class SimpleMessageTask {
         send(topic, msg);
     }
 
-    public void receive(String topic, Boolean autoAck) {
+    public void receive(String topic, Boolean autoAck, Long userId) {
         int i = 0;
         try (Channel channel = faction.newConnection().createChannel()) {
             channel.queueDeclare(topic, true, false, false, null);
@@ -76,20 +80,27 @@ public class SimpleMessageTask {
                 if (getResponse != null) {
                     AMQP.BasicProperties props = getResponse.getProps();
                     Map<String, Object> headers = props.getHeaders();
-                    String messageId = headers.get("messageId").toString();
-                    byte[] body = getResponse.getBody();
-                    String s = new String(body);
-                    System.out.println(s);
-                    // 创建ref entity 并添加到数据库
-                    /*SimpleMsgRefEntity simpleMsgRefEntity = new SimpleMsgRefEntity();
-                    simpleMsgRefEntity.setMessageId(messageId);
-                    simpleMsgRefEntity.setReadFlag(false);
+                    String id = headers.get("id").toString();
+//                    String senderName = headers.get("senderName").toString();
+//                    String senderId = headers.get("senderId").toString();
+//                    Object sendTime = headers.get("sendTime");
+//                    String url = headers.get("url").toString();
+//                    byte[] body = getResponse.getBody();
+//                    String msg = new String(body, "UTF-8");
+//                    System.out.println(msg);
+
+                    Boolean aBoolean = simpleMsgRefDao.selectHave(id);
+                    if (!aBoolean) {
+                        return;
+                    }
+
+                    SimpleMsgRefEntity simpleMsgRefEntity = new SimpleMsgRefEntity();
                     simpleMsgRefEntity.setLastFlag(true);
-                    simpleMsgRefEntity.setReceiverId(Integer.parseInt(topic));
+                    simpleMsgRefEntity.setMessageId(id);
+                    simpleMsgRefEntity.setReadFlag(false);
+                    simpleMsgRefEntity.setReceiverId(userId);
 
-                    log.info(simpleMsgRefEntity.toString());
-
-                    simpleMsgRefDao.insertSimpleMsgRefEntity(simpleMsgRefEntity);*/
+                    simpleMsgRefDao.insertSimpleMsgRefEntity(simpleMsgRefEntity);
 
                     if (autoAck) {
                         long deliveryTag = getResponse.getEnvelope().getDeliveryTag();
@@ -108,8 +119,8 @@ public class SimpleMessageTask {
     }
 
     @Async
-    public void asyncReceive(String topic, Boolean autoAck) {
-        receive(topic, autoAck);
+    public void asyncReceive(String topic, Boolean autoAck, Long userId) {
+        receive(topic, autoAck, userId);
     }
 
     public void deleteTopic(String topic) {

@@ -23,13 +23,16 @@ public class SimpleMsgEntity implements Serializable {
     private String uuid; // 放置轮询时重复读消息
 
     @Indexed
-    private Integer senderId;
+    private Long senderId;
 
     private String senderPhoto = "https://static-1258386385.cos.ap-beijing.myqcloud.com/img/System.jpg";
 
+    @Indexed
     private String senderName;
 
     private String msg;
+
+    private String url;
 
     @Indexed
     private Date sendTime;

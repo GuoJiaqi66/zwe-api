@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zwsave.zweapi.db.dao.SystemMsgDao">
+  <resultMap id="BaseResultMap" type="top.zwsave.zweapi.db.pojo.SystemMsg">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userid" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="delete" jdbcType="OTHER" property="delete" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userId, content, createTime, `delete`, url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_msg
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from system_msg
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="top.zwsave.zweapi.db.pojo.SystemMsg">
+    insert into system_msg (id, userId, content, 
+      createTime, `delete`, url
+      )
+    values (#{id,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{delete,jdbcType=OTHER}, #{url,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="top.zwsave.zweapi.db.pojo.SystemMsg">
+    insert into system_msg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="delete != null">
+        `delete`,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delete != null">
+        #{delete,jdbcType=OTHER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.zwsave.zweapi.db.pojo.SystemMsg">
+    update system_msg
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delete != null">
+        `delete` = #{delete,jdbcType=OTHER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.zwsave.zweapi.db.pojo.SystemMsg">
+    update system_msg
+    set userId = #{userid,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      `delete` = #{delete,jdbcType=OTHER},
+      url = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

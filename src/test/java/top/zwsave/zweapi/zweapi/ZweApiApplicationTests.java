@@ -9,6 +9,7 @@ import top.zwsave.zweapi.db.dao.MongoArticleCommentDao;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 import top.zwsave.zweapi.db.pojo.SimpleMsgEntity;
 import top.zwsave.zweapi.db.pojo.SystemMsgEntity;
+import top.zwsave.zweapi.service.SystemMsgService;
 import top.zwsave.zweapi.task.FanoutMessageTask;
 import top.zwsave.zweapi.task.RoutMessageTask;
 import top.zwsave.zweapi.task.SimpleMessageTask;
@@ -135,13 +136,13 @@ class ZweApiApplicationTests {
     SimpleMessageTask task;
     @Test
     void testRab() {
-        SimpleMsgEntity simpleMsgEntity = new SimpleMsgEntity();
-        simpleMsgEntity.setMsg("测试数据");
-        simpleMsgEntity.setSenderId(328);
-        simpleMsgEntity.setSenderName("g j q");
-        simpleMsgEntity.setSendTime(new Date());
-        simpleMsgEntity.setUuid(new Tool().uuidString());
-        task.send("1000020", simpleMsgEntity);
+//        SimpleMsgEntity simpleMsgEntity = new SimpleMsgEntity();
+//        simpleMsgEntity.setMsg("测试数据");
+//        simpleMsgEntity.setSenderId(328);
+//        simpleMsgEntity.setSenderName("g j q");
+//        simpleMsgEntity.setSendTime(new Date());
+//        simpleMsgEntity.setUuid(new Tool().uuidString());
+//        task.send("1000020", simpleMsgEntity);
     }
     @Test
     void tesRabR() {
@@ -217,17 +218,19 @@ class ZweApiApplicationTests {
     SimpleMessageTask simpleMessageTask;
     @Test
     void e2() {
-        SimpleMsgEntity simpleMsgEntity = new SimpleMsgEntity();
-        simpleMsgEntity.setMsg("test => hello success");
-        simpleMsgEntity.setSenderId(202111);
-        simpleMsgEntity.setSenderName("g j q");
-        simpleMsgEntity.setUuid("ssssssssssss");
-        simpleMsgEntity.getSendTime();
-        simpleMessageTask.send("system", simpleMsgEntity);
+//        SimpleMsgEntity simpleMsgEntity = new SimpleMsgEntity();
+//        simpleMsgEntity.setMsg("test => hello success");
+//        simpleMsgEntity.setSenderId(202111);
+//        simpleMsgEntity.setSenderName("g j q");
+//        simpleMsgEntity.setUuid("ssssssssssss");
+//        simpleMsgEntity.getSendTime();
+//        simpleMessageTask.send("system", simpleMsgEntity);
     }
     @Test
     void e3() {
-        simpleMessageTask.receive("system", false);
+//        simpleMessageTask.receive("system", false);
     }
+
+
 
 }

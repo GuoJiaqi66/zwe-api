@@ -18,11 +18,11 @@ public class SimpleMsgRefEntity implements Serializable {
     @Id
     private String _id;
 
-    @Indexed
+    @Indexed(unique = true)
     private String messageId; // 是messageEntity中的_id, 产生表连接，做多表查询
 
     @Indexed
-    private Integer receiverId;
+    private Long receiverId;
 
     @Indexed
     private Boolean readFlag;

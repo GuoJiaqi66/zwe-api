@@ -1,17 +1,13 @@
 package top.zwsave.zweapi.controller;
 
-import com.rabbitmq.client.Channel;
 import io.swagger.annotations.Api;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import top.zwsave.zweapi.common.R;
+import top.zwsave.zweapi.service.SystemMsgService;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 
 /**
  * @Author: Ja7
@@ -22,33 +18,18 @@ import java.io.IOException;
 public class MessageController {
 
     @Resource
-    RabbitTemplate rabbitTemplate;
+    SystemMsgService systemMsgService;
 
-    public void send(String msg) {
-        rabbitTemplate.convertAndSend("system", "", msg);
+    @PostMapping("/newSystemVideoMsg")
+    @ApiOperation("上传新作品")
+    public R newSystemVideoMsg(@RequestHeader("token") String token, @RequestParam("file") MultipartFile file, @RequestParam("text") String text){
+        String s = systemMsgService.newSystemVideoMsg(token, file, text);
+        return R.ok("发布成功").put("url", s);
     }
 
+    /*@GetMapping("/getSystemMsg/{id}")
+    @ApiOperation("获取所有未读取的系统消息")
+    public R getAllSystemUnReadMsg(@PathVariable Long id) {
 
-    @RabbitListener(bindings = {
-            @QueueBinding(
-                    value = @Queue(value = "sys"), //创建临时队列
-                    exchange = @Exchange(value = "system",type = "fanout")   //绑定的交换机
-            )
-    })
-    public void receive(Message message, Channel channel) {
-        System.out.println("fanoutReceiver01:"+message.toString() );
-        System.out.println("fanoutReceiver01:"+message.getMessageProperties().getAppId() );
-        System.out.println("fanoutReceiver01:"+message.getMessageProperties().getMessageId() );
-        System.out.println("fanoutReceiver01:"+message.getMessageProperties().getReceivedExchange() );
-        System.out.println("fanoutReceiver01:"+message.getMessageProperties().getReceivedRoutingKey() );
-        System.out.println("fanoutReceiver01:"+message.getMessageProperties().getDeliveryTag() );
-        System.out.println("fanoutReceiver01:"+message.getMessageProperties().getHeaders() );
-        //应答消息队列
-        try {
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(message);
-    }
+    }*/
 }
