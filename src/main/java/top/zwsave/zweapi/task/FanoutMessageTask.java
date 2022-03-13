@@ -6,12 +6,16 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.core.Queue;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Component;
+import top.zwsave.zweapi.db.pojo.SimpleMsgRefEntity;
 import top.zwsave.zweapi.db.pojo.SystemMsgEntity;
+import top.zwsave.zweapi.exception.ZweApiException;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -69,45 +73,6 @@ public class FanoutMessageTask {
             e.printStackTrace();
         } catch (TimeoutException e) {
             e.printStackTrace();
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Resource
-    RabbitTemplate rabbitTemplate;
-
-    public void newFanout(HashMap msg) {
-        rabbitTemplate.convertAndSend("system", "", msg);
-    }
-
-    @Component
-    @RabbitListener(queues = "systemMsg")
-    class Consumers {
-        @RabbitHandler()
-        public void newReceive(HashMap msg) {
-            System.out.println("是否监听到");
-            String msg1 = (String) msg.get("msg");
-            String msg2 = (String) msg.get("header");
-            System.out.println(msg1);
-            System.out.println(msg2);
-
         }
     }
 }

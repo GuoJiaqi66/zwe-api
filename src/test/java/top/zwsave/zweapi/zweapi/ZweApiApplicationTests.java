@@ -2,11 +2,8 @@ package top.zwsave.zweapi.zweapi;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
-import com.rabbitmq.client.Channel;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.ValueOperations;
-import top.zwsave.zweapi.controller.MessageController;
 import top.zwsave.zweapi.db.dao.ArticleDao;
 import top.zwsave.zweapi.db.dao.MongoArticleCommentDao;
 import top.zwsave.zweapi.db.pojo.MongoArticleComment;
@@ -14,6 +11,7 @@ import top.zwsave.zweapi.db.pojo.SimpleMsgEntity;
 import top.zwsave.zweapi.db.pojo.SystemMsgEntity;
 import top.zwsave.zweapi.task.FanoutMessageTask;
 import top.zwsave.zweapi.task.SimpleMessageTask;
+import top.zwsave.zweapi.task.TestFanout;
 import top.zwsave.zweapi.utils.SnowFlake;
 import top.zwsave.zweapi.utils.Tool;
 
@@ -23,7 +21,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Handler;
 
 @SpringBootTest
 class ZweApiApplicationTests {
@@ -143,12 +140,12 @@ class ZweApiApplicationTests {
         simpleMsgEntity.setSenderName("g j q");
         simpleMsgEntity.setSendTime(new Date());
         simpleMsgEntity.setUuid(new Tool().uuidString());
-        task.send("0005", simpleMsgEntity);
+        task.send("1000020", simpleMsgEntity);
     }
     @Test
     void tesRabR() {
 //        task.asyncReceive("0000");
-        task.receive("0005");
+        task.receive("1000020");
     }
 
 
@@ -184,12 +181,22 @@ class ZweApiApplicationTests {
 
 
 
+    @Resource
+    TestFanout testFanout;
     @Test
     void w1() {
         HashMap hashMap = new HashMap();
         hashMap.put("msg", "hello world");
         hashMap.put("header", "G J Q");
-        fanoutMessageTask.newFanout(hashMap);
+//        fanoutMessageTask.newFanout(hashMap);
+        testFanout.newFanout(hashMap);
     }
+
+
+    /**
+     * 接口发送系统消息->
+     * rabbitMQ -> 接到消息
+     *
+     * */
 
 }
