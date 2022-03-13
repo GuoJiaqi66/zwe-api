@@ -21,7 +21,7 @@ public class MessageController {
     SystemMsgService systemMsgService;
 
     @PostMapping("/newSystemVideoMsg")
-    @ApiOperation("上传新作品")
+    @ApiOperation("上传系统video消息")
     public R newSystemVideoMsg(@RequestHeader("token") String token, @RequestParam("file") MultipartFile file, @RequestParam("text") String text){
         String s = systemMsgService.newSystemVideoMsg(token, file, text);
         return R.ok("发布成功").put("url", s);

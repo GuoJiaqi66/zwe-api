@@ -41,16 +41,17 @@ public class SystemMsgServiceImpl implements SystemMsgService {
     public String newSystemVideoMsg(String token, MultipartFile file, String text) {
         String s = cosService.insertSystemVideoMsg(file);
         Long userId = jwtUtil.getUserId(token);
+        Long uuid = tool.uuidLong();
         SystemMsg systemMsg = new SystemMsg();
         systemMsg.setContent(text);
         systemMsg.setCreatetime(new Date());
         systemMsg.setDelete("0");
-        systemMsg.setId(tool.uuidLong());
+        systemMsg.setId(uuid);
         systemMsg.setUserid(userId);
         systemMsg.setUrl(s);
         systemMsgDao.insertSelective(systemMsg);
         SimpleMsgEntity simpleMsgEntity = new SimpleMsgEntity();
-        simpleMsgEntity.setUuid(tool.uuidString());
+        simpleMsgEntity.setUuid(uuid.toString());
         simpleMsgEntity.setSenderName("system");
         simpleMsgEntity.setSenderId(userId);
         simpleMsgEntity.setMsg(text);

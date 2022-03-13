@@ -72,8 +72,10 @@ public class SimpleMessageTask {
     }
 
     public void receive(String topic, Boolean autoAck, Long userId) {
-        int i = 0;
-        try (Channel channel = faction.newConnection().createChannel()) {
+        int i = 0; // ack应答后才会执行下一个
+        try (Connection connection = faction.newConnection();
+             Channel channel = connection.createChannel()
+        ) {
             channel.queueDeclare(topic, true, false, false, null);
             while (true) {
                 GetResponse getResponse = channel.basicGet(topic, autoAck);
@@ -106,6 +108,8 @@ public class SimpleMessageTask {
                         long deliveryTag = getResponse.getEnvelope().getDeliveryTag();
                         channel.basicAck(deliveryTag, false);
                     }
+                    long deliveryTag = getResponse.getEnvelope().getDeliveryTag();
+                    channel.basicAck(deliveryTag, false);
 
                     i++;
                 } else {
