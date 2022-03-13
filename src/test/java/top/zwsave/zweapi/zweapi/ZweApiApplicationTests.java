@@ -146,7 +146,7 @@ class ZweApiApplicationTests {
     @Test
     void tesRabR() {
 //        task.asyncReceive("0000");
-        task.receive("1000020");
+//        task.receive("1000020");
     }
 
 
@@ -204,13 +204,30 @@ class ZweApiApplicationTests {
 
     @Resource
     RoutMessageTask routMessageTask;
-    @Test
+    /*@Test
     void w3() {
         routMessageTask.routSend();
     }
     @Test
     void e1() {
         routMessageTask.routReceive();
+    }*/
+
+    @Resource
+    SimpleMessageTask simpleMessageTask;
+    @Test
+    void e2() {
+        SimpleMsgEntity simpleMsgEntity = new SimpleMsgEntity();
+        simpleMsgEntity.setMsg("test => hello success");
+        simpleMsgEntity.setSenderId(202111);
+        simpleMsgEntity.setSenderName("g j q");
+        simpleMsgEntity.setUuid("ssssssssssss");
+        simpleMsgEntity.getSendTime();
+        simpleMessageTask.send("system", simpleMsgEntity);
+    }
+    @Test
+    void e3() {
+        simpleMessageTask.receive("system", false);
     }
 
 }

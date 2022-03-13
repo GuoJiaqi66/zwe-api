@@ -67,21 +67,21 @@ public class SimpleMessageTask {
         send(topic, msg);
     }
 
-    public void receive(String topic) {
+    public void receive(String topic, Boolean autoAck) {
         int i = 0;
         try (Channel channel = faction.newConnection().createChannel()) {
             channel.queueDeclare(topic, true, false, false, null);
             while (true) {
-                GetResponse getResponse = channel.basicGet(topic, false);
+                GetResponse getResponse = channel.basicGet(topic, autoAck);
                 if (getResponse != null) {
                     AMQP.BasicProperties props = getResponse.getProps();
                     Map<String, Object> headers = props.getHeaders();
                     String messageId = headers.get("messageId").toString();
                     byte[] body = getResponse.getBody();
                     String s = new String(body);
-
+                    System.out.println(s);
                     // 创建ref entity 并添加到数据库
-                    SimpleMsgRefEntity simpleMsgRefEntity = new SimpleMsgRefEntity();
+                    /*SimpleMsgRefEntity simpleMsgRefEntity = new SimpleMsgRefEntity();
                     simpleMsgRefEntity.setMessageId(messageId);
                     simpleMsgRefEntity.setReadFlag(false);
                     simpleMsgRefEntity.setLastFlag(true);
@@ -89,10 +89,12 @@ public class SimpleMessageTask {
 
                     log.info(simpleMsgRefEntity.toString());
 
-                    simpleMsgRefDao.insertSimpleMsgRefEntity(simpleMsgRefEntity);
+                    simpleMsgRefDao.insertSimpleMsgRefEntity(simpleMsgRefEntity);*/
 
-                    long deliveryTag = getResponse.getEnvelope().getDeliveryTag();
-                    channel.basicAck(deliveryTag, false);
+                    if (autoAck) {
+                        long deliveryTag = getResponse.getEnvelope().getDeliveryTag();
+                        channel.basicAck(deliveryTag, false);
+                    }
 
                     i++;
                 } else {
@@ -106,8 +108,8 @@ public class SimpleMessageTask {
     }
 
     @Async
-    public void asyncReceive(String topic) {
-        receive(topic);
+    public void asyncReceive(String topic, Boolean autoAck) {
+        receive(topic, autoAck);
     }
 
     public void deleteTopic(String topic) {
