@@ -66,4 +66,12 @@ public class MessageController {
 
         return R.ok().put("res", personalMsg);
     }
+
+    @ApiOperation("将消息设置为已读")
+    @GetMapping("/setPersonalMsgIsReaded/{uuid}")
+    public R setPersonalMsgIsReaded(@RequestHeader String token, @PathVariable String uuid) {
+        messageService.updateReadFlag(uuid);
+
+        return R.ok().put("res", "消息已读");
+    }
 }

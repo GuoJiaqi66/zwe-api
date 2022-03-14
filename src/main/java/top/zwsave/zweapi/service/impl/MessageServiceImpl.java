@@ -29,7 +29,6 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public HashMap getPersonalMsg(String token) {
         Long userId = jwtUtil.getUserId(token);
-        System.out.println("=================userId"+ userId + "=================");
 //        simpleMessageTask.receive(userId+"");
         HashMap hashMap = personalMessageDao.selectAllNotReadPersonalMsg(userId);
 
@@ -41,6 +40,11 @@ public class MessageServiceImpl implements MessageService {
 //        hashMap.get("videoStar");
 //        hashMap.get("videoLike");
         return hashMap;
+    }
+
+    @Override
+    public void updateReadFlag(String uuid) {
+        personalMessageDao.updateReadFlag(uuid);
     }
 
 }

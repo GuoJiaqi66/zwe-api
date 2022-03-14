@@ -11,5 +11,7 @@ public interface MessageService {
 
     HashMap getPersonalMsg(String token);
 
+    void updateReadFlag(String uuid);
+
 //    List selectAllNotReadPersonalMsg(String token);
 }

@@ -1,8 +1,10 @@
 package top.zwsave.zweapi.db.dao;
 
+import com.mongodb.client.result.UpdateResult;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import top.zwsave.zweapi.db.pojo.PersonalMessage;
 
@@ -39,6 +41,12 @@ public class PersonalMessageDao {
         hashMap.put("videoLike", list3);
         // TODO: 2022-03-13 消息的回复,私信
         return hashMap;
+    }
+
+    public void updateReadFlag(String uuid) {
+        Query query = new Query().addCriteria(Criteria.where("uuid").is(uuid));
+        Update readFlag = new Update().set("readFlag", true);
+        UpdateResult upsert = mongoTemplate.upsert(query, readFlag, PersonalMessage.class);
     }
 
     public List selectInit(Long userId, String type, String clazz) {
