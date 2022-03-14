@@ -284,5 +284,11 @@ JOIN video_star_user l
 on a.id = l.video_id
 where l.user_id = #{userId} and l.`delete` = '0' and a.`delete` = '0' and a.`status` = '0'
 	</select>
+	
+	<select id="selectInfoByVideo" parameterType="String" resultType="String" >
+		SELECT user_id
+FROM video
+WHERE video.id = #{id}  AND video.`delete` = "0"
+	</select>
 
 </mapper>

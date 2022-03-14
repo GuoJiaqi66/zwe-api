@@ -49,4 +49,6 @@ public interface VideoDao {
     ArrayList selectAllLikeId(Long userId);
 
     ArrayList selectAllStarId(Long userId);
+
+    String selectInfoByVideo(String id);
 }

@@ -16,6 +16,8 @@ import top.zwsave.zweapi.db.pojo.*;
 import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.COSService;
 import top.zwsave.zweapi.service.VideoService;
+import top.zwsave.zweapi.task.SimpleMessageTask;
+import top.zwsave.zweapi.utils.Tool;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -46,6 +48,12 @@ public class VideoServiceImpl implements VideoService {
 
     @Resource
     VideoLookUserDao videoLookUserDao;
+
+    @Resource
+    Tool tool;
+
+    @Resource
+    SimpleMessageTask simpleMessageTask;
 
     @Override
     public String newVideo(String token, MultipartFile file, String text, String visible) {
@@ -109,6 +117,20 @@ public class VideoServiceImpl implements VideoService {
             articleLikeUser1.setId(l);
             articleLikeUser1.setDelete("0");
             videoLikeUserDao.insert(articleLikeUser1);
+
+
+            // 根据videoId 查出所属userId
+            String userId1 = selectInfoByVideo(id+"");
+
+            HashMap hashMap = new HashMap();
+            hashMap.put("uuid", tool.uuidString());
+            hashMap.put("sender", userId);
+            hashMap.put("targetId", id);
+            hashMap.put("type", "video");
+            hashMap.put("clazz", "like");
+            hashMap.put("targetUserId", userId1);
+            simpleMessageTask.send(userId1, hashMap);
+
         } else if (articleLikeUser.getDelete().equals("0")) {
             throw new ZweApiException("已喜欢");
         } else if (articleLikeUser.getDelete().equals("1")) {
@@ -157,7 +179,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public Integer starVideo(String token, Long id) {
         Long userId = jwtUtil.getUserId(token);
-        VideoStarUser articleLikeUser = selectFromArticleStar(userId, id);
+        VideoStarUser articleLikeUser = selectFromVideoStar(userId, id);
         if (articleLikeUser == null) {
             VideoStarUser articleLikeUser1 = new VideoStarUser();
             articleLikeUser1.setVideoId(id);
@@ -168,6 +190,20 @@ public class VideoServiceImpl implements VideoService {
             articleLikeUser1.setId(l);
             articleLikeUser1.setDelete("0");
             videoStarUserDao.insert(articleLikeUser1);
+
+
+            // 根据videoId 查出所属userId
+            String userId1 = selectInfoByVideo(id+"");
+
+            HashMap hashMap = new HashMap();
+            hashMap.put("uuid", tool.uuidString());
+            hashMap.put("sender", userId);
+            hashMap.put("targetId", id);
+            hashMap.put("type", "video");
+            hashMap.put("clazz", "star");
+            hashMap.put("targetUserId", userId1);
+            simpleMessageTask.send(userId1, hashMap);
+
         } else if (articleLikeUser.getDelete().equals("0")) {
             throw new ZweApiException("已喜欢");
         } else if (articleLikeUser.getDelete().equals("1")) {
@@ -182,7 +218,7 @@ public class VideoServiceImpl implements VideoService {
         return integer;
     }
 
-    VideoStarUser selectFromArticleStar(Long userId, Long id) {
+    VideoStarUser selectFromVideoStar(Long userId, Long id) {
         HashMap<String, Long> stringLongHashMap = new HashMap<>();
         stringLongHashMap.put("userId", userId);
         stringLongHashMap.put("id", id);
@@ -197,7 +233,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public Integer removeStarVideo(String token, Long id) {
         Long userId = jwtUtil.getUserId(token);
-        VideoStarUser articleLikeUser = selectFromArticleStar(userId, id);
+        VideoStarUser articleLikeUser = selectFromVideoStar(userId, id);
         if (articleLikeUser.getDelete().equals("1")) {
             throw new ZweApiException("已取消夏欢");
         }
@@ -293,5 +329,10 @@ public class VideoServiceImpl implements VideoService {
         hashMap.put("videoLike", arrayList);
         hashMap.put("videoStar", arrayList1);
         return hashMap;
+    }
+
+    private String selectInfoByVideo(String id) {
+        String s = videoDao.selectInfoByVideo(id);
+        return s;
     }
 }
