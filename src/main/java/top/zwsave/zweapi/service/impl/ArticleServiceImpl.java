@@ -188,6 +188,20 @@ public class ArticleServiceImpl implements ArticleService {
             articleLikeUser1.setId(l);
             articleLikeUser1.setDelete("0");
             articleStarUserDao.insert(articleLikeUser1);
+
+            // 根据articleId 查出所属userId
+            HashMap hashMap1 = selectInfoByArticle(id);
+            String  userId1 = hashMap1.get("userId").toString();
+
+            HashMap hashMap = new HashMap();
+            hashMap.put("uuid", tool.uuidString());
+            hashMap.put("sender", userId);
+            hashMap.put("targetId", id);
+            hashMap.put("type", "article");
+            hashMap.put("clazz", "star");
+            hashMap.put("targetUserId", userId1);
+            simpleMessageTask.send(userId1, hashMap);
+
         } else if (articleLikeUser.getDelete().equals("0")) {
             throw new ZweApiException("已喜欢");
         }else if (articleLikeUser.getDelete().equals("1")) {
