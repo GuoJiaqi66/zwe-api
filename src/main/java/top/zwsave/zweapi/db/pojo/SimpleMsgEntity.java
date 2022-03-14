@@ -11,6 +11,8 @@ import java.util.Date;
 /**
  * @Author: Ja7
  * @Date: 2022-03-11 12:04
+ *
+ * 需要签收的群发消息实体
  */
 @Data
 @Document("simpleMsgEntity")

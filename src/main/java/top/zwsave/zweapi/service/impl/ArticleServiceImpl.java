@@ -19,7 +19,9 @@ import top.zwsave.zweapi.db.pojo.ArticleStarUser;
 import top.zwsave.zweapi.exception.ZweApiException;
 import top.zwsave.zweapi.service.ArticleService;
 import top.zwsave.zweapi.service.COSService;
+import top.zwsave.zweapi.task.SimpleMessageTask;
 import top.zwsave.zweapi.utils.CopyUtil;
+import top.zwsave.zweapi.utils.Tool;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -48,6 +50,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Resource
     ArticleLookUserDao articleLookUserDao;
+
+    @Resource
+    SimpleMessageTask simpleMessageTask;
+
+    @Resource
+    Tool tool;
 
 
     @Override
@@ -122,6 +130,19 @@ public class ArticleServiceImpl implements ArticleService {
             articleLikeUser1.setId(l);
             articleLikeUser1.setDelete("0");
             articleLikeUserDao.insert(articleLikeUser1);
+
+            // 根据articleId 查出所属userid
+            HashMap hashMap1 = selectInfoByArticle(id);
+            String  userId1 = hashMap1.get("userId").toString();
+
+            HashMap hashMap = new HashMap();
+            hashMap.put("uuid", tool.uuidString());
+            hashMap.put("sender", userId);
+            hashMap.put("targetId", id);
+            hashMap.put("type", "article");
+            hashMap.put("clazz", "like");
+            hashMap.put("targetUserId", userId1);
+            simpleMessageTask.send(userId1, hashMap);
         } else if (articleLikeUser.getDelete().equals("0")) {
             throw new ZweApiException("已喜欢");
         }else if (articleLikeUser.getDelete().equals("1")) {

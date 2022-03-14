@@ -4,8 +4,10 @@ import com.rabbitmq.client.*;
 import lombok.extern.java.Log;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import top.zwsave.zweapi.db.dao.PersonalMessageDao;
 import top.zwsave.zweapi.db.dao.SimpleMsgDao;
 import top.zwsave.zweapi.db.dao.SimpleMsgRefDao;
+import top.zwsave.zweapi.db.pojo.PersonalMessage;
 import top.zwsave.zweapi.db.pojo.SimpleMsgEntity;
 import top.zwsave.zweapi.db.pojo.SimpleMsgRefEntity;
 import top.zwsave.zweapi.exception.ZweApiException;
@@ -34,32 +36,40 @@ public class SimpleMessageTask {
      *          收藏
      *
      *      私信消息:
+     *
+     *
+     *      sender: 谁
+     *      type: 点赞/star/私信/回复
+     *      target: articleId/commentId/videoId
+     *      content:
      * */
 
     @Resource
     ConnectionFactory faction;
 
     @Resource
-    SimpleMsgDao simpleMsgDao;
-
-    @Resource
-    SimpleMsgRefDao simpleMsgRefDao;
+    PersonalMessageDao personalMessageDao;
 
 
-    public void send(String topic, SimpleMsgEntity msg) {
+    public void send(String topic, HashMap map) {
         System.out.println(topic);
         try (Connection connection = faction.newConnection();
              Channel channel = connection.createChannel();
              ) {
             channel.queueDeclare(topic, true, false, false, null);
             HashMap hashMap = new HashMap();
-            hashMap.put("id", msg.getUuid());
-            hashMap.put("senderName", msg.getSenderName());
-            hashMap.put("senderId", msg.getSenderId());
-            hashMap.put("sendTime", msg.getSendTime());
-            hashMap.put("url", msg.getUrl());
+            hashMap.put("uuid", map.get("uuid"));
+            hashMap.put("sender", map.get("sender"));
+            hashMap.put("targetId", map.get("targetId"));
+            hashMap.put("type", map.get("type"));
+            hashMap.put("clazz", map.get("clazz"));
+            hashMap.put("targetUserId", map.get("targetUserId"));
             AMQP.BasicProperties build = new AMQP.BasicProperties().builder().headers(hashMap).build();
-            channel.basicPublish("", topic, build, msg.getMsg().getBytes("UTF-8"));
+            if (hashMap.get("content") == null) {
+                channel.basicPublish("", topic, build, null);
+            } else {
+                channel.basicPublish("", topic, build, hashMap.get("content").toString().getBytes("UTF-8"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new ZweApiException("消息队列发布失败");
@@ -67,49 +77,47 @@ public class SimpleMessageTask {
     }
 
     @Async
-    public void asyncSend(String topic, SimpleMsgEntity msg) {
+    public void asyncSend(String topic, HashMap msg) {
         send(topic, msg);
     }
 
-    public void receive(String topic, Boolean autoAck, Long userId) {
+    public void receive(String topic) {
         int i = 0; // ack应答后才会执行下一个
         try (Connection connection = faction.newConnection();
              Channel channel = connection.createChannel()
         ) {
             channel.queueDeclare(topic, true, false, false, null);
             while (true) {
-                GetResponse getResponse = channel.basicGet(topic, autoAck);
+                GetResponse getResponse = channel.basicGet(topic, false);
                 if (getResponse != null) {
                     AMQP.BasicProperties props = getResponse.getProps();
                     Map<String, Object> headers = props.getHeaders();
-                    String id = headers.get("id").toString();
-//                    String senderName = headers.get("senderName").toString();
-//                    String senderId = headers.get("senderId").toString();
-//                    Object sendTime = headers.get("sendTime");
-//                    String url = headers.get("url").toString();
-//                    byte[] body = getResponse.getBody();
-//                    String msg = new String(body, "UTF-8");
-//                    System.out.println(msg);
+                    String uuid = headers.get("uuid").toString();
+                    String sender = headers.get("sender").toString();
+                    String targetId = headers.get("targetId").toString();
+                    String type = headers.get("type").toString();
+                    String clazz = headers.get("clazz").toString();
+                    String targetUserId = headers.get("targetUserId").toString();
 
-                    Boolean aBoolean = simpleMsgRefDao.selectHave(id);
-                    if (!aBoolean) {
-                        return;
-                    }
+                    System.out.println("+++++++++++++++++++++"+ uuid + sender + "++++++++++++++++++");
 
-                    SimpleMsgRefEntity simpleMsgRefEntity = new SimpleMsgRefEntity();
-                    simpleMsgRefEntity.setLastFlag(true);
-                    simpleMsgRefEntity.setMessageId(id);
-                    simpleMsgRefEntity.setReadFlag(false);
-                    simpleMsgRefEntity.setReceiverId(userId);
+                    byte[] body = getResponse.getBody();
+                    String msg = new String(body, "UTF-8");
 
-                    simpleMsgRefDao.insertSimpleMsgRefEntity(simpleMsgRefEntity);
+                    PersonalMessage personalMessage = new PersonalMessage();
+                    personalMessage.setContent(msg);
+                    personalMessage.setSender(sender);
+                    personalMessage.setTargetId(targetId);
+                    personalMessage.setType(type);
+                    personalMessage.setUuid(uuid);
+                    personalMessage.setReadFlag(false);
+                    personalMessage.setClazz(clazz);
+                    personalMessage.setTargetUserId(targetUserId);
 
-                    if (autoAck) {
-                        long deliveryTag = getResponse.getEnvelope().getDeliveryTag();
-                        channel.basicAck(deliveryTag, false);
-                    }
                     long deliveryTag = getResponse.getEnvelope().getDeliveryTag();
                     channel.basicAck(deliveryTag, false);
+
+                    personalMessageDao.insertPersonalMsg(personalMessage);
 
                     i++;
                 } else {
@@ -123,8 +131,8 @@ public class SimpleMessageTask {
     }
 
     @Async
-    public void asyncReceive(String topic, Boolean autoAck, Long userId) {
-        receive(topic, autoAck, userId);
+    public void asyncReceive(String topic) {
+        receive(topic);
     }
 
     public void deleteTopic(String topic) {
