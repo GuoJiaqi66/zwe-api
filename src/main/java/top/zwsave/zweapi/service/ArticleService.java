@@ -47,4 +47,6 @@ public interface ArticleService {
     List selectArticleStarer(/*String token,*/ Long id, PageReq pageReq);
 
     HashMap selectAllLikeStarId(String token);
+
+    String selectArticleImgPathByArticleId(String id);
 }

@@ -331,6 +331,12 @@ public class VideoServiceImpl implements VideoService {
         return hashMap;
     }
 
+    @Override
+    public String selectVideoImgPathByArticleId(String id) {
+        String s = videoDao.selectVideoImgPathByArticleId(id);
+        return s;
+    }
+
     private String selectInfoByVideo(String id) {
         String s = videoDao.selectInfoByVideo(id);
         return s;

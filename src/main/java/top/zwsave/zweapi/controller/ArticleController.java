@@ -195,4 +195,11 @@ public class ArticleController {
         HashMap hashMap = articleService.selectAllLikeStarId(token);
         return R.ok().put("res", hashMap );
     }
+
+    @ApiOperation("根据articleId查询article imgPath")
+    @GetMapping("/selectArticleImgPathByArticleId/{id}")
+    public R selectArticleImgPathByArticleId(@RequestHeader("token") String token, @PathVariable String id) {
+        String s = articleService.selectArticleImgPathByArticleId(id);
+        return R.ok().put("res", s);
+    }
 }

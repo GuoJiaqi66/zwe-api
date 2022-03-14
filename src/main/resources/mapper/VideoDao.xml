@@ -290,5 +290,10 @@ where l.user_id = #{userId} and l.`delete` = '0' and a.`delete` = '0' and a.`sta
 FROM video
 WHERE video.id = #{id}  AND video.`delete` = "0"
 	</select>
-
+	
+	<select id="selectVideoImgPathByArticleId" parameterType="String" resultType="String">
+		SELECT  a.video_path as videoPath
+FROM video a
+WHERE a.id = #{id} and a.`status`= "0" and a.`delete` = "0"
+	</select>
 </mapper>

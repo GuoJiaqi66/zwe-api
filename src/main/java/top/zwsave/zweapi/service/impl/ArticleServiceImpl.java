@@ -327,6 +327,12 @@ public class ArticleServiceImpl implements ArticleService {
         return hashMap;
     }
 
+    @Override
+    public String selectArticleImgPathByArticleId(String id) {
+        String s = articleDao.selectArticleImgPathByArticleId(id);
+        return s;
+    }
+
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {
         HashMap<String, Long> stringLongHashMap = new HashMap<>();
         stringLongHashMap.put("userId", userId);

@@ -51,4 +51,6 @@ public interface VideoDao {
     ArrayList selectAllStarId(Long userId);
 
     String selectInfoByVideo(String id);
+
+    String selectVideoImgPathByArticleId(String id);
 }

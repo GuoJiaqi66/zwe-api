@@ -191,4 +191,11 @@ public class VideoController {
         HashMap hashMap = videoService.selectAllLikeStarId(token);
         return R.ok().put("res", hashMap );
     }
+
+    @ApiOperation("根据videoId查询video imgPath")
+    @GetMapping("/selectVideoImgPathByArticleId/{id}")
+    public R selectArticleImgPathByArticleId(@RequestHeader("token") String token, @PathVariable String id) {
+        String s = videoService.selectVideoImgPathByArticleId(id);
+        return R.ok().put("res", s);
+    }
 }

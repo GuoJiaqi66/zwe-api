@@ -289,4 +289,10 @@ JOIN article_star_user l
 on a.id = l.article_id
 where l.user_id = #{userId} and l.`delete` = '0' and a.`delete` = '0' and a.`status` = '0'
 	</select>
+	
+	<select id="selectArticleImgPathByArticleId" parameterType="String" resultType="String">
+		SELECT a.img_path as imgPath
+FROM article a
+WHERE a.id = #{id} and a.`status`= "0" and a.`delete` = "0"
+	</select>
 </mapper>

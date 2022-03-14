@@ -54,4 +54,6 @@ public interface ArticleDao {
     ArrayList selectAllLikeId(Long userId);
 
     ArrayList selectAllStarId(Long userId);
+
+    String selectArticleImgPathByArticleId(String id);
 }
