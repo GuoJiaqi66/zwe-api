@@ -20,6 +20,7 @@ import top.zwsave.zweapi.task.SimpleMessageTask;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -129,8 +130,16 @@ public class UserController {
     @GetMapping("/removefollow/{id}")
     @ApiOperation("取消关注")
     public R removeFollow(@RequestHeader("token") String token, @PathVariable Long id) {
-        userService.removeFollow(token, id);
+        Integer integer = userService.removeFollow(token, id);
         return R.ok("取消关注成功");
+    }
+
+    @GetMapping("/selectUserInfo/{id}")
+    @ApiOperation("根据userId查询相关信息，用于首页消息通知")
+    public R selectUserInfoByUserId(@RequestHeader String token, @PathVariable String id) {
+        Long userId = jwtUtil.getUserId(token);
+        HashMap hashMap = userService.selectUserInfoByUserId(id);
+        return R.ok().put("res", hashMap);
     }
 
 }

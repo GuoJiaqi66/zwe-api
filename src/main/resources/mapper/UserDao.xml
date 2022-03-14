@@ -227,4 +227,10 @@
 FROM `user` u
 WHERE u.id = #{userId} AND u.`status` = '0'
 	</select>
+	
+	<select id="selectUserInfoByUserId" parameterType="String" resultType="HashMap">
+		SELECT u.img_path as imgPath, u.nickname as nickName
+FROM `user` u
+WHERE u.id = #{id} and u.`status` = "0"
+	</select>
 </mapper>

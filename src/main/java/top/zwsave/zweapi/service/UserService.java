@@ -5,6 +5,7 @@ import top.zwsave.zweapi.controller.form.UserRegisForm;
 import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public interface UserService {
     List selectAllFans(String token);
 
     Integer removeFollow(String token, Long id);
+
+    HashMap selectUserInfoByUserId(String id);
 
     /*Integer selectTotalUser();
 

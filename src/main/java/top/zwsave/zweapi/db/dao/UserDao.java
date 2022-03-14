@@ -41,4 +41,6 @@ public interface UserDao {
     Integer userFollowRemove(Long id);
 
     HashMap selectUserByIdUseMongo(Long userId);
+
+    HashMap selectUserInfoByUserId(String id);
 }
