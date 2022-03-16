@@ -80,6 +80,29 @@ public class MongoServiceImpl implements MongoService {
         return arrayList;
     }
 
+    @Override
+    public ArrayList<MongoArticleComment> selectArticleCommentByPage(HashMap map) {
+        int star = (int) map.get("pageNum") * (int) map.get("pageSize");
+        int end = (int) map.get("pageSize");
+        String fatherId =(String) map.get("fatherId");
+        String to = (String) map.get("to");
+        List list = mongoArticleCommentDao.selectArticleCommentByPage(to, star, end, fatherId);
+        System.out.println("mongoDB 查出结果 +++++++++++++++++++" + list);
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            MongoArticleComment o =(MongoArticleComment) list.get(i);
+            HashMap hashMap = userDao.selectUserByIdUseMongo(Long.parseLong(o.getFrom()));
+            hashMap.put("uuid", o.getUuid());
+            hashMap.put("articleId", o.getArticleId());
+            hashMap.put("from", o.getFrom());
+            hashMap.put("to", o.getTo());
+            hashMap.put("content", o.getContent());
+            hashMap.put("createTime", o.getCreateTime());
+            arrayList.add(hashMap);
+        }
+        return arrayList;
+    }
+
     /*@Override
     public ArrayList selectArticleById(String id) {
         mongoArticleCommentDao.selectArticleById(id);
@@ -120,6 +143,29 @@ public class MongoServiceImpl implements MongoService {
             HashMap hashMap = userDao.selectUserByIdUseMongo(Long.parseLong(o.getFrom()));
             hashMap.put("uuid", o.getUuid());
             hashMap.put("articleId", o.getVideoId());
+            hashMap.put("from", o.getFrom());
+            hashMap.put("to", o.getTo());
+            hashMap.put("content", o.getContent());
+            hashMap.put("createTime", o.getCreateTime());
+            arrayList.add(hashMap);
+        }
+        return arrayList;
+    }
+
+    @Override
+    public ArrayList<MongoVideoComment> selectVideoCommentByPage(HashMap map) {
+        int star = (int) map.get("pageNum") * (int) map.get("pageSize");
+        int end = (int) map.get("pageSize");
+        String fatherId =(String) map.get("fatherId");
+        String to = (String) map.get("to");
+        List list = mongoVideoCommentDao.selectVideoCommentByPage(to, star, end, fatherId);
+        System.out.println("mongoDB 查出结果 +++++++++++++++++++" + list);
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            MongoVideoComment o =(MongoVideoComment) list.get(i);
+            HashMap hashMap = userDao.selectUserByIdUseMongo(Long.parseLong(o.getFrom()));
+            hashMap.put("uuid", o.getUuid());
+            hashMap.put("videoId", o.getVideoId());
             hashMap.put("from", o.getFrom());
             hashMap.put("to", o.getTo());
             hashMap.put("content", o.getContent());

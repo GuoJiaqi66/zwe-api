@@ -121,16 +121,16 @@ class ZweApiApplicationTests {
         System.out.println(s);
     }
 
-    @Test
-    void mongoSelect() {
-        List select = mongoArticleCommentDao.selectArticleByPage("3", 30, 10);
-        System.out.println("======= select.size()" + select.size() + "+++++");
-        for (int i = 0; i < select.size(); i++) {
-            Object o = select.get(i);
-            System.out.println("====" + i + "===");
-            System.out.println(o);
-        }
-    }
+//    @Test
+//    void mongoSelect() {
+//        List select = mongoArticleCommentDao.selectArticleByPage("3", 30, 10);
+//        System.out.println("======= select.size()" + select.size() + "+++++");
+//        for (int i = 0; i < select.size(); i++) {
+//            Object o = select.get(i);
+//            System.out.println("====" + i + "===");
+//            System.out.println(o);
+//        }
+//    }
 
     @Resource
     SimpleMessageTask task;

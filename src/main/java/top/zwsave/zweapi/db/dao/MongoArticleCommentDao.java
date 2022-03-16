@@ -56,4 +56,10 @@ public class MongoArticleCommentDao {
         return mongoArticleComments;
     }
 
+    public List selectArticleCommentByPage(String to, int star, int end, String fatherId) {
+        Query query = new Query(Criteria.where("to").is(to).and("articleId").is(fatherId).and("del").is(0));
+        List<MongoArticleComment> mongoArticleComments = mongoTemplate.find(query.skip(star).limit(end), MongoArticleComment.class);
+        System.out.println(mongoArticleComments);
+        return mongoArticleComments;
+    }
 }

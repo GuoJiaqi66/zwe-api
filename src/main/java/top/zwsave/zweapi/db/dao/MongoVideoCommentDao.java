@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 import top.zwsave.zweapi.db.pojo.MongoVideoComment;
 
 import javax.annotation.Resource;
@@ -55,4 +56,10 @@ public class MongoVideoCommentDao {
         return mongoVideoComments;
     }
 
+    public List selectVideoCommentByPage(String to, int star, int end, String fatherId) {
+        Query query = new Query(Criteria.where("to").is(to).and("videoId").is(fatherId).and("del").is(0));
+        List<MongoVideoComment> mongoVideoComments = mongoTemplate.find(query.skip(star).limit(end), MongoVideoComment.class);
+        System.out.println(mongoVideoComments);
+        return mongoVideoComments;
+    }
 }

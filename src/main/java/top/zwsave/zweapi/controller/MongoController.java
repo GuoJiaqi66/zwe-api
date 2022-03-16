@@ -12,6 +12,7 @@ import top.zwsave.zweapi.service.MongoService;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @Author: Ja7
@@ -45,6 +46,22 @@ public class MongoController {
         return R.ok().put("res", mongoArticleComments);
     }
 
+
+    /**
+     * {
+     *   "pageNum": 0,
+     *   "pageSize": 10,
+     *   "fatherId": "40099151206547",
+     *   "to":"40099151206547"
+     * }
+     * */
+    @ApiOperation("分页查询 articleComment 带fatherId")
+    @PostMapping("/selectArticleCommentByPage")
+    public R selectArticleCommentByPage(@RequestBody HashMap map) {
+        System.out.println(map);
+        ArrayList<MongoArticleComment> mongoArticleComments = mongoService.selectArticleCommentByPage(map);
+        return R.ok().put("res", mongoArticleComments);
+    }
     /*@ApiOperation("根据 id 查询评论")
     @GetMapping("/selectArticleById/{id}")
     public R selectArticleById(@PathVariable String id) {
@@ -73,5 +90,13 @@ public class MongoController {
     public R selectVideoByPage(@RequestBody MongoCommentPageForm form) {
         ArrayList<MongoVideoComment> mongoVideoComments = mongoService.selectVideoByPage(form);
         return R.ok().put("res", mongoVideoComments);
+    }
+
+    @ApiOperation("分页查询 videoComment 带fatherId")
+    @PostMapping("/selectVideoCommentByPage")
+    public R selectVideoCommentByPage(@RequestBody HashMap map) {
+        System.out.println(map);
+        ArrayList<MongoVideoComment> mongoArticleComments = mongoService.selectVideoCommentByPage(map);
+        return R.ok().put("res", mongoArticleComments);
     }
 }

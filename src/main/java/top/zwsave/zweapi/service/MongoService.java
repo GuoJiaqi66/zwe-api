@@ -6,6 +6,7 @@ import top.zwsave.zweapi.db.pojo.MongoArticleComment;
 import top.zwsave.zweapi.db.pojo.MongoVideoComment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @Author: Ja7
@@ -19,6 +20,7 @@ public interface MongoService {
 
     ArrayList<MongoArticleComment> selectArticleByPage(MongoCommentPageForm form);
 
+    ArrayList<MongoArticleComment> selectArticleCommentByPage(HashMap map);
 
     /**
      * video
@@ -28,4 +30,6 @@ public interface MongoService {
     String delVideoComment(String uuid);
 
     ArrayList<MongoVideoComment> selectVideoByPage(MongoCommentPageForm form);
+
+    ArrayList<MongoVideoComment> selectVideoCommentByPage(HashMap map);
 }
