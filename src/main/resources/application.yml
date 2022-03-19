@@ -20,6 +20,14 @@ spring:
       max-file-size: -1
       max-request-size: -1
 
+
+  mail:
+    host: smtp.qq.com
+    password:  miumnuzfzizabeji
+    properties.smtp.auth: true
+    properties.smtp.timeout: 25000
+    username: 858064356@qq.com
+
   # 外部文件配置rabbitmq(rabbitmq 基本配置)
 #  rabbitmq:
 #    addresses: localhost

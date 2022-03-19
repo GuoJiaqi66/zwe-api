@@ -12,6 +12,7 @@ import top.zwsave.zweapi.db.dao.UserFollowDao;
 import top.zwsave.zweapi.db.pojo.User;
 import top.zwsave.zweapi.db.pojo.UserFollow;
 import top.zwsave.zweapi.exception.ZweApiException;
+import top.zwsave.zweapi.service.MailService;
 import top.zwsave.zweapi.service.UserService;
 import top.zwsave.zweapi.utils.CopyUtil;
 import top.zwsave.zweapi.utils.SnowFlake;
@@ -41,6 +42,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     UserFollowDao userFollowDao;
 
+    @Resource
+    MailService mailService;
+
     @Override
     public int userRegistered(UserRegisForm form) {
         User user1 = userDao.selectUserByLoginName(form.getLoginName());
@@ -57,6 +61,7 @@ public class UserServiceImpl implements UserService {
         user.setRanking(count);
         user.setFollowCount(0);
         int insert = userDao.insert(user);
+        mailService.htmlRegistrationMail(form.getMail(), count);
         return insert;
     }
 
