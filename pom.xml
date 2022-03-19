@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>top.zwsave.zwe-api</groupId>
 	<artifactId>zwe-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>zwe-api</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -156,7 +156,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>/dist/${project.artifactId}</finalName>
+		<finalName>/dist/${project.artifactId}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
