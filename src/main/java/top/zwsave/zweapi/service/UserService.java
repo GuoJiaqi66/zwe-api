@@ -35,6 +35,8 @@ public interface UserService {
 
     Integer upDataShowUser(Long userId, HashMap map);
 
+    Integer deleteShowUser(Long userId, String id);
+
     /*Integer selectTotalUser();
 
     User selectUserByLoginName(String loginName);*/

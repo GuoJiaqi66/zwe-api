@@ -220,6 +220,12 @@ public class UserServiceImpl implements UserService {
         return i;
     }
 
+    @Override
+    public Integer deleteShowUser(Long userId, String id) {
+        Integer integer = showDao.deleteShowUser(id);
+        return integer;
+    }
+
     public UserFollow selectNoteByUseredId(Long userId, Long id) {
         HashMap map = new HashMap();
         map.put("userId", userId);

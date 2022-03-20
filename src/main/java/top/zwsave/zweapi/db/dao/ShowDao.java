@@ -18,4 +18,6 @@ public interface ShowDao {
     Integer selectShowUserCount(String useredId);
 
     Integer selectUseredId(String useredId);
+
+    Integer deleteShowUser(String id);
 }

@@ -21,6 +21,7 @@ import top.zwsave.zweapi.task.SimpleMessageTask;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -188,4 +189,13 @@ public class UserController {
 
         return R.ok().put("res", "修改成功");
     }
+
+    @GetMapping("/deleteShowUser/{id}")
+    @ApiOperation("删除showUser")
+    public R deleteShowUser(@RequestHeader("token") String token, @PathVariable String id) {
+        Long userId = jwtUtil.getUserId(token);
+        Integer integer = userService.deleteShowUser(userId, id);
+        return R.ok().put("res", "删除成功");
+    }
+
 }

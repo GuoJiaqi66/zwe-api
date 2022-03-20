@@ -137,4 +137,10 @@ where s.user_id = #{useredId} and s.`delete` = "0"
 FROM `show` s
 WHERE s.`delete` = "0" and s.usered_id = #{useredId}
 	</select>
+	
+	<update id="deleteShowUser" parameterType="String">
+		UPDATE `show` s
+set s.`delete` = "1"
+WHERE s.id = #{id}
+	</update>
 </mapper>
