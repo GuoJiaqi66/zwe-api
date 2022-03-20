@@ -166,6 +166,20 @@ public class UserServiceImpl implements UserService {
         return hashMap;
     }
 
+    @Override
+    public List selectAllFollow(Long userId) {
+        List list = userDao.selectAllFollow(userId);
+        if (list.size() == 0) {
+            return null;
+        }
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            HashMap hashMap = selectUserInfoByUserId((String) list.get(i));
+            arrayList.add(hashMap);
+        }
+        return arrayList;
+    }
+
     public UserFollow selectNoteByUseredId(Long userId, Long id) {
         HashMap map = new HashMap();
         map.put("userId", userId);

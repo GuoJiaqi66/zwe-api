@@ -136,10 +136,21 @@ public class UserController {
 
     @GetMapping("/selectUserInfo/{id}")
     @ApiOperation("根据userId查询相关信息，用于首页消息通知")
-    public R selectUserInfoByUserId(@RequestHeader String token, @PathVariable String id) {
+    public R selectUserInfoByUserId(@RequestHeader("token") String token, @PathVariable String id) {
         Long userId = jwtUtil.getUserId(token);
         HashMap hashMap = userService.selectUserInfoByUserId(id);
         return R.ok().put("res", hashMap);
+    }
+
+    /**
+     * 查询所有关注
+     * */
+    @GetMapping("/selectAllFollow")
+    @ApiOperation("查询所有关注")
+    public R selectAllFollow(@RequestHeader("token") String token) {
+        Long userId = jwtUtil.getUserId(token);
+        List list = userService.selectAllFollow(userId);
+        return R.ok().put("res", list);
     }
 
 }

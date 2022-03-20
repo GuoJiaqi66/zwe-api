@@ -5,6 +5,7 @@ import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Handler;
 
 public interface UserDao {
@@ -43,4 +44,6 @@ public interface UserDao {
     HashMap selectUserByIdUseMongo(Long userId);
 
     HashMap selectUserInfoByUserId(String id);
+
+    List selectAllFollow(Long userId);
 }

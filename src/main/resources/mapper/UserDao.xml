@@ -233,4 +233,12 @@ WHERE u.id = #{userId} AND u.`status` = '0'
 FROM `user` u
 WHERE u.id = #{id} and u.`status` = "0"
 	</select>
+	
+	<select id="selectAllFollow" parameterType="Long" resultType="String">
+		select f.usered_id
+from user_follow f
+LEFT JOIN `user` u
+on f.user_id = u.id
+where f.user_id = #{userId} and f.`delete` = "0"
+	</select>
 </mapper>

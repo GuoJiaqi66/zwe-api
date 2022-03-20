@@ -28,6 +28,8 @@ public interface UserService {
 
     HashMap selectUserInfoByUserId(String id);
 
+    List selectAllFollow(Long userId);
+
     /*Integer selectTotalUser();
 
     User selectUserByLoginName(String loginName);*/
