@@ -210,6 +210,16 @@ public class UserServiceImpl implements UserService {
         return i;
     }
 
+    @Override
+    public Integer upDataShowUser(Long userId, HashMap map) {
+        Show show = new Show();
+        show.setId(Long.parseLong((String) map.get("id")));
+        show.setFlag((String) map.get("flag"));
+        show.setTag((String) map.get("tag"));
+        int i = showDao.updateByPrimaryKeySelective(show);
+        return i;
+    }
+
     public UserFollow selectNoteByUseredId(Long userId, Long id) {
         HashMap map = new HashMap();
         map.put("userId", userId);

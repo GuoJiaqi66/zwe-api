@@ -170,6 +170,22 @@ public class UserController {
         Long userId = jwtUtil.getUserId(token);
         Integer integer = userService.addShowUser(userId, form);
 
-        return R.ok().put("res", integer);
+        return R.ok().put("res", "添加showUser成功");
+    }
+
+    /**
+     * 更新/删除 接口
+     * HashMap:
+     *      id:
+     *      flag
+     *      tag:
+     * */
+    @PostMapping("/upDataShowUser")
+    @ApiOperation("更新 showUser 信息")
+    public R upDataShowUser(@RequestHeader("token") String token, @RequestBody HashMap map) {
+        Long userId = jwtUtil.getUserId(token);
+        Integer integer = userService.upDataShowUser(userId, map);
+
+        return R.ok().put("res", "修改成功");
     }
 }

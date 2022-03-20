@@ -33,6 +33,8 @@ public interface UserService {
 
     Integer addShowUser(Long userId, AddShowUserForm form);
 
+    Integer upDataShowUser(Long userId, HashMap map);
+
     /*Integer selectTotalUser();
 
     User selectUserByLoginName(String loginName);*/

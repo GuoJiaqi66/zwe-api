@@ -88,7 +88,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="top.zwsave.zweapi.db.pojo.Show">
-    update show
+    update `show`
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
