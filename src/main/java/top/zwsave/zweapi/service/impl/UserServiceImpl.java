@@ -195,6 +195,7 @@ public class UserServiceImpl implements UserService {
     public Integer addShowUser(Long userId, AddShowUserForm form) {
         Integer integer = showDao.selectShowUserCount(userId + "");
         Integer integer1 = showDao.selectUseredId(form.getUseredId());
+        // 更加严谨 => 应当查询delete = "1" 应当将他设为 "0"
         if (integer1 == 1) { throw new ZweApiException("已经存在了"); }
         if (integer > 6) { throw new ZweApiException("每个用户最多可以设置6个展示用户"); }
         Show show = new Show();
