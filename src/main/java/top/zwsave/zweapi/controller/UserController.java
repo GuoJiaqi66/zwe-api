@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.common.R;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
+import top.zwsave.zweapi.controller.form.AddShowUserForm;
 import top.zwsave.zweapi.controller.form.UserLoginForm;
 import top.zwsave.zweapi.controller.form.UserRegisForm;
 import top.zwsave.zweapi.controller.form.UserRepairInfo;
@@ -153,4 +154,22 @@ public class UserController {
         return R.ok().put("res", list);
     }
 
+
+    /**
+     * 展示show:
+     *      每当添加一个用户 count字段  +1
+     *      若count字段 =规定的最大, 则停止添加
+     *      */
+
+    /**
+     * 添加 show
+     * */
+    @PostMapping("/addShowUser")
+    @ApiOperation("添加show用户")
+    public R addShowUser(@RequestHeader("token") String token, @Valid @RequestBody AddShowUserForm form) {
+        Long userId = jwtUtil.getUserId(token);
+        Integer integer = userService.addShowUser(userId, form);
+
+        return R.ok().put("res", integer);
+    }
 }

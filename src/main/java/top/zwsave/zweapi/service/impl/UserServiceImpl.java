@@ -4,11 +4,14 @@ import cn.hutool.core.util.RandomUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
+import top.zwsave.zweapi.controller.form.AddShowUserForm;
 import top.zwsave.zweapi.controller.form.UserLoginForm;
 import top.zwsave.zweapi.controller.form.UserRegisForm;
 import top.zwsave.zweapi.controller.form.UserRepairInfo;
+import top.zwsave.zweapi.db.dao.ShowDao;
 import top.zwsave.zweapi.db.dao.UserDao;
 import top.zwsave.zweapi.db.dao.UserFollowDao;
+import top.zwsave.zweapi.db.pojo.Show;
 import top.zwsave.zweapi.db.pojo.User;
 import top.zwsave.zweapi.db.pojo.UserFollow;
 import top.zwsave.zweapi.exception.ZweApiException;
@@ -16,8 +19,10 @@ import top.zwsave.zweapi.service.MailService;
 import top.zwsave.zweapi.service.UserService;
 import top.zwsave.zweapi.utils.CopyUtil;
 import top.zwsave.zweapi.utils.SnowFlake;
+import top.zwsave.zweapi.utils.Tool;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,6 +49,12 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     MailService mailService;
+
+    @Resource
+    ShowDao showDao;
+
+    @Resource
+    Tool tool;
 
     @Override
     public int userRegistered(UserRegisForm form) {
@@ -178,6 +189,25 @@ public class UserServiceImpl implements UserService {
             arrayList.add(hashMap);
         }
         return arrayList;
+    }
+
+    @Override
+    public Integer addShowUser(Long userId, AddShowUserForm form) {
+        Integer integer = showDao.selectShowUserCount(userId + "");
+        Integer integer1 = showDao.selectUseredId(form.getUseredId());
+        if (integer1 == 1) { throw new ZweApiException("已经存在了"); }
+        if (integer > 6) { throw new ZweApiException("每个用户最多可以设置6个展示用户"); }
+        Show show = new Show();
+        show.setCount(integer);
+        show.setCreateTime(new Date());
+        show.setDelete("0");
+        show.setFlag(form.getFlag());
+        show.setId(tool.uuidLong());
+        show.setTag(form.getTag());
+        show.setUseredId(Long.parseLong(form.getUseredId()));
+        show.setUserId(userId);
+        int i = showDao.insert(show);
+        return i;
     }
 
     public UserFollow selectNoteByUseredId(Long userId, Long id) {

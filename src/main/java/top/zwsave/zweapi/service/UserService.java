@@ -1,5 +1,6 @@
 package top.zwsave.zweapi.service;
 
+import top.zwsave.zweapi.controller.form.AddShowUserForm;
 import top.zwsave.zweapi.controller.form.UserLoginForm;
 import top.zwsave.zweapi.controller.form.UserRegisForm;
 import top.zwsave.zweapi.controller.form.UserRepairInfo;
@@ -29,6 +30,8 @@ public interface UserService {
     HashMap selectUserInfoByUserId(String id);
 
     List selectAllFollow(Long userId);
+
+    Integer addShowUser(Long userId, AddShowUserForm form);
 
     /*Integer selectTotalUser();
 
