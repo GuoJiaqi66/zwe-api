@@ -46,4 +46,6 @@ public interface UserDao {
     HashMap selectUserInfoByUserId(String id);
 
     List selectAllFollow(Long userId);
+
+    HashMap selectAOPUser(String id);
 }

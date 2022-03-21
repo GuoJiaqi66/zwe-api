@@ -211,4 +211,14 @@ public class UserController {
         return R.ok().put("res", arrayList);
     }
 
+    /**
+     * 根据userId 查询除了password/登录名  以外的全部信息/如果(会)AOP可以排除password字段
+     * */
+    @GetMapping("/selectAOPUser/{id}")
+    @ApiOperation("查询除了用户password/登录名之外的信息(AOP可解决)")
+    public R selectAOPUser(@PathVariable String id) {
+        HashMap hashMap = userService.selectAOPUser(id);
+        return R.ok().put("res", hashMap);
+    }
+
 }

@@ -241,4 +241,10 @@ LEFT JOIN `user` u
 on f.user_id = u.id
 where f.user_id = #{userId} and f.`delete` = "0"
 	</select>
+	
+	<select id="selectAOPUser" parameterType="String" resultType="HashMap">
+		SELECT u.img_path as imgPath, u.nickname as nickName, u.fans_count as fansCount, u.follow_count as followCount, u.create_time as createTime
+FROM `user` u
+WHERE u.id = #{id} and u.`status` = "0"
+	</select>
 </mapper>

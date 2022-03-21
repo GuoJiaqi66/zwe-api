@@ -40,6 +40,8 @@ public interface UserService {
 
     ArrayList selectAllShowUser(Long userId);
 
+    HashMap selectAOPUser(String id);
+
     /*Integer selectTotalUser();
 
     User selectUserByLoginName(String loginName);*/
