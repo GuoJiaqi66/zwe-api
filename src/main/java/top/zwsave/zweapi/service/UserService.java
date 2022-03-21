@@ -6,6 +6,7 @@ import top.zwsave.zweapi.controller.form.UserRegisForm;
 import top.zwsave.zweapi.controller.form.UserRepairInfo;
 import top.zwsave.zweapi.db.pojo.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +37,8 @@ public interface UserService {
     Integer upDataShowUser(Long userId, HashMap map);
 
     Integer deleteShowUser(Long userId, String id);
+
+    ArrayList selectAllShowUser(Long userId);
 
     /*Integer selectTotalUser();
 
