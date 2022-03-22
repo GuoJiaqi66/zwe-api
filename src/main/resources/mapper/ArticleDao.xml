@@ -295,4 +295,10 @@ where l.user_id = #{userId} and l.`delete` = '0' and a.`delete` = '0' and a.`sta
 FROM article a
 WHERE a.id = #{id} and a.`status`= "0" and a.`delete` = "0"
 	</select>
+	
+	<select id="selectByUserIdAllArticle" parameterType="String" resultType="hashmap">
+		SELECT a.create_time as createTme, a.id, a.img_path as imgPath, a.like_counts as likeCounts, a.look_counts as lookCounts, a.text, a.star
+FROM article a
+WHERE a.user_id = #{id} and a.`status` = "0" and a.visible = "0" and a.`delete` = "0"
+	</select>
 </mapper>

@@ -53,4 +53,6 @@ public interface VideoDao {
     String selectInfoByVideo(String id);
 
     String selectVideoImgPathByArticleId(String id);
+
+    ArrayList selectByUserIdAllVideo(String id);
 }

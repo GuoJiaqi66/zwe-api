@@ -46,4 +46,6 @@ public interface VideoService {
     HashMap selectAllLikeStarId(String token);
 
     String selectVideoImgPathByArticleId(String id);
+
+    List selectByUserIdAllVideo(String id, PageReq pageReq);
 }

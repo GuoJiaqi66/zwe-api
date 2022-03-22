@@ -202,4 +202,15 @@ public class ArticleController {
         String s = articleService.selectArticleImgPathByArticleId(id);
         return R.ok().put("res", s);
     }
+
+    /**
+     * 根据userId查询用户所有作品
+     * */
+    @PostMapping("/selectByUserIdAllArticle/{id}")
+    @ApiOperation("根据userId查询所有article")
+    public R selectByUserIdAllArticle(@Valid @RequestBody PageReq pageReq, @PathVariable String id) {
+        List arrayList = articleService.selectByUserIdAllArticle(id, pageReq);
+
+        return R.ok().put("res", arrayList);
+    }
 }

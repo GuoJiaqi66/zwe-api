@@ -296,4 +296,10 @@ WHERE video.id = #{id}  AND video.`delete` = "0"
 FROM video a
 WHERE a.id = #{id} and a.`status`= "0" and a.`delete` = "0"
 	</select>
+	
+	<select id="selectByUserIdAllVideo" parameterType="String" resultType="hashmap">
+	SELECT a.create_time as createTme, a.id, a.video_path as videoPath, a.like_counts as likeCounts, a.look_counts as lookCounts, a.text, a.star
+	FROM video a
+	WHERE a.user_id = 899322144639270 and a.`status` = "0" and a.visible = "0" and a.`delete` = "0"
+	</select>
 </mapper>

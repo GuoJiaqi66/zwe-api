@@ -198,4 +198,16 @@ public class VideoController {
         String s = videoService.selectVideoImgPathByArticleId(id);
         return R.ok().put("res", s);
     }
+
+
+    /**
+     * 根据userId查询用户所有作品
+     * */
+    @PostMapping("/selectByUserIdAllVideo/{id}")
+    @ApiOperation("根据userId查询所有video")
+    public R selectByUserIdAllArticle(@Valid @RequestBody PageReq pageReq, @PathVariable String id) {
+        List arrayList = videoService.selectByUserIdAllVideo(id, pageReq);
+
+        return R.ok().put("res", arrayList);
+    }
 }

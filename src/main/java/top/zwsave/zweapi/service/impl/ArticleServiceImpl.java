@@ -3,6 +3,7 @@ package top.zwsave.zweapi.service.impl;
 import cn.hutool.core.util.RandomUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.zwsave.zweapi.config.shiro.JwtUtil;
@@ -331,6 +332,16 @@ public class ArticleServiceImpl implements ArticleService {
     public String selectArticleImgPathByArticleId(String id) {
         String s = articleDao.selectArticleImgPathByArticleId(id);
         return s;
+    }
+
+    @Override
+    public List selectByUserIdAllArticle(String id, PageReq pageReq) {
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        ArrayList arrayList = articleDao.selectByUserIdAllArticle(id);
+        PageInfo pageInfo = new PageInfo(arrayList);
+        List list = pageInfo.getList();
+        return list;
     }
 
     ArticleLikeUser selectFromArticleLike(Long userId, Long id) {

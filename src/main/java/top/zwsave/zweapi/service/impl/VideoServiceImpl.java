@@ -337,6 +337,16 @@ public class VideoServiceImpl implements VideoService {
         return s;
     }
 
+    @Override
+    public List selectByUserIdAllVideo(String id, PageReq pageReq) {
+        PageHelper pageHelper = new PageHelper();
+        pageHelper.startPage(pageReq.getPageNum(), pageReq.getPageSize());
+        ArrayList arrayList = videoDao.selectByUserIdAllVideo(id);
+        PageInfo pageInfo = new PageInfo(arrayList);
+        List list = pageInfo.getList();
+        return list;
+    }
+
     private String selectInfoByVideo(String id) {
         String s = videoDao.selectInfoByVideo(id);
         return s;
