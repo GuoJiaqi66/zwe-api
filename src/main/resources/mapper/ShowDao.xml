@@ -150,9 +150,9 @@ FROM `show` s
 WHERE s.user_id = #{userId} and s.`delete`= "0"
 	</select>
 	
-	<select id="selectShowUserByUserId" parameterType="String" resultType="hashmap">
+	<select id="selectShowUserByUserId" parameterType="String" resultType="HashMap">
 		SELECT s.tag, s.usered_id as useredId
 FROM `show` s
-WHERE s.user_id = #{id} and s.`delete`="0"
+WHERE s.user_id = #{id} and s.`delete`= "0"
 	</select>
 </mapper>
