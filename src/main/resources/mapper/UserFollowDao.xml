@@ -98,11 +98,11 @@
 	</select>
 	
 	<select id="selectAllFans" parameterType="Long" resultType="HashMap">
-		SELECT u.img_path, f.create_time, u.nickname, u.id
+SELECT u.img_path, f.create_time, u.nickname, f.user_id as id
 FROM user_follow f
 LEFT JOIN `user` u
 ON u.id = f.usered_id
-WHERE f.user_id = #{userId} and f.`delete` = '0'
+WHERE f.usered_id = #{userId} and f.`delete` = '0'
 	</select>
 	
 	<update id="removeFollow" parameterType="Long">
@@ -123,4 +123,10 @@ WHERE f.user_id = #{userId} and f.`delete` = '0'
 		where user_id = #{userId} and usered_id = #{useredId}
 	</select>
 </mapper>
-
+		
+		
+		<!--SELECT u.img_path, f.create_time, u.nickname, u.id
+		FROM user_follow f
+		LEFT JOIN `user` u
+		ON u.id = f.usered_id
+		WHERE f.user_id = #{userId} and f.`delete` = '0'-->
