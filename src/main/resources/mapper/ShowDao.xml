@@ -149,4 +149,10 @@ select s.id, s.usered_id as useredId, s.tag, s.flag, s.create_time createTime
 FROM `show` s
 WHERE s.user_id = #{userId} and s.`delete`= "0"
 	</select>
+	
+	<select id="selectShowUserByUserId" parameterType="String" resultType="hashmap">
+		SELECT s.tag, s.usered_id as useredId
+FROM `show` s
+WHERE s.user_id = #{id} and s.`delete`="0"
+	</select>
 </mapper>

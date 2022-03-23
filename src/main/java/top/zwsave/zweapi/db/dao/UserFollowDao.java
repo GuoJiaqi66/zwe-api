@@ -20,7 +20,7 @@ public interface UserFollowDao {
 
     UserFollow selectNoteByUseredId(HashMap map);
 
-    ArrayList<HashMap> selectAllFans(Long userId);
+    ArrayList selectAllFans(Long userId);
 
     Integer removeFollow(Long userId, Long id);
 

@@ -97,16 +97,12 @@
 		where usered_id = #{useredId} and user_id = #{userId}
 	</select>
 	
-	<select id="selectAllFans" resultType="HashMap">
-		select u.img_path, f.create_time, u.nickname
-		FROM `user` u
-		RIGHT JOIN user_follow f
-		on u.id = f.user_id
-		WHERE u.id =
-		(select user_id
-		FROM user_follow
-		where usered_id = #{userId} and `delete` = "0"
-		) and `status` = "0" and f.`delete` = "0"
+	<select id="selectAllFans" parameterType="Long" resultType="HashMap">
+		SELECT u.img_path, f.create_time, u.nickname, u.id
+FROM user_follow f
+LEFT JOIN `user` u
+ON u.id = f.usered_id
+WHERE f.user_id = #{userId} and f.`delete` = '0'
 	</select>
 	
 	<update id="removeFollow" parameterType="Long">
@@ -127,3 +123,4 @@
 		where user_id = #{userId} and usered_id = #{useredId}
 	</select>
 </mapper>
+

@@ -206,8 +206,8 @@
 	</update>
 	
 	<select id="selectUsetStatus" parameterType="Long" resultType="String">
-		select status
-		from user
+		select u.status
+		from `user` u
 		where id = #{id}
 	</select>
 	
@@ -229,7 +229,7 @@ WHERE u.id = #{userId} AND u.`status` = '0'
 	</select>
 	
 	<select id="selectUserInfoByUserId" parameterType="String" resultType="HashMap">
-		SELECT u.img_path as imgPath, u.nickname as nickName
+		SELECT u.img_path as imgPath, u.nickname as nickName, u.id
 FROM `user` u
 WHERE u.id = #{id} and u.`status` = "0"
 	</select>

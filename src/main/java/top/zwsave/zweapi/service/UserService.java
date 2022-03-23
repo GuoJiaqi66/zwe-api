@@ -42,6 +42,8 @@ public interface UserService {
 
     HashMap selectAOPUser(String id);
 
+    ArrayList selectShowUserByUserId(String id);
+
     /*Integer selectTotalUser();
 
     User selectUserByLoginName(String loginName);*/

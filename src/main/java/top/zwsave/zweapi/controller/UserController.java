@@ -110,7 +110,7 @@ public class UserController {
 
     @GetMapping("/follow/{id}")
     @ApiOperation("关注用户")
-    public R userFollow(@RequestHeader("token") String token, Long id) {
+    public R userFollow(@RequestHeader("token") String token, @PathVariable Long id) {
         userService.follow(token, id);
         return R.ok("关注成功");
     }
@@ -219,6 +219,14 @@ public class UserController {
     public R selectAOPUser(@PathVariable String id) {
         HashMap hashMap = userService.selectAOPUser(id);
         return R.ok().put("res", hashMap);
+    }
+
+    // 根据userId查询所有showUser
+    @GetMapping("/selectShowUserByUserId/{id}")
+    @ApiOperation("根据userId查询查询所有showUser")
+    public R selectShowUserByUserId(@PathVariable String id) {
+        ArrayList arrayList = userService.selectShowUserByUserId(id);
+        return R.ok().put("res", arrayList);
     }
 
 }

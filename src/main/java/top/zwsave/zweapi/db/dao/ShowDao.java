@@ -24,4 +24,6 @@ public interface ShowDao {
     Integer deleteShowUser(String id);
 
     ArrayList selectAllShowUser(Long userId);
+
+    ArrayList selectShowUserByUserId(String id);
 }

@@ -151,7 +151,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List selectAllFans(String token) {
         Long userId = jwtUtil.getUserId(token);
-        ArrayList<HashMap> hashMaps = userFollowDao.selectAllFans(userId);
+        ArrayList hashMaps = userFollowDao.selectAllFans(userId);
         return hashMaps;
     }
 
@@ -247,6 +247,20 @@ public class UserServiceImpl implements UserService {
         return hashMap;
     }
 
+    @Override
+    public ArrayList selectShowUserByUserId(String id) {
+        ArrayList arrayList = showDao.selectShowUserByUserId(id);
+        if (arrayList.size() == 0) {
+            return arrayList;
+        }
+        for (int i = 0; i < arrayList.size(); i++) {
+            HashMap hashMap = (HashMap) arrayList.get(i);
+            HashMap useredId = userDao.selectUserInfoByUserId(hashMap.get("useredId").toString());
+            hashMap.put("useredInfo", useredId);
+        }
+        return arrayList;
+    }
+
     public UserFollow selectNoteByUseredId(Long userId, Long id) {
         HashMap map = new HashMap();
         map.put("userId", userId);
@@ -266,7 +280,9 @@ public class UserServiceImpl implements UserService {
      * 判断用户是否存在
      * */
     String selectUserIsPresence(Long id) {
+        System.out.println("idididididididiidididididididididdididididid" + id);
         String s = userDao.selectUsetStatus(id);
+        System.out.println("ssssssssssssssssssssssssssssssssss" + s);
         if (s == null || s == "1") {
             throw new ZweApiException("用户不存在");
         }
